@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Print JavaScript Array</title>
+    
+</head>
+<body>
+    <h1>JavaScript Array</h1>
+
+    <h2>Print the elements of an array using toString()</h2>
+    <p id="using-tostring"></p>
+
+    <h2>Print the elements of an array using join()</h2>
+    <p id="using-join"></p>
+
+    <h2>Print the elements of an array in the format of index: value</h2>
+    <p id="using-foreach"></p>
+
+    <script>
+        const fruits = ["Banana", "Orange", "Apple", "Mango"];
+
+        
+        document.getElementById('using-tostring').innerHTML = fruits.toString();
+
+        
+        document.getElementById('using-join').innerHTML = fruits.join("&");
+
+        
+        let result = '';
+        fruits.forEach((value, index) => {
+            result += index + ': ' + value + '<br>';
+        });
+        document.getElementById('using-foreach').innerHTML = result;
+    </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Have a Pet to Give Away</title>
+    <link rel="stylesheet" href="styles1.css">
+</head>
+<body>
+    <header>
+        <h1>Pet Adoption Service  </h1>
+        <a href="home.html"><img src="https://i.ebayimg.com/images/g/W-wAAOSwSb9hdpke/s-l1200.jpg" alt="Logo"></a>
+        <span id="timeDisplay"></span>
+    </header>
+
+    <nav>
+        <ul><br/><br/><br/><br/><br/><br/><br/>
+            <li><a href="home.html">Home</a></li>
+            <br/>
+            <li><a href="browse.html">Browse Available Pets</a></li>
+            <br/>
+            <li><a href="find.html">Find a Dog/Cat</a></li>
+            <br/>
+            <li><a href="dog_care.html">Dog Care</a></li>
+            <br/>
+            <li><a href="cat_care.html">Cat Care</a></li>
+            <br/>
+            <li><a href="giveaway.html">Have a Pet to Give Away</a></li>
+            <br/>
+            <li><a href="contact.html">Contact Us</a></li>
+            <br/>
+        </ul>
+    </nav>
+
+    <main>
+        <h2>Have a Pet to Give Away</h2>
+        
+        <form id="giveawayForm">
+
+            
+            <label for="animal_type">Cat or Dog:</label><br>
+            <select id="animal_type" name="animal_type">
+              <option value="dog">Dog</option>
+              <option value="cat">Cat</option>
+            </select><br>
+            <br/>
+
+            <label for="breed">Breed of dog or cat:</label><br>
+            <input type="text" id="breed" name="breed" placeholder="Include a mixed breed"><br>
+            <br/>
+
+            <label for="age">Age of animal:</label><br>
+            <select id="age" name="age">
+              <option value="puppy_kitten">Puppy/Kitten</option>
+              <option value="young">Young</option>
+              <option value="adult">Adult</option>
+              <option value="senior">Senior</option>
+            </select><br>
+            <br/>
+
+            <label for="gender">Animal gender:</label><br>
+            <select id="gender" name="gender">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select><br>
+            <br/>
+
+            <input type="checkbox" id="dogs" name="dogs">
+            <label for="dogs">Gets along with other dogs</label><br>
+
+            <input type="checkbox" id="cats" name="cats">
+            <label for="cats">Gets along with other cats</label><br>
+            
+
+            <input type="checkbox" id="children" name="children">
+            <label for="children">Suitable for a family with small children</label><br>
+            <br/>
+
+            <label for="comments">Comments about the pet:</label><br>
+            <textarea id="comments" name="comments"></textarea><br>
+            <br/>
+
+            <label for="owner_name">Owner's full name:</label><br>
+            <input type="text" id="owner_name" name="owner_name"><br>
+            <br/>
+
+            <label for="owner_email">Owner's Email:</label><br>
+            <input type="email" id="owner_email" name="owner_email"><br>
+            <br/>
+
+            <div id="errorMessage" style="color:red;"></div>
+
+
+            <input type="submit" value="Submit">
+            <input type="reset" value="Clear">
+        </form>
+    </main>
+
+    <footer>
+        <p><a href="privacy.html">Privacy/Disclaimer Statement</a></p>
+    </footer>
+    <script src="time.js"></script>
+    <script src="giveaway.js"></script>
+
+</body>
+</html>

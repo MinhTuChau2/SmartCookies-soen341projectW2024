@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Find a Dog/Cat</title>
+    <link rel="stylesheet" href="styles1.css">
+</head>
+<body>
+    <header>
+        <h1>Pet Adoption Service  </h1>
+        <a href="home.html"><img src="https://i.ebayimg.com/images/g/W-wAAOSwSb9hdpke/s-l1200.jpg" alt="Logo"></a>
+        <span id="timeDisplay"></span>
+    </header>
+
+    <nav>
+        <ul><br/><br/><br/><br/><br/><br/><br/>
+            <li><a href="home.html">Home</a></li>
+            <br/>
+            <li><a href="browse.html">Browse Available Pets</a></li>
+            <br/>
+            <li><a href="find.html">Find a Dog/Cat</a></li>
+            <br/>
+            <li><a href="dog_care.html">Dog Care</a></li>
+            <br/>
+            <li><a href="cat_care.html">Cat Care</a></li>
+            <br/>
+            <li><a href="giveaway.html">Have a Pet to Give Away</a></li>
+            <br/>
+            <li><a href="contact.html">Contact Us</a></li>
+            <br/>
+        </ul>
+    </nav>
+
+    <main>
+        <h2>Find a Dog/Cat</h2>
+        <form id="findForm" onsubmit="return validateForm()">
+            <label for="animal">Cat or Dog:</label>
+            <select id="animal" required>
+                <option value="">Choose one</option>
+                <option value="dog">Dog</option>
+                <option value="cat">Cat</option>
+            </select>
+            <br/><br/>
+
+            <label for="breed">Breed of Dog or Cat:</label>
+            <select id="breed" required>
+                <option value="">Doesn't matter</option>
+                <optgroup label="Dogs">
+                    <option value="labrador">Labrador Retriever</option>
+                    <option value="german_shepherd">German Shepherd</option>
+                    <option value="golden_retriever">Golden Retriever</option>
+                    <option value="bulldog">Bulldog</option>
+                    <option value="beagle">Beagle</option>
+                    <option value="poodle">Poodle</option>
+                    <option value="rottweiler">Rottweiler</option>
+                    <option value="yorkshire_terrier">Yorkshire Terrier</option>
+                 </optgroup>
+                <optgroup label="Cats">
+                    <option value="maine_coon">Maine Coon</option>
+                    <option value="siamese">Siamese</option>
+                    <option value="persian">Persian</option>
+                    <option value="ragdoll">Ragdoll</option>
+                    <option value="sphynx">Sphynx</option>
+                    <option value="bengal">Bengal</option>
+                    <option value="abyssinian">Abyssinian</option>
+                    <option value="british_shorthair">British Shorthair</option>
+                </optgroup>
+            </select>
+            <br/><br/>
+
+
+            <label for="age">Preferred Age of Animal:</label>
+            <select id="age" required>
+                <option value="">Doesn't matter</option>
+                <option value="puppy_kitten">Puppy/Kitten</option>
+                <option value="young">Young</option>
+                <option value="adult">Adult</option>
+                <option value="senior">Senior</option>
+            </select>
+            <br/><br/>
+
+            <label for="gender">Preferred Gender:</label>
+            <select id="gender" required>
+                <option value="">Doesn't matter</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+            <br/><br/>
+
+            <label>Whether it needs to get along with:</label><br>
+            <input type="checkbox" id="dogs" name="dogs">
+            <label for="dogs">Other dogs</label><br>
+            <input type="checkbox" id="cats" name="cats">
+            <label for="cats">Other cats</label><br>
+            <input type="checkbox" id="children" name="children">
+            <label for="children">Small children</label><br>
+            <br/><br/>
+
+            <input type="submit" value="Submit">
+            <input type="reset" value="Clear">
+        </form>
+        <p id="error" style="color:red;"></p> <!-- Error message will be displayed here -->
+    </main>
+
+    <footer>
+        <p><a href="privacy.html">Privacy/Disclaimer Statement</a></p>
+    </footer>
+    <script src="time.js"></script>
+    <script src="find.js"></script>
+</body>
+</html>
