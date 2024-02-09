@@ -1,8 +1,7 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Project Objectives
 
-Currently, two official plugins are available:
+The main objective of this project is to develop a car rental Web application, that is user-friendly, efficient, and reliable. This web application has as objective to simplify the process of renting vehicles for various type of users, such as the customer looking to rent a car, the customer service representatives managing rental processes, and system administrators overseeing the platform's operations.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Roles:
+
