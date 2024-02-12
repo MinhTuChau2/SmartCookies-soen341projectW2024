@@ -5,5 +5,12 @@ The main objective of this project is to develop a car rental Web application, t
 
 Roles:
 
-MinhTu Chau (40232883) : Backend Developer
+MinhTu Chau (40232883) : Backend Developer 
 
+Hawraa Al-Adilee (40246450) : Backend Developer
+
+Carmen Derderian (40244084) : Full stack (70% backend, 30% frontend)
+
+Mohamad Edelby (40251628) : Frontend Developer
+
+Amira Toslim  (40207999) : Frontend Developer
