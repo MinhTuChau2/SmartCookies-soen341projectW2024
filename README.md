@@ -6,4 +6,4 @@ The main objective of this project is to develop a car rental Web application, t
 Roles:
 
 MinhTu Chau (40232883) : Backend Developer
-
+Hawraa Al-Adilee (40246450) : Backend Developer
