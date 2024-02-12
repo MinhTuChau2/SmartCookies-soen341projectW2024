@@ -8,3 +8,5 @@ Roles:
 MinhTu Chau (40232883) : Backend Developer 
 
 Hawraa Al-Adilee (40246450) : Backend Developer
+
+Carmen Derderian (40244084) : Full stack (70% backend, 30% frontend)
