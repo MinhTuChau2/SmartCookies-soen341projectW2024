@@ -1,18 +1,4 @@
 import React from 'react';
-
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import HomePage from './HomePage';
-import './App.css';
-
-const App = () => {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-
-      </Routes>
-    </Router>
-
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import HomePage from './HomePage';
 import CarListingPage from './CarListingPage';
@@ -30,7 +16,6 @@ const NavBar = () => {
         <li><Link to="/LoginPage">Login</Link></li>
       </ul>
     </nav>
-
   );
 }
 
@@ -47,4 +32,5 @@ const App = () => {
     </Router>
   );
 }
+
 export default App;
