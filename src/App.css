@@ -16,3 +16,35 @@ body, h1, p, ul, li {
 .title {
     font-size: 24px;
 }
+
+
+nav {
+  background-color: #333;
+  padding: 10px 0;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+    display: flex;
+     justify-content: center;
+}
+
+li {
+  display: inline;
+  margin-right: 20px;
+}
+
+li:last-child {
+  margin-right: 0;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+a:hover {
+  text-decoration: underline;
+}

@@ -6,7 +6,7 @@ const HomePage = () => {
   return (
     <div className="container">
       <header>
-        <h1>Welcome to Our Website</h1>
+        <h1>Welcome to Smart Cookies</h1>
         <p>Explore and Enjoy</p>
       </header>
       <section className="main-content">
