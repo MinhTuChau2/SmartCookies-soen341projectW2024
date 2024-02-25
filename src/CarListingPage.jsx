@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ReservationPage from './ReservationPage';
-import corollaImage from './5.png'; // Import image for Toyota Corolla
-import civicImage from './51652_st0640_116.png'; // Import image for Honda Civic
+import corollaImage from './5.png';
+import civicImage from './51652_st0640_116.png';
 import priusImage from './089.jpg';
 
 const CarListingPage = () => {
