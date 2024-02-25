@@ -4,6 +4,7 @@ import HomePage from './HomePage';
 import CarListingPage from './CarListingPage';
 import ContactPage from './ContactPage';
 import Login from './Login';
+import ReservationPage from './ReservationPage';
 import './App.css';
 
 const NavBar = () => {
@@ -11,9 +12,10 @@ const NavBar = () => {
     <nav>
       <ul>
         <li><Link to="/">Home</Link></li>
-        <li><Link to="/CarListingPage">Car Listing</Link></li>
-        <li><Link to="/ContactPage">Contact</Link></li>
-        <li><Link to="/LoginPage">Login</Link></li>
+        <li><Link to="/Car_Listing">Car Listing</Link></li>
+        <li><Link to="/Contact">Contact</Link></li>
+        <li><Link to="/Login">Login</Link></li>
+        <li><Link to="/Reservation">Reserve</Link></li>
       </ul>
     </nav>
   );
@@ -25,9 +27,10 @@ const App = () => {
       <NavBar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/CarListingPage" element={<CarListingPage />} />
-        <Route path="/ContactPage" element={<ContactPage />} />
-        <Route path="/LoginPage" element={<Login />} />
+        <Route path="/Car_Listing" element={<CarListingPage />} />
+        <Route path="/Contact" element={<ContactPage />} />
+        <Route path="/Login" element={<Login />} />
+        <Route path="/Reservation" element={<ReservationPage />} />
       </Routes>
     </Router>
   );
