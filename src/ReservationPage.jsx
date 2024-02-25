@@ -9,7 +9,7 @@ const ReservationPage = () => {
     <div>
       <h2>Reservation Page</h2>
       <p>You are reserving car with ID: {id}</p>
-      {/* You can add reservation form and logic here */}
+
     </div>
   );
 };

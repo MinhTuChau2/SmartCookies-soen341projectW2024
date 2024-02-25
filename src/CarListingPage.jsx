@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ReservationPage from './ReservationPage';
+import corollaImage from './5.png'; // Import image for Toyota Corolla
+import civicImage from './51652_st0640_116.png'; // Import image for Honda Civic
+import priusImage from './089.jpg';
 
 const CarListingPage = () => {
   const [cars, setCars] = useState([
-    { id: 1, make: 'Toyota', model: 'Corolla', year: 2020, price: 50, available: true },
-    { id: 2, make: 'Honda', model: 'Civic', year: 2019, price: 60, available: true },
-    { id: 3, make: 'Ford', model: 'Focus', year: 2018, price: 55, available: true },
+    { id: 1, make: 'Toyota', model: 'Corolla', year: 2024, price: 25, available: true, image: corollaImage },
+    { id: 2, make: 'Honda', model: 'Civic', year: 2024, price: 35, available: true, image: civicImage },
+    { id: 3, make: 'Toyota', model: 'Prius', year: 2024, price: 160, available: true, image: priusImage },
   ]);
 
   const [startDate, setStartDate] = useState('');
@@ -75,6 +78,7 @@ const CarListingPage = () => {
             <th>Year</th>
             <th>Price per Day ($)</th>
             <th>Available</th>
+            <th>Image</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -87,13 +91,14 @@ const CarListingPage = () => {
               <td>{car.year}</td>
               <td>{car.price}</td>
               <td>{car.available ? 'Yes' : 'No'}</td>
+              <td><img src={car.image} alt={`${car.make} ${car.model}`} style={{ width: '100px', height: 'auto' }} /></td>
               <td>
                 {car.available ? (
-                <Link to="/Reservation">
-                <button onClick={() => reserveCar(car.id)}>Reserve</button>
-                </Link>
+                  <Link to="/Reservation">
+                    <button onClick={() => reserveCar(car.id)}>Reserve</button>
+                  </Link>
                 ) : (
-                <span>Not Available</span>
+                  <span>Not Available</span>
                 )}
               </td>
             </tr>
