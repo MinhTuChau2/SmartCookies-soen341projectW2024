@@ -7,9 +7,9 @@ import priusImage from './089.jpg';
 
 const CarListingPage = () => {
   const [cars, setCars] = useState([
-    { id: 1, make: 'Toyota', model: 'Corolla', year: 2024, price: 25, available: true, image: corollaImage },
-    { id: 2, make: 'Honda', model: 'Civic', year: 2024, price: 35, available: true, image: civicImage },
-    { id: 3, make: 'Toyota', model: 'Prius', year: 2024, price: 160, available: true, image: priusImage },
+    { id: 1, maker: 'Toyota', model: 'Corolla', year: 2024, price: 25, available: true, image: corollaImage },
+    { id: 2, maker: 'Honda', model: 'Civic', year: 2024, price: 35, available: true, image: civicImage },
+    { id: 3, maker: 'Toyota', model: 'Prius', year: 2024, price: 160, available: true, image: priusImage },
   ]);
 
   const [startDate, setStartDate] = useState('');
@@ -51,7 +51,7 @@ const CarListingPage = () => {
           <h3>Available Cars for the selected date range:</h3>
           <ul>
             {availableCars.available.map(car => (
-              <li key={car.id}>{car.make} {car.model}</li>
+              <li key={car.id}>{car.maker} {car.model}</li>
             ))}
           </ul>
         </div>
@@ -62,7 +62,7 @@ const CarListingPage = () => {
           <h3>Unavailable Cars for the selected date range:</h3>
           <ul>
             {availableCars.unavailable.map(car => (
-              <li key={car.id}>{car.make} {car.model}</li>
+              <li key={car.id}>{car.maker} {car.model}</li>
             ))}
           </ul>
         </div>
@@ -73,7 +73,7 @@ const CarListingPage = () => {
         <thead>
           <tr>
             <th>ID</th>
-            <th>Make</th>
+            <th>Maker</th>
             <th>Model</th>
             <th>Year</th>
             <th>Price per Day ($)</th>
@@ -86,15 +86,15 @@ const CarListingPage = () => {
           {cars.map(car => (
             <tr key={car.id}>
               <td>{car.id}</td>
-              <td>{car.make}</td>
+              <td>{car.maker}</td>
               <td>{car.model}</td>
               <td>{car.year}</td>
               <td>{car.price}</td>
               <td>{car.available ? 'Yes' : 'No'}</td>
-              <td><img src={car.image} alt={`${car.make} ${car.model}`} style={{ width: '100px', height: 'auto' }} /></td>
+              <td><img src={car.image} alt={`${car.maker} ${car.model}`} style={{ width: '100px', height: 'auto' }} /></td>
               <td>
                 {car.available ? (
-                  <Link to="/Reservation">
+                  <Link to={`/Reservation/${car.id}`}>
                     <button onClick={() => reserveCar(car.id)}>Reserve</button>
                   </Link>
                 ) : (
