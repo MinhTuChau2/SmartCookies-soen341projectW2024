@@ -1,33 +1,41 @@
-
 .container {
-  max-width: 800px;
-  margin: 0 auto;
+  display: grid;
+  min-height: 100vh;
+}
+
+header, footer {
+  background-color: #333;
+  color: #fff;
   padding: 20px;
-}
-
-header {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-h1 {
-  font-size: 2.5rem;
-  color: #333;
-}
-
-p {
-  color: #666;
 }
 
 .main-content {
-  background-color: #f9f9f9;
   padding: 20px;
-  border-radius: 5px;
-  text-align: center;
 }
 
-footer {
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-gap: 20px;
+  padding: 20px;
+}
+
+.feature {
   text-align: center;
-  margin-top: 40px;
-  color: #888;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 5px;
+}
+
+.feature i {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.car-listings, .testimonials, .contact {
+  padding: 20px;
+}
+
+.car-listings h2, .testimonials h2, .contact h2 {
+  margin-bottom: 20px;
 }
