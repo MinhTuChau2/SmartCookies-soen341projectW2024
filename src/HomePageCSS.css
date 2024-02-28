@@ -1,41 +1,65 @@
-.container {
-  display: grid;
-  min-height: 100vh;
-}
 
-header, footer {
-  background-color: #333;
-  color: #fff;
-  padding: 20px;
-}
-
-.main-content {
-  padding: 20px;
-}
-
-.features {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  grid-gap: 20px;
-  padding: 20px;
-}
-
-.feature {
+.intro-section{
+  padding: 50px;
   text-align: center;
-  padding: 20px;
-  background-color: #f4f4f4;
+}
+.benefits-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around; /* Distributes space around items */
+  padding: 40px 0; /* Added padding for spacing */
+}
+
+.benefit-item {
+  background-color: #f0f0f0; /* Light grey background */
+  padding: 40px; /* Increased padding */
+  margin: 10px; /* Adds space between cards */
+  width: calc(25% - 20px); /* Adjust width based on your preference */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow */
+  border-radius: 5px; /* Rounded corners */
+}
+
+
+.explore-section {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.explore-btn {
+  background-color: #ffe0e9; /* Very light pink background */
+  color: #fff; /* White text */
+  padding: 10px 30px; /* Increased button size */
   border-radius: 5px;
+  text-decoration: none; /* Removes underline from link */
 }
 
-.feature i {
-  font-size: 24px;
-  margin-bottom: 10px;
+
+.faq-section {
+  padding: 80px 10%; /* Increased padding and centered content */
 }
 
-.car-listings, .testimonials, .contact {
-  padding: 20px;
+.faq-content {
+  background-color: #f0f0f0; /* Light grey background */
+  padding: 40px;
+  margin: auto;
+  width: 80%;
 }
 
-.car-listings h2, .testimonials h2, .contact h2 {
-  margin-bottom: 20px;
+.faq-item:not(:last-child) {
+  border-bottom: 1px solid #E0E0E0; /* Separator line */
+  padding-bottom: 20px; /* Space above the line */
+  margin-bottom: 20px; /* Space below the line */
 }
+
+
+footer {
+  background-color: #f0f0f0; /* Light grey background */
+  color: #000;
+  text-align: center;
+  padding: 20px 0;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  position: fixed;
+}
+
