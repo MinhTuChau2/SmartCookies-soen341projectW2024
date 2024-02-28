@@ -1,50 +1,59 @@
 import React from 'react';
 import './HomePageCSS.css';
+import { Link } from 'react-router-dom';
+import Logo from './Logo.jpeg'; 
 
 const HomePage = () => {
   return (
-    <div className="container">
-      <header>
-        <h1>Explore the Open Road</h1>
-        <p>Rent Your Dream Car Today</p>
-      </header>
-      <section className="main-content">
-        <h2>Discover Our Services</h2>
-        <div className="features">
-          <div className="feature">
-            <i className="fas fa-car"></i>
-            <h3>Wide Selection</h3>
-            <p>Choose from a diverse range of vehicles.</p>
+    <div className="home-page">
+      <main>
+        <section className="intro-section">
+          <h1 className="slogan">Embark on a Sweet Journey with Cookie Cruisers-Your Smart Pick for the Perfect Ride!</h1>
+        </section>
+        <section className="benefits-section">
+          <div className="benefit-item">
+            <h3>Quality</h3>
+            <p>Only the best vehicles for your needs.</p>
           </div>
-          <div className="feature">
-            <i className="fas fa-dollar-sign"></i>
-            <h3>Affordable Prices</h3>
-            <p>Enjoy competitive rates on all rentals.</p>
+          <div className="benefit-item">
+            <h3>Convenience</h3>
+            <p>Easy booking and fast pick-up process.</p>
           </div>
-          <div className="feature">
-            <i className="fas fa-shield-alt"></i>
-            <h3>Reliable Service</h3>
-            <p>Trustworthy and efficient customer support.</p>
+          <div className="benefit-item">
+            <h3>Price</h3>
+            <p>Competitive rates and clear terms.</p>
           </div>
-        </div>
-      </section>
-      <section className="car-listings">
-        <h2>Featured Cars</h2>
-        {/* Car listings component can be added here */}
-      </section>
-      <section className="testimonials">
-        <h2>What Our Customers Say</h2>
-        {/* Testimonials component can be added here */}
-      </section>
-      <section className="contact">
-        <h2>Contact Us</h2>
-        {/* Contact form component can be added here */}
-      </section>
+          
+        </section>
+        <section className="explore-section">
+          <h2>Explore Our Vehicles</h2>
+          <Link to="/Car_Listing" className="explore-btn">Browse Cars</Link>
+        </section>
+        <section className="faq-section">
+          <div className="faq-content">
+            <h2>Frequently Asked Questions</h2>
+            <div className="faq-item">
+              <h3>How do I reserve a car?</h3>
+              <p>You can reserve a car by visiting our Car Listing page, selecting the vehicle of your choice, and clicking on the Reserve button.</p>
+            </div>
+            <div className="faq-item">
+              <h3>What is the cancellation policy?</h3>
+              <p>You can cancel your reservation up to 24 hours before your rental period begins for a full refund.</p>
+            </div>
+            <div className="faq-item">
+              <h3>Are there any additional fees?</h3>
+              <p>We do not charge additional fees for reservations made on our website. The price you see is the price you pay.</p>
+            </div>
+            {/* Add more FAQ items as needed */}
+          </div>
+        </section>
+      </main>
       <footer>
-        <p>&copy; 2024 Smart Cookies Car Rental. All rights reserved.</p>
+        <p>&copy; 2024 Cookie Cruisers. All Rights Reserved.</p>
       </footer>
     </div>
   );
 };
 
 export default HomePage;
+
