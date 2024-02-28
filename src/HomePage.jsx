@@ -1,7 +1,7 @@
 import React from 'react';
 import './HomePageCSS.css';
 import { Link } from 'react-router-dom';
-import Logo from './Logo.jpeg'; 
+
 
 const HomePage = () => {
   return (

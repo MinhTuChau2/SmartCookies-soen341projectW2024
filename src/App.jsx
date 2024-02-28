@@ -6,12 +6,13 @@ import ContactPage from './ContactPage';
 import Login from './Login';
 import ReservationPage from './ReservationPage';
 import './App.css';
+import Logo from './Logo.jpeg';
 
 const App = () => {
   return (
     <Router>
       <header className="header">
-        <img src="Logo.jpeg" alt="Logo" className="logo"/> 
+        <img src={Logo} alt="Logo" className="logo"/>
         <span className="company-name">Cookie Cruisers</span>
         <nav>
           <ul>
