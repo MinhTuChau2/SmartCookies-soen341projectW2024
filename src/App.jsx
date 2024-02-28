@@ -7,24 +7,22 @@ import Login from './Login';
 import ReservationPage from './ReservationPage';
 import './App.css';
 
-const NavBar = () => {
-  return (
-    <nav>
-      <ul>
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/Car_Listing">Car Listing</Link></li>
-        <li><Link to="/Contact">Contact</Link></li>
-        <li><Link to="/Login">Login</Link></li>
-        <li><Link to="/Reservation">Reserve</Link></li>
-      </ul>
-    </nav>
-  );
-}
-
 const App = () => {
   return (
     <Router>
-      <NavBar />
+      <header className="header">
+        <img src="Logo.jpeg" alt="Logo" className="logo"/> 
+        <span className="company-name">Cookie Cruisers</span>
+        <nav>
+          <ul>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/Car_Listing">Cars</Link></li>
+            <li><Link to="/Contact">Contact</Link></li>
+            <li><Link to="/Reservation">Reserve</Link></li>
+          </ul>
+        </nav>
+        <Link to="/Login" className="sign-in-btn">Sign In</Link>
+      </header>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/Car_Listing" element={<CarListingPage />} />
@@ -38,3 +36,4 @@ const App = () => {
 }
 
 export default App;
+
