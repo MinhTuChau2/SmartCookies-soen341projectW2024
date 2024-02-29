@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ReservationPage from './ReservationPage';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
 import corollaImage from './5.png';
 import civicImage from './51652_st0640_116.png';
 import priusImage from './089.jpg';
+import './CarListingCss.css';
 
 const CarListingPage = () => {
   const [cars, setCars] = useState([
-    { id: 1, maker: 'Toyota', model: 'Corolla', year: 2024, price: 25, available: true, image: corollaImage },
-    { id: 2, maker: 'Honda', model: 'Civic', year: 2024, price: 35, available: true, image: civicImage },
-    { id: 3, maker: 'Toyota', model: 'Prius', year: 2024, price: 160, available: true, image: priusImage },
+    { id: 1, maker: 'Toyota', model: 'Corolla', year: 2024, price: 25, available: true, image: corollaImage, position: [40.7128, -74.006] },
+    { id: 2, maker: 'Honda', model: 'Civic', year: 2024, price: 35, available: true, image: civicImage, position: [34.0522, -118.2437] },
+    { id: 3, maker: 'Toyota', model: 'Prius', year: 2024, price: 160, available: true, image: priusImage, position: [37.7749, -122.4194] },
   ]);
 
   const [startDate, setStartDate] = useState('');
@@ -69,42 +72,49 @@ const CarListingPage = () => {
       )}
 
       <h1>Available Cars for Rent</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Maker</th>
-            <th>Model</th>
-            <th>Year</th>
-            <th>Price per Day ($)</th>
-            <th>Available</th>
-            <th>Image</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
+      <div className="container">
+      <div className="car-list-container">
+        {cars.map(car => (
+          <div key={car.id} className="car-container">
+            <img src={car.image} alt={`${car.maker} ${car.model}`} className="car-image" />
+            <div className="car-details">
+              <p>{`${car.maker} ${car.model}`}</p>
+              <p>{`Year: ${car.year}`}</p>
+              <Link to={`/Reservation/${car.id}`}>
+                <button className="reserve-button" onClick={() => reserveCar(car.id)}>Reserve</button>
+              </Link>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="map-container">
+        <MapContainer center={[45.5017, -73.5673]} zoom={10} >
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          />
           {cars.map(car => (
-            <tr key={car.id}>
-              <td>{car.id}</td>
-              <td>{car.maker}</td>
-              <td>{car.model}</td>
-              <td>{car.year}</td>
-              <td>{car.price}</td>
-              <td>{car.available ? 'Yes' : 'No'}</td>
-              <td><img src={car.image} alt={`${car.maker} ${car.model}`} style={{ width: '100px', height: 'auto' }} /></td>
-              <td>
-                {car.available ? (
-                  <Link to={`/Reservation/${car.id}`}>
-                    <button onClick={() => reserveCar(car.id)}>Reserve</button>
-                  </Link>
-                ) : (
-                  <span>Not Available</span>
-                )}
-              </td>
-            </tr>
+            <Marker key={car.id} position={car.position}>
+              <Popup>
+                <div>
+                  <h3>{`${car.maker} ${car.model}`}</h3>
+                  <p>{`Year: ${car.year}, Price: $${car.price}`}</p>
+                  <img src={car.image} alt={`${car.maker} ${car.model}`} style={{ width: '100px', height: 'auto' }} />
+                  {car.available ? (
+                    <Link to={`/Reservation/${car.id}`}>
+                      <button onClick={() => reserveCar(car.id)}>Reserve</button>
+                    </Link>
+                  ) : (
+                    <span>Not Available</span>
+                  )}
+                </div>
+              </Popup>
+            </Marker>
           ))}
-        </tbody>
-      </table>
+        </MapContainer>
+      </div>
+    </div>
     </div>
   );
 };

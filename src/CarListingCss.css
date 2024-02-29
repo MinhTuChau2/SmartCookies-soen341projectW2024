@@ -1,0 +1,180 @@
+
+/* Keyframes for fadeInUp animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* Style for the table */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 20px;
+}
+
+table th, table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+/* Style for the button */
+button {
+  background-color: #FFC0CB; /* Light pink color */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: #FF1493; /* Darker pink color on hover */
+}
+
+/* Style for the image */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.3s ease-in-out;
+}
+
+img:hover {
+  transform: scale(1.1); /* Scale image up on hover */
+}
+
+/* Style for the date inputs */
+input[type="date"] {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+/* Style for the label */
+label {
+  margin-right: 10px;
+}
+
+/* Style for the headings */
+h1, h2, h3 {
+  margin-top: 20px;
+  animation: fadeInUp 0.5s ease-in-out;
+}
+
+/* Style for the div containing the date inputs */
+div {
+  margin-bottom: 10px;
+  animation: fadeInUp 0.5s ease-in-out;
+}
+
+/* Style for the reservation link */
+Link {
+  text-decoration: none;
+  color: inherit;
+}
+
+Link:hover {
+  text-decoration: underline;
+}
+
+/* Keyframes for fadeInUp animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Style for the parent container */
+.container {
+  display: flex;
+
+}
+
+/* Style for the container holding each car */
+.car-list-container {
+  width: 50%; /* Set width to 100% for full width on small screens */
+  margin-right: 0; /* Remove margin on small screens */
+  margin-bottom: 20px; /* Add spacing between car list and map */
+}
+
+/* Style for the container holding each car */
+.car-container {
+  display: flex;
+  align-items: center;
+  margin-top: 50px; /* Add spacing between each car */
+  margin-bottom: 50px; /* Add spacing between each car */
+  width: 100%; /* Set width to 100% for full width on small screens */
+}
+
+
+.car-image {
+  width: 60%; /* Make image fill container width */
+  height: auto;
+}
+
+/* Style for the car details */
+.car-details {
+  text-align: center;
+  margin-top: 10px; /* Add spacing between image and details */
+}
+
+/* Style for the reserve button */
+.reserve-button {
+  background-color: #FFC0CB; /* Pink color */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease-in-out;
+  margin-top: 10px; /* Add spacing between details and button */
+}
+
+.reserve-button:hover {
+  background-color: #FF1493; /* Darker pink color on hover */
+}
+
+/* Style for the map container */
+.map-container {
+  width: 50%; /* Set width to 100% for full width on small screens */
+  height: auto; /* Adjust the height of the map */
+}
+
+/* Style for the Leaflet map */
+.map-container .leaflet-container {
+  width: 100%; /* Make the map container fill the width of its parent */
+  height: 100%; /* Make the map container fill the height of its parent */
+}
+
+/* Media query for small screens */
+@media screen and (min-width: 768px) {
+  /* For screens wider than 768px (tablet and above) */
+  .car-list-container {
+    width: 50%; /* Set width to 50% for the car list */
+    margin-right: 20px; /* Add spacing between car list and map */
+  }
+
+  .map-container {
+    width: 50%; /* Set width to 50% for the map */
+  }
+}
