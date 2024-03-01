@@ -71,6 +71,7 @@ const ReservationPage = () => {
     <div>
       <h2>Reservation Page</h2>
       <p>You are reserving car with ID: {id}</p>
+     
       <h3>Reservation Form</h3>
       <form onSubmit={handleSubmit}>
         <label>

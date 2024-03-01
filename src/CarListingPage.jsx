@@ -37,7 +37,7 @@ const CarListingPage = () => {
     <div>
       <h2>Check Car Availability</h2>
       <div>
-        <label>Start Date:</label>
+        <label> Date:</label>
         <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
       </div>
       <div>
