@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-<<<<<<< HEAD
-import './ReservationCSS.css';
-=======
 import './ReservationPage.css';
 
->>>>>>> e79f8235c1e93caa1cb4cfbbe4aaed93f8a31803
 
 const ReservationPage = () => {
   const { id } = useParams();
