@@ -12,7 +12,9 @@ const App = () => {
   return (
     <Router>
       <header className="header">
-        <img src={Logo} alt="Logo" className="logo"/>
+       <a href="/" target="_self">
+         <img src={Logo} alt="Logo" className="logo"/>
+       </a>
         <span className="company-name">Cookie Cruisers</span>
         <nav>
           <ul>
