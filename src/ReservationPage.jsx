@@ -4,7 +4,7 @@ import './ReservationPage.css';
 
 
 const ReservationPage = () => {
-  const { id } = useParams();
+  const { id, carType } = useParams();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -35,6 +35,17 @@ const ReservationPage = () => {
         <h2>Reservation Page</h2>
         <h3>Reservation Form</h3>
         <form onSubmit={handleSubmit}>
+         <br />
+         <label>
+         Pickup Date:
+         <input type="date" name="pickupDate" value={formData.pickupDate} onChange={handleChange} required />
+         </label>
+         <br />
+         <label>
+         Return Date:
+         <input type="date" name="returnDate" value={formData.returnDate} onChange={handleChange} required />
+         </label>
+         <br />
           <label>
             Name:
             <input type="text" name="name" value={formData.name} onChange={handleChange} required />
@@ -49,31 +60,28 @@ const ReservationPage = () => {
             Car Type:
             <input type="text" name="carType" value={formData.carType} onChange={handleChange} required />
           </label>
-          <br />
-          <label>
-            Pickup Date:
-            <input type="date" name="pickupDate" value={formData.pickupDate} onChange={handleChange} required />
-          </label>
-          <br />
-          <label>
-            Return Date:
-            <input type="date" name="returnDate" value={formData.returnDate} onChange={handleChange} required />
-          </label>
-          <br />
           <button type="submit">Reserve Car</button>
         </form>
       </div>
     );
   }
 
-  // If id is provided, show the reservation details
-  return (
+return (
     <div>
       <h2>Reservation Page</h2>
-      <p>You are reserving car with ID: {id}</p>
-     
       <h3>Reservation Form</h3>
       <form onSubmit={handleSubmit}>
+       <br />
+       <label>
+       Pickup Date:
+         <input type="date" name="pickupDate" value={formData.pickupDate} onChange={handleChange} required />
+         </label>
+       <br />
+         <label>
+       Return Date:
+         <input type="date" name="returnDate" value={formData.returnDate} onChange={handleChange} required />
+         </label>
+       <br />
         <label>
           Name:
           <input type="text" name="name" value={formData.name} onChange={handleChange} required />
@@ -84,21 +92,16 @@ const ReservationPage = () => {
           <input type="email" name="email" value={formData.email} onChange={handleChange} required />
         </label>
         <br />
-        <label>
+          <label>
           Car Type:
-          <input type="text" name="carType" value={formData.carType} onChange={handleChange} required />
-        </label>
+          <input type="text" name="carType" value={carType} readOnly />
+          </label>
         <br />
-        <label>
-          Pickup Date:
-          <input type="date" name="pickupDate" value={formData.pickupDate} onChange={handleChange} required />
-        </label>
         <br />
-        <label>
-          Return Date:
-          <input type="date" name="returnDate" value={formData.returnDate} onChange={handleChange} required />
-        </label>
-        <br />
+          <label>
+          Car ID:
+          <input type="text" name="carID" value={id} readOnly />
+          </label>
         <button type="submit">Reserve Car</button>
       </form>
     </div>

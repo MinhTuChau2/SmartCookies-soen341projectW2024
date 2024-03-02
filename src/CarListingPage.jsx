@@ -5,14 +5,14 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import corollaImage from './5.png';
 import civicImage from './51652_st0640_116.png';
-import priusImage from './089.jpg';
+import priusImage from './prius.png';
 import './CarListingCss.css';
 
 const CarListingPage = () => {
   const [cars, setCars] = useState([
-    { id: 1, maker: 'Toyota', model: 'Corolla', year: 2024, price: 25, available: true, image: corollaImage, position: [40.7128, -74.006] },
-    { id: 2, maker: 'Honda', model: 'Civic', year: 2024, price: 35, available: true, image: civicImage, position: [34.0522, -118.2437] },
-    { id: 3, maker: 'Toyota', model: 'Prius', year: 2024, price: 160, available: true, image: priusImage, position: [37.7749, -122.4194] },
+    { id: 1, maker: 'Toyota', model: 'Corolla', year: 2024, price: 25, available: true, image: corollaImage, position: [45.5017, -73.5778], type: 'Sedan' },
+    { id: 2, maker: 'Honda', model: 'Civic', year: 2024, price: 35, available: true, image: civicImage, position: [45.5391, -73.5974], type: 'Hatchback' },
+    { id: 3, maker: 'Toyota', model: 'Prius', year: 2024, price: 160, available: true, image: priusImage, position: [45.5197, -73.6665], type: 'Hybrid' },
   ]);
 
   const [startDate, setStartDate] = useState('');
@@ -25,7 +25,7 @@ const CarListingPage = () => {
     setAvailableCars({ available, unavailable });
   };
 
-  const reserveCar = (carId) => {
+  const reserveCar = (carId, carType) => {
     setCars(prevCars => {
       return prevCars.map(car => {
         if (car.id === carId) {
@@ -34,13 +34,15 @@ const CarListingPage = () => {
         return car;
       });
     });
+    // Redirect to the Reservation page with car ID and car type
+    window.location.href = `/Reservation/${carId}/${carType}`;
   };
 
   return (
     <div>
       <h2>Check Car Availability</h2>
       <div>
-        <label> Date:</label>
+        <label>Date:</label>
         <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
       </div>
       <div>
@@ -73,48 +75,44 @@ const CarListingPage = () => {
 
       <h1>Available Cars for Rent</h1>
       <div className="container">
-      <div className="car-list-container">
-        {cars.map(car => (
-          <div key={car.id} className="car-container">
-            <img src={car.image} alt={`${car.maker} ${car.model}`} className="car-image" />
-            <div className="car-details">
-              <p>{`${car.maker} ${car.model}`}</p>
-              <p>{`Year: ${car.year}`}</p>
-              <Link to={`/Reservation/${car.id}`}>
-                <button className="reserve-button" onClick={() => reserveCar(car.id)}>Reserve</button>
-              </Link>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="map-container">
-        <MapContainer center={[45.5017, -73.5673]} zoom={10} >
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          />
+        <div className="car-list-container">
           {cars.map(car => (
-            <Marker key={car.id} position={car.position}>
-              <Popup>
-                <div>
-                  <h3>{`${car.maker} ${car.model}`}</h3>
-                  <p>{`Year: ${car.year}, Price: $${car.price}`}</p>
-                  <img src={car.image} alt={`${car.maker} ${car.model}`} style={{ width: '100px', height: 'auto' }} />
-                  {car.available ? (
-                    <Link to={`/Reservation/${car.id}`}>
-                      <button onClick={() => reserveCar(car.id)}>Reserve</button>
-                    </Link>
-                  ) : (
-                    <span>Not Available</span>
-                  )}
-                </div>
-              </Popup>
-            </Marker>
+            <div key={car.id} className="car-container">
+              <img src={car.image} alt={`${car.maker} ${car.model}`} className="car-image" />
+              <div className="car-details">
+                <p>{`${car.maker} ${car.model}`}</p>
+                <p>{`Year: ${car.year}`}</p>
+                <button className="reserve-button" onClick={() => reserveCar(car.id, car.type)}>Reserve</button>
+              </div>
+            </div>
           ))}
-        </MapContainer>
+        </div>
+
+        <div className="map-container">
+          <MapContainer center={[45.5017, -73.5673]} zoom={10}>
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            />
+            {cars.map(car => (
+              <Marker key={car.id} position={car.position}>
+                <Popup>
+                  <div>
+                    <h3>{`${car.maker} ${car.model}`}</h3>
+                    <p>{`Year: ${car.year}, Price: $${car.price}`}</p>
+                    <img src={car.image} alt={`${car.maker} ${car.model}`} style={{ width: '100px', height: 'auto' }} />
+                    {car.available ? (
+                      <button onClick={() => reserveCar(car.id, car.type)}>Reserve</button>
+                    ) : (
+                      <span>Not Available</span>
+                    )}
+                  </div>
+                </Popup>
+              </Marker>
+            ))}
+          </MapContainer>
+        </div>
       </div>
-    </div>
     </div>
   );
 };

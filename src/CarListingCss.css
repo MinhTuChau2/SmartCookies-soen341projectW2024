@@ -1,5 +1,4 @@
 
-/* Keyframes for fadeInUp animation */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -12,7 +11,7 @@
 }
 
 
-/* Style for the table */
+
 table {
   width: 100%;
   border-collapse: separate;
@@ -43,10 +42,10 @@ button {
 }
 
 button:hover {
-  background-color: #FF1493; /* Darker pink color on hover */
+  background-color: #FF1493;
 }
 
-/* Style for the image */
+
 img {
   max-width: 100%;
   height: auto;
@@ -55,10 +54,10 @@ img {
 }
 
 img:hover {
-  transform: scale(1.1); /* Scale image up on hover */
+  transform: scale(1.1);
 }
 
-/* Style for the date inputs */
+
 input[type="date"] {
   padding: 8px;
   border-radius: 4px;

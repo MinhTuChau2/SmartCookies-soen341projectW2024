@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import './ContactCSS.css';
 
 const ContactPage = () => {
     const [formData, setFormData] = useState({
