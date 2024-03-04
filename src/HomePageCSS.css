@@ -63,3 +63,84 @@ footer {
   position: fixed;
 }
 
+
+.booking-section {
+  flex: 1;
+  padding: 20px;
+  background-color: #fceceb;
+}
+
+.booking-section form {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.booking-section label,
+.booking-section select,
+.booking-section input[type="date"],
+.booking-section button {
+  margin: 5px;
+}
+
+.intro-section,
+.benefits-section,
+.explore-section,
+.faq-section {
+  flex: 1;
+  padding: 20px;
+}
+
+.intro-section h1 {
+  font-size: 24px;
+}
+
+.benefit-item {
+  margin-bottom: 20px;
+}
+
+.explore-section h2 {
+  font-size: 20px;
+}
+
+.explore-btn {
+  background-color: #ffe0e9; /* Very light pink background */
+  color: #fff; /* White text */
+
+  margin-left: auto; /* Ensures it stays to the right */
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.explore-btn:hover {y
+  background-color: #f3a8b3;
+}
+
+.faq-section h2 {
+  font-size: 20px;
+}
+
+.faq-item {
+  margin-bottom: 20px;
+}
+
+footer {
+  margin-top: 20px;
+  text-align: center;
+  background-color: #333;
+  color: #fff;
+  padding: 10px 0;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .horizontal-bar {
+    flex-direction: column;
+  }
+
+  .booking-section,
+  .intro-section,
+  .benefits-section,
+  .explore-section,
+  .faq-section {
+    width: 100%;
+  }
+}

@@ -30,4 +30,23 @@
   button:hover {
     background-color: #45a049;
   }
-  
+
+  .horizontal-form {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .form-group {
+    margin-right: 20px;
+    margin-bottom: 10px;
+  }
+
+  label {
+    width: 120px;
+  }
+
+  input[type="date"],
+  input[type="text"],
+  input[type="email"] {
+    width: 200px;
+  }
