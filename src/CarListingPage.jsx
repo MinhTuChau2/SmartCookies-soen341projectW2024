@@ -41,14 +41,17 @@ const CarListingPage = () => {
   return (
     <div>
       <h2>Check Car Availability</h2>
-      <div>
-        <label>Date:</label>
-        <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
-      </div>
-      <div>
-        <label>End Date:</label>
-        <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
-      </div>
+     <div className="horizontal-container">
+       <div>
+         <label>Date:</label>
+         <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
+       </div>
+       <div>
+         <label>End Date:</label>
+         <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
+       </div>
+     </div>
+
       <button onClick={checkAvailability}>Check Availability</button>
 
       {availableCars.available && (

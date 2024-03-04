@@ -35,6 +35,7 @@ button {
   background-color: #FFC0CB; /* Light pink color */
   color: white;
   padding: 10px 20px;
+  margin-left:10px;
   border: none;
   cursor: pointer;
   border-radius: 4px;
@@ -176,4 +177,28 @@ Link:hover {
   .map-container {
     width: 50%; /* Set width to 50% for the map */
   }
+}
+
+.horizontal-container {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center the content horizontally */
+}
+
+.horizontal-container div {
+  margin: 10px; /* Add some spacing between the elements */
+}
+
+.horizontal-container label {
+  display: inline-block;
+  margin-right: 10px; /* Add some space between the label and input */
+  width: 100px; /* Adjust the width as needed */
+  font-weight: bold; /* Make the label bold */
+}
+
+.horizontal-container input[type="date"] {
+  width: 150px; /* Adjust the width as needed */
+  padding: 5px; /* Add padding to the input */
+  border-radius: 5px; /* Add some border-radius for a nicer look */
+  border: 1px solid #ccc; /* Add a border for better visibility */
 }

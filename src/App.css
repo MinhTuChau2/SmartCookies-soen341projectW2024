@@ -64,5 +64,10 @@ nav a:hover {
     border-radius: 5px;
     margin-right: 50px;
     margin-left: auto; /* Ensures it stays to the right */
+    transition: color 0.3s ease, background-color 0.3s ease; /* Smooth transition for color and background-color */
+}
+
+.sign-in-btn:hover {
+    background-color: #f3a8b3; /* Slightly darker pink on hover */
 }
 

@@ -2,11 +2,42 @@ import React from 'react';
 import './HomePageCSS.css';
 import { Link } from 'react-router-dom';
 
-
 const HomePage = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Handle form submission logic here
+  };
+
   return (
     <div className="home-page">
       <main>
+        <section className="booking-section">
+          <h2>When will you cruise?</h2>
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="pickupDate">Pickup Date:</label>
+            <input type="date" id="pickupDate" name="pickupDate" required />
+            <br />
+
+            <label htmlFor="returnDate">Return Date:</label>
+            <input type="date" id="returnDate" name="returnDate" required />
+            <br />
+
+            <label htmlFor="location">Location:</label>
+            <select id="location" name="location" required>
+              <option value="">Select Location</option>
+              <option value="Montreal">Montreal</option>
+              <option value="New York">New York</option>
+              <option value="Los Angeles">Los Angeles</option>
+              <option value="Chicago">Chicago</option>
+              <option value="Miami">Miami</option>
+
+            </select>
+            <br />
+
+            <button type="submit">Submit</button>
+          </form>
+        </section>
+
         <section className="intro-section">
           <h1 className="slogan">Embark on a Sweet Journey with Cookie Cruisers-Your Smart Pick for the Perfect Ride!</h1>
         </section>
@@ -23,7 +54,7 @@ const HomePage = () => {
             <h3>Price</h3>
             <p>Competitive rates and clear terms.</p>
           </div>
-          
+
         </section>
         <section className="explore-section">
           <h2>Explore Our Vehicles</h2>
@@ -44,7 +75,6 @@ const HomePage = () => {
               <h3>Are there any additional fees?</h3>
               <p>We do not charge additional fees for reservations made on our website. The price you see is the price you pay.</p>
             </div>
-            {/* Add more FAQ items as needed */}
           </div>
         </section>
       </main>
@@ -56,4 +86,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-

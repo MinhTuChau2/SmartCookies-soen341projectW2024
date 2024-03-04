@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './ReservationPage.css';
 
-
 const ReservationPage = () => {
   const { id, carType } = useParams();
   const [formData, setFormData] = useState({
@@ -28,80 +27,35 @@ const ReservationPage = () => {
     window.location.href = `/reserve/${id}?${queryParams}`;
   };
 
-  // If id is not provided, show the empty form
-  if (!id) {
-    return (
-      <div>
-        <h2>Reservation Page</h2>
-        <h3>Reservation Form</h3>
-        <form onSubmit={handleSubmit}>
-         <br />
-         <label>
-         Pickup Date:
-         <input type="date" name="pickupDate" value={formData.pickupDate} onChange={handleChange} required />
-         </label>
-         <br />
-         <label>
-         Return Date:
-         <input type="date" name="returnDate" value={formData.returnDate} onChange={handleChange} required />
-         </label>
-         <br />
-          <label>
-            Name:
-            <input type="text" name="name" value={formData.name} onChange={handleChange} required />
-          </label>
-          <br />
-          <label>
-            Email:
-            <input type="email" name="email" value={formData.email} onChange={handleChange} required />
-          </label>
-          <br />
-          <label>
-            Car Type:
-            <input type="text" name="carType" value={formData.carType} onChange={handleChange} required />
-          </label>
-          <button type="submit">Reserve Car</button>
-        </form>
-      </div>
-    );
-  }
-
-return (
+  return (
     <div>
       <h2>Reservation Page</h2>
       <h3>Reservation Form</h3>
-      <form onSubmit={handleSubmit}>
-       <br />
-       <label>
-       Pickup Date:
-         <input type="date" name="pickupDate" value={formData.pickupDate} onChange={handleChange} required />
-         </label>
-       <br />
-         <label>
-       Return Date:
-         <input type="date" name="returnDate" value={formData.returnDate} onChange={handleChange} required />
-         </label>
-       <br />
-        <label>
-          Name:
-          <input type="text" name="name" value={formData.name} onChange={handleChange} required />
-        </label>
-        <br />
-        <label>
-          Email:
-          <input type="email" name="email" value={formData.email} onChange={handleChange} required />
-        </label>
-        <br />
-          <label>
-          Car Type:
-          <input type="text" name="carType" value={carType} readOnly />
-          </label>
-        <br />
-        <br />
-          <label>
-          Car ID:
-          <input type="text" name="carID" value={id} readOnly />
-          </label>
+      <form className="horizontal-form" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="pickupDate">Pickup Date:</label>
+          <input type="date" id="pickupDate" name="pickupDate" value={formData.pickupDate} onChange={handleChange} required />
+        </div>
+        <div className="form-group">
+          <label htmlFor="returnDate">Return Date:</label>
+          <input type="date" id="returnDate" name="returnDate" value={formData.returnDate} onChange={handleChange} required />
+        </div>
+        <div className="form-group">
+          <label htmlFor="name">Name:</label>
+          <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required />
+        </div>
+        <div className="form-group">
+          <label htmlFor="email">Email:</label>
+          <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
+        </div>
+        <div className="form-group">
+          <label htmlFor="carType">Car Type:</label>
+          <input type="text" id="carType" name="carType" value={carType} readOnly />
+        </div>
+        <div className="form-group">
+          <label htmlFor="carID">Car ID:</label>
+          <input type="text" id="carID" name="carID" value={id} readOnly />
+        </div>
         <button type="submit">Reserve Car</button>
       </form>
     </div>
