@@ -1,45 +1,71 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
-  const [form, setForm] = useState({ name: '', lastName: '', email: '', password: '', accessCode: '', registering: false });
+function Login() {
+  const [formData, setFormData] = useState({ identifier: '', password: '' });
+  const [loginError, setLoginError] = useState('');
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setLoginError('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const endpoint = form.registering ? '/api/register' : '/api/login';
+    // Format validation (basic example, adapt as needed)
+    if (!formData.identifier || !formData.password) {
+      setLoginError('Please enter both email/username and password.');
+      return;
+    }
+
     try {
-      const response = await axios.post(endpoint, form);
-      console.log('Success:', response.data);
-      // Redirect or handle login/register success (e.g., save token, navigate to dashboard)
+      const response = await fetch('http://localhost:8000/accounts/login/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: formData.identifier, password: formData.password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        // Store necessary user data in sessionStorage or context
+        navigate('/'); // Redirect to HomePage
+      } else if (response.status === 404) {
+        setLoginError('User not found. Please sign up.');
+      } else {
+        setLoginError('Login failed. Please try again.');
+      }
     } catch (error) {
-      console.error('Error:', error.response.data);
+      console.error('Login error:', error);
+      setLoginError('An error occurred. Please try again later.');
     }
   };
 
   return (
-    <div>
-      <h2>{form.registering ? 'Register' : 'Login'}</h2>
+    <div className="login-form">
       <form onSubmit={handleSubmit}>
-        {form.registering && (
-          <>
-            <input type="text" name="name" placeholder="Name" onChange={handleChange} required />
-            <input type="text" name="lastName" placeholder="Last Name" onChange={handleChange} required />
-            <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
-            <input type="text" name="accessCode" placeholder="Access Code (optional)" onChange={handleChange} />
-          </>
-        )}
-        <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} required={!form.registering} />
-        <input type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange} required />
-        <button type="submit">{form.registering ? 'Register' : 'Login'}</button>
-        <button type="button" onClick={() => setForm({ ...form, registering: !form.registering })}>{form.registering ? 'Go to Login' : 'Go to Register'}</button>
+        <input
+          type="text"
+          name="identifier"
+          placeholder="Email/Username"
+          value={formData.identifier}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
+        <button type="submit">Login</button>
+        {loginError && <div className="error">{loginError}</div>}
       </form>
+      <button onClick={() => navigate('/signup')}>Sign Up</button>
     </div>
   );
-};
+}
 
 export default Login;

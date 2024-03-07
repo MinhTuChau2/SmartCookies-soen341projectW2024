@@ -7,8 +7,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ValidationError
-from properties.models import Property
-from .forms import SignUpForm, UserUpdateForm, LoginForm
 from .models import CustomUser
 from django.core.mail import send_mail
 

@@ -7,6 +7,7 @@ import Login from './Login';
 import ReservationPage from './ReservationPage';
 import './App.css';
 import Logo from './Logo.jpeg';
+import SignUp from './SignUp';
 
 const App = () => {
   return (
@@ -31,6 +32,8 @@ const App = () => {
         <Route path="/Car_Listing" element={<CarListingPage />} />
         <Route path="/Contact" element={<ContactPage />} />
         <Route path="/Login" element={<Login />} />
+        <Route path="/SignUp" element={<SignUp />} />
+
         <Route path="/Reservation/:id/:carType" element={<ReservationPage />} />
         <Route path="/Reservation" element={<ReservationPage />} />
       </Routes>
