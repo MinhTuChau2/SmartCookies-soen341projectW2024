@@ -54,9 +54,7 @@ footer {
 .booking-section {
   flex: 1;
   padding: 20px;
-
-  background-color: #CBA984;
-
+  background-color: #ede4c7;
 }
 
 .booking-section form {
