@@ -54,17 +54,12 @@ footer {
 .booking-section {
   flex: 1;
   padding: 20px;
-<<<<<<< HEAD
-  background-color: #ede1ca;
-=======
-<<<<<<< HEAD
 
   background-color: #f0e8ce;
 
 =======
   background-color: #fceceb;
 >>>>>>> e99945e (Made all the buttons the same colour)
->>>>>>> 1473cb9 (Made all the buttons the same colour)
 }
 
 .booking-section form {
@@ -113,12 +108,8 @@ footer {
 }
 
 .explore-btn:hover {
-<<<<<<< HEAD
   background-color: #722A02;
-=======
-  background-color: #f3a8b3;
->>>>>>> e99945e (Made all the buttons the same colour)
-  background-color: #722A02;
+  
 }
 
 .faq-section h2 {
