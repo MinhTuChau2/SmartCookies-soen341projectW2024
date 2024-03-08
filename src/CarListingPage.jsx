@@ -33,9 +33,8 @@ const CarListingPage = () => {
     { id: 10, maker: 'Cadillac', model: 'XT4', year: 2024, price: 300, available: true, image: cadillacImage, position: [45.5017, -73.5778], type: 'SUV' },
   ]);
 
-<<<<<<< HEAD
-  /*const [modalOpen, setModalOpen] = useStates(false);
-  const[selectedCarImage, setSelectedCarImage] = useState('');*/
+  const [modalOpen, setModalOpen] = useStates(false);
+  const[selectedCarImage, setSelectedCarImage] = useState('');
 
   /*const openModal = (image) => {
     setSelectedCarImage(image);
@@ -45,21 +44,7 @@ const CarListingPage = () => {
   /*const closeModal = (image) => {
     setSelectedCarImage('');
     setModalOpen(false);
-  }*/
-=======
-  const [modalOpen, setModalOpen] = useStates(false);
-  const[selectedCarImage, setSelectedCarImage] = useState('');
-
-  const openModal = (image) => {
-    setSelectedCarImage(image);
-    setModalOpen(true);
   }
-
-  const closeModal = (image) => {
-    setSelectedCarImage('');
-    setModalOpen(false);
-  }
->>>>>>> efdc68e (colour of buttons)
 
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
