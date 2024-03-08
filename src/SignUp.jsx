@@ -13,8 +13,16 @@ function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Format and password match validation (basic example, adapt as needed)
-    if (!formData.email || !formData.username || !formData.password || formData.password !== formData.confirmPassword) {
+    // Basic email format validation
+    const emailPattern = /\S+@\S+\.\S+/;
+    const isEmailValid = emailPattern.test(formData.email);
+
+    if (!isEmailValid) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+
+    if (!formData.username || !formData.password || formData.password !== formData.confirmPassword) {
       setError('Please check your inputs. Passwords must match.');
       return;
     }
@@ -31,9 +39,10 @@ function SignUp() {
       });
 
       if (response.ok) {
-        navigate('/login'); // Redirect to Login page
+        navigate('/login'); // Redirect to Login on successful sign up
       } else {
-        setError('Registration failed. Please try again.');
+        const errorData = await response.json();
+        setError(errorData.errors || 'Registration failed. Please try again.');
       }
     } catch (error) {
       console.error('Signup error:', error);
@@ -51,6 +60,7 @@ function SignUp() {
           value={formData.email}
           onChange={handleChange}
           required
+          autoComplete="email"  
         />
         <input
           type="text"
@@ -59,6 +69,7 @@ function SignUp() {
           value={formData.username}
           onChange={handleChange}
           required
+          autoComplete="username" 
         />
         <input
           type="password"
@@ -66,7 +77,7 @@ function SignUp() {
           placeholder="Password"
           value={formData.password}
           onChange={handleChange}
-          required
+          autoComplete="new-password"
         />
         <input
           type="password"

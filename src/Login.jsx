@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './AuthContext.jsx';
 
 function Login() {
-  const [formData, setFormData] = useState({ identifier: '', password: '' });
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const [loginError, setLoginError] = useState('');
   const navigate = useNavigate();
+  const { signIn } = useAuth();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -13,27 +15,30 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Format validation (basic example, adapt as needed)
-    if (!formData.identifier || !formData.password) {
-      setLoginError('Please enter both email/username and password.');
+
+    if (!formData.email || !formData.password) {
+      setLoginError('Please enter both email and password.');
       return;
     }
 
     try {
       const response = await fetch('http://localhost:8000/accounts/login/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: formData.identifier, password: formData.password }),
-      });
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+        email: formData.email,
+        password: formData.password,
+    }),
+});
+   
 
       if (response.ok) {
         const data = await response.json();
-        // Store necessary user data in sessionStorage or context
-        navigate('/'); // Redirect to HomePage
-      } else if (response.status === 404) {
-        setLoginError('User not found. Please sign up.');
+        localStorage.setItem('token', data.token);
+        navigate('/'); // Redirect to HomePage or dashboard as per your routing setup
       } else {
-        setLoginError('Login failed. Please try again.');
+        const errorData = await response.json();
+        setLoginError(errorData.non_field_errors || 'Login failed. Please try again.');
       }
     } catch (error) {
       console.error('Login error:', error);
@@ -45,12 +50,13 @@ function Login() {
     <div className="login-form">
       <form onSubmit={handleSubmit}>
         <input
-          type="text"
-          name="identifier"
-          placeholder="Email/Username"
-          value={formData.identifier}
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={formData.email}
           onChange={handleChange}
           required
+          autoComplete="email"
         />
         <input
           type="password"
@@ -59,6 +65,7 @@ function Login() {
           value={formData.password}
           onChange={handleChange}
           required
+          autoComplete="current-password"
         />
         <button type="submit">Login</button>
         {loginError && <div className="error">{loginError}</div>}
