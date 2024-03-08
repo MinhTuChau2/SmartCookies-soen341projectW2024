@@ -32,7 +32,7 @@ const ContactPage = () => {
     return (
         <div className="contact-form">
             <h2>Contact Us</h2>
-            <form onSubmit={handleSubmit}>
+            <form id="contactPageForm" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="name">Name:</label>
                     <input

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './AuthContext.jsx';
+import { useAuth } from './AuthContext.jsx'; // Ensure this is implemented as described
 
 function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -23,20 +23,25 @@ function Login() {
 
     try {
       const response = await fetch('http://localhost:8000/accounts/login/', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-        email: formData.email,
-        password: formData.password,
-    }),
-});
-   
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
 
       if (response.ok) {
         const data = await response.json();
+        console.log("Login response data:", data);  // Debugging line
         localStorage.setItem('token', data.token);
-        navigate('/'); // Redirect to HomePage or dashboard as per your routing setup
-      } else {
+        localStorage.setItem('username', data.username);
+        localStorage.setItem('is_superuser', data.is_superuser.toString());
+        signIn(data.username, data.is_superuser);
+        navigate('/');
+    }
+    
+      else {
         const errorData = await response.json();
         setLoginError(errorData.non_field_errors || 'Login failed. Please try again.');
       }
