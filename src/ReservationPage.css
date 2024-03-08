@@ -1,52 +1,54 @@
 .reservation-container {
-    max-width: auto;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 8px;
-  }
-  
-  input {
-    width: auto;
-    padding: 8px;
-    margin-bottom: 12px;
-  }
-  
-  button {
-    background-color: #4caf50;
-    color: #fff;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
+  width: 300px; /* Set a specific max-width */
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
 
-  .horizontal-form {
-    display: flex;
-    flex-wrap: wrap;
-  }
+label {
+  display: block;
+  margin-bottom: 8px;
+}
 
-  .form-group {
-    margin-right: 20px;
-    margin-bottom: 10px;
-  }
+input {
+  width: 100%; /* Occupy full width */
+  padding: 8px;
+  margin-bottom: 12px;
+}
 
-  label {
-    width: 120px;
-  }
+button {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
 
-  input[type="date"],
-  input[type="text"],
-  input[type="email"] {
-    width: 200px;
-  }
+button:hover {
+  background-color: #45a049;
+}
+
+.horizontal-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* Distribute items evenly along the row */
+}
+
+.form-group {
+  width: 48%; /* Set width for two items in a row */
+  margin-bottom: 10px;
+}
+
+label {
+  width: 100%; /* Occupy full width for labels */
+}
+
+input[type="date"],
+input[type="text"],
+input[type="email"] {
+  width: 100%; /* Occupy full width for input fields */
+}

@@ -38,6 +38,7 @@ button {
   cursor: pointer;
   border-radius: 4px;
   transition: background-color 0.3s ease-in-out;
+  margin-bottom: 15px;
 }
 
 button:hover {
@@ -53,7 +54,10 @@ img {
 }
 
 img:hover {
-  transform: scale(1.1);
+  transform: scale(2);
+  border: 2px solid black;
+  background-color: white;
+  transition-delay: 0.1s;
 }
 
 
@@ -70,7 +74,7 @@ label {
 
 /*Style Available Cars for Rent*/
 h1 {
-  margin-top: 50px;
+  margin-top: 40px;
   animation: fadeInUp 0.5s ease-in-out;
 }
 
@@ -88,7 +92,7 @@ h3 {
 
 /* Style for the div containing the date inputs */
 div {
-  margin-bottom: 10px;
+  margin: 20px 0;
   animation: fadeInUp 0.5s ease-in-out;
 }
 
@@ -117,7 +121,7 @@ Link:hover {
 /* Style for the parent container */
 .container {
   display: flex;
-  /*justify-content: space-between; /*space vehicules horizontally*/
+  justify-content: space-evenly;
   flex-direction: column;
   width: 100%;
 }
@@ -126,10 +130,11 @@ Link:hover {
 .car-list-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* Create two columns */
-  column-gap: 150px; /* Add gap between grid items */
-  row-gap: 30px; /* Add gap between grid items */
+  column-gap: 200px; /* Add gap between grid items */
+  row-gap: 40px; /* Add gap between grid items */
   align-items: center;
   width: 100%;
+  margin-top: 20px;
 }
 
 /* Style for the container holding each car */
@@ -139,7 +144,7 @@ Link:hover {
   margin-top: 50px; /* Add spacing between each car */
   margin-bottom: 50px; /* Add spacing between each car */
   width: 100%; /* Set width to 100% for full width on small screens */
-  margin: 20px;
+  margin: 10px;
   padding: 0;
 }
 
@@ -152,7 +157,7 @@ Link:hover {
 /* Style for the car details */
 .car-details {
   text-align: center;
-  margin-top: 10px; /* Add spacing between image and details */
+  margin-top: 20px; /* Add spacing between image and details */
 }
 
 /* Style for the reserve button */
@@ -188,7 +193,7 @@ Link:hover {
 @media screen and (min-width: 768px) {
   /*For screens wider than 768px (tablet and above) */
   .car-list-container {
-    width: 50%; /* Set width to 50% for the car list */
+    width: 100%; /* Set width to 50% for the car list */
     margin-right: 20px; /* Add spacing between car list and map */
     order: 1; /* Position cars on top*/
     grid-template-columns: 1 fr; 
