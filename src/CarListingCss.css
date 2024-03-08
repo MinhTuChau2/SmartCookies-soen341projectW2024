@@ -55,10 +55,7 @@ img {
 
 img:hover {
   transform: scale(1.02);
-=======
-  transform: scale(2);
-  border: 2px solid black;
->>>>>>> 3f97b19 (Made all the buttons the same colour)
+
   background-color: white;
   transition-delay: 0.1s;
 }
