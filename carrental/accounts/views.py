@@ -38,13 +38,16 @@ class CustomObtainAuthToken(ObtainAuthToken):
             return Response({
                 'token': token.key,
                 'user_id': user.pk,
-                'email': user.email
+                'email': user.email,
+                'username': user.username,  # Explicitly include the username in the response
+                'is_superuser': user.is_superuser
             }, status=status.HTTP_200_OK)
         else:
             # Authentication failed
             return Response({'error': 'Invalid email or password.'},
                             status=status.HTTP_400_BAD_REQUEST)
-        
+
+
 class UserDetailView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         return JsonResponse({

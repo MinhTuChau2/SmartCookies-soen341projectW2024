@@ -11,8 +11,9 @@ import SignUp from './SignUp';
 import { AuthProvider, useAuth } from './AuthContext.jsx';
 
 
+// Header component inside App.jsx
 const Header = () => {
-  const { currentUser, signOut } = useAuth(); // Use the useAuth hook
+  const { currentUser, signOut } = useAuth();
 
   return (
     <header className="header">
@@ -26,19 +27,27 @@ const Header = () => {
           <li><Link to="/Car_Listing">Cars</Link></li>
           <li><Link to="/Contact">Contact</Link></li>
           <li><Link to="/Reservation">Reserve</Link></li>
+          {/* Only show this link to superusers */}
+          {currentUser?.is_superuser && (
+            <li><a href="http://127.0.0.1:8000/admin/" target="_blank" rel="noopener noreferrer">Admin Panel</a></li>
+          )}
         </ul>
       </nav>
-      {currentUser ? (
-        <div>
-          <span>Hi, {currentUser.username}</span> {/* Display the username */}
-          <button onClick={signOut} className="sign-in-btn">Sign Out</button> {/* Sign out button */}
-        </div>
-      ) : (
-        <Link to="/Login" className="sign-in-btn">Sign In</Link>
-      )}
+      <div>
+        {currentUser ? (
+          <div>
+            {/* Display username only if currentUser exists */}
+            <span>Hi, {currentUser.username}</span>
+            <button onClick={signOut} className="sign-in-btn">Sign Out</button>
+          </div>
+        ) : (
+          <Link to="/Login" className="sign-in-btn">Sign In</Link>
+        )}
+      </div>
     </header>
   );
 };
+
 
 const App = () => {
   return (
