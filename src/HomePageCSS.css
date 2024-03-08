@@ -66,7 +66,7 @@ footer {
 
 .booking-section {
   flex: 1;
-  padding: 20px;
+  padding: 60px;
   background-color: #fceceb;
 }
 
@@ -110,7 +110,7 @@ footer {
   transition: color 0.3s ease, background-color 0.3s ease;
 }
 
-.explore-btn:hover {y
+.explore-btn:hover {
   background-color: #f3a8b3;
 }
 
