@@ -55,7 +55,7 @@ footer {
   flex: 1;
   padding: 20px;
 
-  background-color: #CBA984;
+  background-color: #f0e8ce;
 
 }
 
@@ -100,7 +100,7 @@ footer {
   text-decoration: none; /* Removes underline from link */
 }
 
-.explore-btn:hover {
+.explore-btn:hover {y
   background-color: #722A02;
 }
 
