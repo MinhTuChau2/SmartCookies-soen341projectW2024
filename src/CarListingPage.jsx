@@ -3,16 +3,34 @@ import { Link } from 'react-router-dom';
 import ReservationPage from './ReservationPage';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import './CarListingCss.css';
+
+/*Car Images*/
 import corollaImage from './5.png';
 import civicImage from './51652_st0640_116.png';
 import priusImage from './prius.png';
-import './CarListingCss.css';
+import model3Image from './redModel3.png';
+import modelXImage from './GreyModelX.png';
+import R8Image from './blueR8.png';
+import ChevyImage from './redChevy.png';
+import BMWImage  from './babyBMW.png';
+import mercedsImage from './benzA.png';
+import cadillacImage from './orangeCadillac.png';
+
+
 
 const CarListingPage = () => {
   const [cars, setCars] = useState([
     { id: 1, maker: 'Toyota', model: 'Corolla', year: 2024, price: 25, available: true, image: corollaImage, position: [45.5017, -73.5778], type: 'Sedan' },
     { id: 2, maker: 'Honda', model: 'Civic', year: 2024, price: 35, available: true, image: civicImage, position: [45.5391, -73.5974], type: 'Hatchback' },
     { id: 3, maker: 'Toyota', model: 'Prius', year: 2024, price: 160, available: true, image: priusImage, position: [45.5197, -73.6665], type: 'Hybrid' },
+    { id: 4, maker: 'Tesla', model: 'Model 3', year: 2024, price: 30, available: true, image: model3Image, position: [45.5017, -73.5778], type: 'Electric' },
+    { id: 5, maker: 'Tesla', model: 'Model X', year: 2024, price: 55, available: true, image: modelXImage, position: [75.5017, -73.5778], type: 'Electric' },
+    { id: 6, maker: 'Audi', model: 'R8', year: 2024, price: 500, available: true, image: R8Image, position: [45.5017, -73.5778], type: 'Coupe' },
+    { id: 7, maker: 'Cheverolet', model: 'Silverado', year: 2019, price: 250, available: true, image: ChevyImage, position: [45.5017, -73.5778], type: 'Pickup' },
+    { id: 8, maker: 'BMW', model: '2 Series', year: 2023, price: 390, available: true, image:BMWImage, position: [45.5017, -73.5778], type: 'Coupe' },
+    { id: 9, maker: 'Mercedes', model: 'A Class', year: 2022, price: 440, available: true, image: mercedsImage, position: [45.5017, -73.5778], type: 'Sedan' },
+    { id: 10, maker: 'Cadillac', model: 'XT4', year: 2024, price: 300, available: true, image: cadillacImage, position: [45.5017, -73.5778], type: 'SUV' },
   ]);
 
   const [startDate, setStartDate] = useState('');
