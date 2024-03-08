@@ -54,7 +54,7 @@ footer {
 .booking-section {
   flex: 1;
   padding: 20px;
-  background-color: #ede1ca;
+  background-color: #CBA984;
 }
 
 .booking-section form {
@@ -99,7 +99,7 @@ footer {
 }
 
 .explore-btn:hover {
-  background-color: #f3a8b3;
+  background-color: #722A02;
 }
 
 .faq-section h2 {
