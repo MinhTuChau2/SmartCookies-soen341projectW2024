@@ -54,7 +54,7 @@ img {
 }
 
 img:hover {
-  transform: scale(1.2);
+  transform: scale(1.02);
   background-color: white;
   transition-delay: 0.1s;
 }
