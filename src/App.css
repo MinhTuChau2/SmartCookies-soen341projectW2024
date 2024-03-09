@@ -58,7 +58,7 @@ nav a:hover {
 }
 
 .sign-in-btn {
-    background-color: #ffe0e9; /* Very light pink background */
+    background-color: #C87513; /* Very light pink background */
     color: #fff; /* White text */
     padding: 10px 20px;
     border-radius: 5px;
@@ -68,6 +68,6 @@ nav a:hover {
 }
 
 .sign-in-btn:hover {
-    background-color: #f3a8b3; /* Slightly darker pink on hover */
+    background-color: #722A02; /* Slightly darker pink on hover */
 }
 

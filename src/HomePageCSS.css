@@ -20,19 +20,6 @@
 }
 
 
-.explore-section {
-  text-align: center;
-  padding: 80px 20px;
-}
-
-.explore-btn {
-  background-color: #ffe0e9; /* Very light pink background */
-  color: #fff; /* White text */
-  padding: 10px 30px; /* Increased button size */
-  border-radius: 5px;
-  text-decoration: none; /* Removes underline from link */
-}
-
 
 .faq-section {
   padding: 80px 10%; /* Increased padding and centered content */
@@ -66,8 +53,10 @@ footer {
 
 .booking-section {
   flex: 1;
-  padding: 60px;
-  background-color: #fceceb;
+  padding: 20px;
+
+  background-color: #CBA984;
+
 }
 
 .booking-section form {
@@ -98,20 +87,21 @@ footer {
   margin-bottom: 20px;
 }
 
-.explore-section h2 {
-  font-size: 20px;
+.explore-section {
+  text-align: center;
+  padding: 80px 20px;
 }
 
 .explore-btn {
-  background-color: #ffe0e9; /* Very light pink background */
+  background-color: #C87513; /* Very light pink background */
   color: #fff; /* White text */
-
-  margin-left: auto; /* Ensures it stays to the right */
-  transition: color 0.3s ease, background-color 0.3s ease;
+  padding: 10px 30px; /* Increased button size */
+  border-radius: 5px;
+  text-decoration: none; /* Removes underline from link */
 }
 
 .explore-btn:hover {
-  background-color: #f3a8b3;
+  background-color: #722A02;
 }
 
 .faq-section h2 {
