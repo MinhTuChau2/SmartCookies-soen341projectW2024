@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './ReservationPage.css';
+import axios from 'axios';
 
 const ReservationPage = () => {
   const { id, carType } = useParams();
@@ -20,12 +21,29 @@ const ReservationPage = () => {
     });
   };
 
+  /*
   const handleSubmit = (e) => {
     e.preventDefault();
     const queryParams = new URLSearchParams(formData).toString();
     // Navigate to the reservation URL
     window.location.href = `/reserve/${id}?${queryParams}`;
   };
+  */
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+        const response = await axios.post('http://localhost:8000/reservations/reserve/', {
+            car_id: id,
+            carType: carType,
+            ...formData
+        });
+        console.log(response.data); // Handle success
+    } catch (error) {
+        console.error(error); // Handle error
+    }
+};
+
 
   return (
     <div>
