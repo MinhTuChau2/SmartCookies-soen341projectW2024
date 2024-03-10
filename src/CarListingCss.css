@@ -54,7 +54,7 @@ img {
 }
 
 img:hover {
-  transform: scale(1.2);
+  transform: scale(1.02);
   background-color: white;
   transition-delay: 0.1s;
 }
@@ -129,7 +129,7 @@ Link:hover {
 .car-list-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* Create two columns */
-  column-gap: 200px; /* Add gap between grid items */
+  column-gap: 100px; /* Add gap between grid items */
   row-gap: 40px; /* Add gap between grid items */
   align-items: center;
   width: 100%;
@@ -149,8 +149,9 @@ Link:hover {
 
 
 .car-image {
-  width: 200px; /* Make image fill container width */
-  
+  width: 350px; /* Make image fill container width */
+  align-content: center;
+  margin-left: 100px;
 }
 
 /* Style for the car details */
