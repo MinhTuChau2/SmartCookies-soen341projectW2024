@@ -4,6 +4,7 @@ import ReservationPage from './ReservationPage';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import './CarListingCss.css';
+import ImageModal from './ImageModal';
 
 /*Car Images*/
 import corollaImage from './5.png';
@@ -33,18 +34,20 @@ const CarListingPage = () => {
     { id: 10, maker: 'Cadillac', model: 'XT4', year: 2024, price: 300, available: true, image: cadillacImage, position: [45.5017, -73.5778], type: 'SUV' },
   ]);
 
-  /*const [modalOpen, setModalOpen] = useStates(false);
-  const[selectedCarImage, setSelectedCarImage] = useState('');*/
+  const [modalOpen, setModalOpen] = useState(false);
+  const[selectedCar, setSelectedCar] = useState(null);
 
-  /*const openModal = (image) => {
-    setSelectedCarImage(image);
-    setModalOpen(true);
-  }*/
+  const openModal = (image) => {
+    console.log('Opening modal with image:', image);
+    setSelectedCar(image);
+    
+  }
 
-  /*const closeModal = (image) => {
-    setSelectedCarImage('');
-    setModalOpen(false);
-  }*/
+  const closeModal = (image) => {
+    console.log('Closing modal');
+    setSelectedCar(null);
+    
+  }
 
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -65,6 +68,7 @@ const CarListingPage = () => {
         return car;
       });
     });
+    
     // Redirect to the Reservation page with car ID and car type
     window.location.href = `/Reservation/${carId}/${carType}`;
   };
@@ -112,7 +116,12 @@ const CarListingPage = () => {
         <div className="car-list-container">
           {cars.map(car => (
             <div key={car.id} className="car-container">
-              <img src={car.image} alt={`${car.maker} ${car.model}`} className="car-image" />
+              <img 
+                src={car.image}
+                alt={`${car.maker} ${car.model}`} 
+                className="car-image" 
+                onClick={() => openModal(car.image)}
+                />
               <div className="car-details">
                 <p>{`${car.maker} ${car.model}`}</p>
                 <p>{`Year: ${car.year}`}</p>
@@ -121,6 +130,9 @@ const CarListingPage = () => {
             </div>
           ))}
         </div>
+        
+        
+        {selectedCar && ( <ImageModal image={selectedCar} onClose={closeModal} /> )}
 
         <div className="map-container">
           <MapContainer center={[45.5017, -73.5673]} zoom={10}>
@@ -147,6 +159,7 @@ const CarListingPage = () => {
           </MapContainer>
         </div>
       </div>
+
     </div>
   );
 };

@@ -54,7 +54,7 @@ img {
 }
 
 img:hover {
-  transform: scale(1.02);
+  transform: scale(1.2);
   background-color: white;
   transition-delay: 0.1s;
 }
@@ -73,8 +73,9 @@ label {
 
 /*Style Available Cars for Rent*/
 h1 {
-  margin-top: 40px;
+  margin-top: 50px;
   animation: fadeInUp 0.5s ease-in-out;
+  margin-left: 20px;
 }
 
 /*Style Check Car Availability*/
@@ -129,11 +130,12 @@ Link:hover {
 .car-list-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* Create two columns */
-  column-gap: 100px; /* Add gap between grid items */
-  row-gap: 40px; /* Add gap between grid items */
+  column-gap: 50px; /* Add gap between grid items */
+  row-gap: 30px; /* Add gap between grid items */
   align-items: center;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 30px;
+  margin-left: 200px;
 }
 
 /* Style for the container holding each car */
@@ -149,9 +151,8 @@ Link:hover {
 
 
 .car-image {
-  width: 350px; /* Make image fill container width */
-  align-content: center;
-  margin-left: 100px;
+  width: 200px; /* Make image fill container width */
+  
 }
 
 /* Style for the car details */
@@ -228,6 +229,51 @@ Link:hover {
   border-radius: 5px; /* Add some border-radius for a nicer look */
   border: 1px solid #ccc; /* Add a border for better visibility */
 }
-rizontal-container div {
-  margin: 10px; /* Add some spacing between the elements */
+
+.modal-overlay {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+.Modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.Modal-Content {
+  position: relative;
+}
+
+.Close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #aaaaaa;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.Close:focus {
+  color: black;
+  text-decoration: none;
+}
+
+.Modal-Content img:hover {
+  transform: none;
+  transition: none;
+}
+
+

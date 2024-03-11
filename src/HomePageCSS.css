@@ -54,9 +54,7 @@ footer {
 .booking-section {
   flex: 1;
   padding: 20px;
-
-  background-color: #f0e8ce;
-
+  background-color: #CBA984;
 }
 
 .booking-section form {
@@ -87,6 +85,7 @@ footer {
   margin-bottom: 20px;
 }
 
+
 .explore-section {
   text-align: center;
   padding: 80px 20px;
@@ -95,6 +94,9 @@ footer {
 .explore-btn {
   background-color: #C87513; /* Very light pink background */
   color: #fff; /* White text */
+  padding: 10px 30px; /* Increased button size */
+  border-radius: 5px;
+  text-decoration: none; /* Removes underline from link */
   padding: 10px 30px; /* Increased button size */
   border-radius: 5px;
   text-decoration: none; /* Removes underline from link */

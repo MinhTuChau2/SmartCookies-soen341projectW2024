@@ -21,7 +21,7 @@ body {
 
   
   input[type=submit] {
-    background-color: #F4ADF4;
+    background-color: #C87513;
     color: white;
     padding: 12px 20px;
     border: none;
@@ -30,7 +30,7 @@ body {
   }
   
   input[type=submit]:hover {
-    background-color: #FF00FF;
+    background-color: #722A02;
   }
   
 
@@ -49,6 +49,6 @@ body {
 .contact-form {
     width: 100%; /* Adjust the width as needed */
     padding: 20px;
-    background-color: #ffe0e9; /* Very light pink background */
+    background-color: #CBA984; /* Very light pink background */
 
 }
