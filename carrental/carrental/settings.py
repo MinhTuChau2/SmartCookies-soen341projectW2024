@@ -48,6 +48,12 @@ INSTALLED_APPS = [
 
 ]
 
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:5173',
+    # Add other origins as needed
+]
+
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     "django.middleware.security.SecurityMiddleware",

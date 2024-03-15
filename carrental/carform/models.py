@@ -1,9 +1,9 @@
-from django.db import models
+# carform/forms.py
 
-class Car(models.Model):
-    maker = models.CharField(max_length=100)
-    model = models.CharField(max_length=100)
-    year = models.IntegerField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    available = models.BooleanField(default=True)
-    # Add other fields as needed
+from django import forms
+from carlistings.models import Car
+
+class CarForm(forms.ModelForm):
+    class Meta:
+        model = Car
+        fields = ['maker', 'model', 'year', 'price', 'available', 'image', 'position_lat', 'position_lng', 'car_type']
