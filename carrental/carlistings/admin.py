@@ -1,7 +1,4 @@
 from django.contrib import admin
-from django.urls import path, include
+from .models import Car  # Corrected import statement
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('carlistings/', include('carlistings.urls')),
-]
+admin.site.register(Car)  # Register the Car model with the admin site
