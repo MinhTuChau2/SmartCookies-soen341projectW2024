@@ -1,12 +1,24 @@
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from django.shortcuts import redirect
+from django.views.decorators.csrf import csrf_exempt
 from .models import Car
-from .serializers import CarSerializer
+import json
 
-@api_view(['POST'])
+@csrf_exempt
 def add_car(request):
-    serializer = CarSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=201)
-    return Response(serializer.errors, status=400)
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        car = Car.objects.create(
+            maker=data['maker'],
+            model=data['model'],
+            year=data['year'],
+            price=data['price'],
+            available=data['available'],
+            image=data['image'],
+            position_lat=data['position_lat'],
+            position_lng=data['position_lng'],
+            car_type=data['car_type']
+        )
+        # Redirect the user to the Django admin car listing page
+        return redirect('/admin/carlistings/car/')
+    else:
+        return JsonResponse({'error': 'Invalid request method'})
