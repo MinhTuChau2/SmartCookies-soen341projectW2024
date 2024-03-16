@@ -1,40 +1,80 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './CarFormCSS.css';
 
 const CarForm = () => {
-    const [car, setCar] = useState({
+    const [formData, setFormData] = useState({
         maker: '',
         model: '',
-        year: '',
-        price: '',
+        year: 0,
+        price: 0,
         available: true,
-        // Add other fields as needed
+        address: '',
+        car_type: '',
+        image: null // Added image field
     });
 
-    const handleChange = e => {
-        setCar({ ...car, [e.target.name]: e.target.value });
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = async e => {
+    const handleImageChange = (e) => {
+        setFormData({ ...formData, image: e.target.files[0] });
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        const formDataToSend = new FormData();
+        for (const key in formData) {
+            formDataToSend.append(key, formData[key]);
+        }
         try {
-            const response = await axios.post('/api/add_car/', car);
-            console.log('Car added:', response.data);
-            // Handle success
+            const response = await axios.post('http://localhost:8000/cars/', formDataToSend);
+            console.log(response.data); // Handle success
         } catch (error) {
-            console.error('Error adding car:', error);
-            // Handle error
+            console.error(error); // Handle error
         }
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input type="text" name="maker" placeholder="Maker" onChange={handleChange} />
-            <input type="text" name="model" placeholder="Model" onChange={handleChange} />
-            <input type="number" name="year" placeholder="Year" onChange={handleChange} />
-            <input type="number" name="price" placeholder="Price" onChange={handleChange} />
-            <button type="submit">Add Car</button>
-        </form>
+        <div className="car-form-container">
+            <form onSubmit={handleSubmit}>
+                <label>
+                    Maker:
+                    <input type="text" name="maker" value={formData.maker} onChange={handleChange} />
+                </label>
+                <label>
+                    Model:
+                    <input type="text" name="model" value={formData.model} onChange={handleChange} />
+                </label>
+                <label>
+                    Year:
+                    <input type="number" name="year" value={formData.year} onChange={handleChange} />
+                </label>
+                <label>
+                    Price:
+                    <input type="number" name="price" value={formData.price} onChange={handleChange} />
+                </label>
+                <label>
+                    Available:
+                    <input type="checkbox" name="available" checked={formData.available} onChange={handleChange} />
+                </label>
+                <label>
+                    Address:
+                    <input type="text" name="address" value={formData.address} onChange={handleChange} />
+                </label>
+                <label>
+                    Car Type:
+                    <input type="text" name="car_type" value={formData.car_type} onChange={handleChange} />
+                </label>
+                <label>
+                    Image:
+                    <input type="file" name="image" onChange={handleImageChange} />
+                </label>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
     );
 };
 
