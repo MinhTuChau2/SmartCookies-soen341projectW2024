@@ -60,7 +60,7 @@ const App = () => {
           <Route path="/Contact" element={<ContactPage />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/SignUp" element={<SignUp />} />
-          <Route path="/Reservation/:id/:carType" element={<ReservationPage />} />
+          <Route path="/Reservation/:carModel" element={<ReservationPage />} />
           <Route path="/Reservation" element={<ReservationPage />} />
           <Route path="/Add_Car" element={<CarForm />} /> {/* Route for adding car */}
         </Routes>
