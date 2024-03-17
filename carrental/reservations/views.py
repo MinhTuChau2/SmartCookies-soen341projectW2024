@@ -13,8 +13,8 @@ def reserve_car(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         reservation = Reservation.objects.create(
-            car_id=data['car_id'],
-            car_type=data['carType'],
+
+            car_model=data['carModel'],
             name=data['name'],
             email=data['email'],
             pickup_date=data['pickupDate'],

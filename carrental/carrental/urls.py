@@ -16,11 +16,17 @@ Including another URLconf
 """
 # carrental/urls.py
 from django.contrib import admin
-from django.urls import path, include  # Make sure you've imported include
+from django.urls import path, include
+from cars.views import *
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include('accounts.urls')),  
+    path('accounts/', include('accounts.urls')),
     path('reservations/', include('reservations.urls')),
+    path('cars/', CarView.as_view(), name="anything"),
 ]
 
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -42,10 +42,17 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'reservations',
-    
+    'cars',
 
 
 ]
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:5173',
+    # Add other origins as needed
+]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -58,6 +65,14 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     'corsheaders.middleware.CorsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+        # Add other permission classes if needed
+    ],
+    # Other DRF settings...
+}
 
 ROOT_URLCONF = "carrental.urls"
 
@@ -138,4 +153,6 @@ AUTHENTICATION_BACKENDS = [
     # Django ModelBackend for admin and other standard uses
     'django.contrib.auth.backends.ModelBackend',
 ]
-
+STATIC_URL = '/static/'
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'cars')
+MEDIA_URL = '/media/'

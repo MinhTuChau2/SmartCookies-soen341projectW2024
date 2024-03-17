@@ -3,12 +3,12 @@ body, h1, p, ul, li, a {
     margin: 0;
     padding: 0;
     text-decoration: none;
-    color: inherit; 
+    color: inherit;
     box-sizing: border-box;
 }
 
 body {
-    padding-top: 80px; 
+    padding-top: 80px;
 }
 
 
