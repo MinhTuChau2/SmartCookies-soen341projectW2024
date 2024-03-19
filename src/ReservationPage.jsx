@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import './ReservationPage.css';
 import axios from 'axios';
 
@@ -13,6 +13,11 @@ const ReservationPage = () => {
     returnDate: ''
   });
 
+  const [confirmationMessage, setConfirmationMessage] = useState('');
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [error, setError] = useState('');
+  const navigateTo = useNavigate();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -21,12 +26,25 @@ const ReservationPage = () => {
     });
   };
 
+  const handleOKClick = () => {
+    setShowConfirmationModal(false); // Hide the modal
+    navigateTo('/'); // Navigate to car listing page
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:8000/reservations/reserve/', formData);
+      setConfirmationMessage('Reservation successfully made.');
+      setShowConfirmationModal(true);
+      setError('');
+      
+
       console.log(response.data); // Handle success
+      
     } catch (error) {
+      setError('Failed to make reservation.');
+      setConfirmationMessage(''); 
       console.error(error); // Handle error
     }
   };
@@ -34,6 +52,24 @@ const ReservationPage = () => {
   return (
     <div>
       <h2>Reservation Page</h2>
+      
+          {showConfirmationModal && (
+
+      <div className="modal" style={{ 
+        position: 'fixed', 
+        top: '50%', 
+        left: '50%', 
+        transform: 'translate(-50%, -50%)', 
+        backgroundColor: 'white', 
+        padding: '20px', 
+        zIndex: 1000 
+      }}>
+        <div className="modal-content">
+          <p>{confirmationMessage}</p>
+          <button onClick={handleOKClick}>OK</button> {/* OK button to close modal and navigate */}
+        </div>
+      </div>
+        )}
 
       <form className="horizontal-form" onSubmit={handleSubmit}>
         <div className="form-group">
