@@ -51,25 +51,11 @@ const ReservationPage = () => {
 
   return (
     <div>
+      <div style={{ position: 'relative' }}>
+      <div className={showConfirmationModal ? "page-blur" : ""}>
+
       <h2>Reservation Page</h2>
       
-          {showConfirmationModal && (
-
-      <div className="modal" style={{ 
-        position: 'fixed', 
-        top: '50%', 
-        left: '50%', 
-        transform: 'translate(-50%, -50%)', 
-        backgroundColor: 'white', 
-        padding: '20px', 
-        zIndex: 1000 
-      }}>
-        <div className="modal-content">
-          <p>{confirmationMessage}</p>
-          <button onClick={handleOKClick}>OK</button> {/* OK button to close modal and navigate */}
-        </div>
-      </div>
-        )}
 
       <form className="horizontal-form" onSubmit={handleSubmit}>
         <div className="form-group">
@@ -95,6 +81,19 @@ const ReservationPage = () => {
         <button type="submit">Reserve Car</button>
       </form>
     </div>
+    </div>
+    {showConfirmationModal && (
+
+<div className="modal">
+  <div className="modal-content" >
+    <p>{confirmationMessage}</p>
+    <button onClick={handleOKClick}>OK</button> {/* OK button to close modal and navigate */}
+  </div>
+</div>
+  )}
+    </div>
+
+    
   );
 };
 
