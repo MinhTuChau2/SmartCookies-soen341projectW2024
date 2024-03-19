@@ -84,21 +84,8 @@ const ReservationPage = () => {
     </div>
     {showConfirmationModal && (
 
-<div className="modal" style={{ 
-  position: 'fixed', 
-  top: '50%', 
-  left: '50%', 
-  transform: 'translate(-50%, -50%)', 
-  backgroundColor: 'transparent', 
-  padding: '20px', 
-  zIndex: 1000 
-}}>
-  <div className="modal-content" style = {{
-     backgroundColor: 'white', 
-     padding: '20px',
-     borderRadius: '8px',
-     boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)' 
-  }}>
+<div className="modal">
+  <div className="modal-content" >
     <p>{confirmationMessage}</p>
     <button onClick={handleOKClick}>OK</button> {/* OK button to close modal and navigate */}
   </div>
