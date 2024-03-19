@@ -9,6 +9,7 @@ import './App.css';
 import Logo from './Logo.jpeg';
 import SignUp from './SignUp';
 import CarForm from './CarForm';
+import History from './History';
 import { AuthProvider, useAuth } from './AuthContext.jsx';
 
 // Header component inside App.jsx
@@ -27,11 +28,16 @@ const Header = () => {
           <li><Link to="/Car_Listing">Cars</Link></li>
           <li><Link to="/Contact">Contact</Link></li>
           <li><Link to="/Reservation">Reserve</Link></li>
-          <li><Link to="/Add_Car">Add Car</Link></li> {/* New link for adding car */}
+          <li><Link to="/History">History</Link></li>
+         {/* New link for adding car */}
           {/* Only show this link to superusers */}
           {currentUser?.is_superuser && (
-            <li><a href="http://127.0.0.1:8000/admin/" target="_blank" rel="noopener noreferrer">Admin Panel</a></li>
-          )}
+              <>
+                <li><a href="http://127.0.0.1:8000/admin/" target="_blank" rel="noopener noreferrer">Admin Panel</a></li>
+                <li><Link to="/Add_Car">Add Car</Link></li>
+              </>
+            )}
+
         </ul>
       </nav>
       <div>
@@ -63,6 +69,7 @@ const App = () => {
           <Route path="/Reservation/:carModel" element={<ReservationPage />} />
           <Route path="/Reservation" element={<ReservationPage />} />
           <Route path="/Add_Car" element={<CarForm />} /> {/* Route for adding car */}
+           <Route path="/History" element={<History />} />
         </Routes>
       </Router>
     </AuthProvider>

@@ -12,7 +12,7 @@
 
 .car-image {
     width: 50%; /* Set the width to 100% to make the image responsive */
-    max-height: 200px; /* Adjust the maximum height of the image */
+    max-height: auto; /* Adjust the maximum height of the image */
 }
 
 .map-container {
