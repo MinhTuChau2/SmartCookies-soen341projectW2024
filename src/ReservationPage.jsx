@@ -28,8 +28,13 @@ const ReservationPage = () => {
 
   const handleOKClick = () => {
     setShowConfirmationModal(false); // Hide the modal
-    navigateTo('/'); // Navigate to car listing page
+    if(error){
+      navigateTo(window.location.pathname);
+    } else {
+      navigateTo('/');
+    }
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -82,14 +87,20 @@ const ReservationPage = () => {
       </form>
     </div>
     </div>
-    {showConfirmationModal && (
 
-<div className="modal">
-  <div className="modal-content" >
-    <p>{confirmationMessage}</p>
-    <button onClick={handleOKClick}>OK</button> {/* OK button to close modal and navigate */}
-  </div>
-</div>
+    {!showConfirmationModal && (
+          <div className="modal-content">
+            <p>{confirmationMessage}</p>
+            <button onClick={handleOKClick}>OK</button> 
+          </div>
+        )}
+    {showConfirmationModal && (
+        <div className="modal">
+          <div className="modal-content" >
+            <p>{confirmationMessage}</p>
+            <button onClick={handleOKClick}>OK</button> {/* OK button to close modal and navigate */}
+          </div>
+        </div>
   )}
     </div>
 
