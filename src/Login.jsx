@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext.jsx'; // Ensure this is implemented as described
+import './LoginCSS.css';
 
 function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' });

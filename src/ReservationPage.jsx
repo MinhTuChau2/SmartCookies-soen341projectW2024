@@ -98,7 +98,7 @@ const ReservationPage = () => {
         <div className="modal">
           <div className="modal-content" >
             <p>{confirmationMessage}</p>
-            <button onClick={handleOKClick}>OK</button> {/* OK button to close modal and navigate */}
+            <button onClick={handleOKClick}>HOME</button> {/* OK button to close modal and navigate */}
           </div>
         </div>
   )}
