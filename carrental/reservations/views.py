@@ -9,7 +9,6 @@ from django.core.exceptions import ValidationError
 def reserve_car(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        
 
         try:
             reservation = Reservation(
@@ -25,6 +24,11 @@ def reserve_car(request):
 
         except ValidationError as e:
             return JsonResponse({'error': str(e.message_dict)}, status=400)
+
+    elif request.method == 'GET':
+        reservations = Reservation.objects.all()
+        reservation_data = [{'id': reservation.id, 'carModel': reservation.car_model, 'name': reservation.name, 'email': reservation.email, 'pickupDate': reservation.pickup_date, 'returnDate': reservation.return_date} for reservation in reservations]
+        return JsonResponse(reservation_data, safe=False)
 
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
