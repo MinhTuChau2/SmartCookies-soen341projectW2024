@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext.jsx'; // Ensure this is implemented as described
 import './LoginCSS.css';
@@ -8,6 +8,14 @@ function Login() {
   const [loginError, setLoginError] = useState('');
   const navigate = useNavigate();
   const { signIn } = useAuth();
+
+  useEffect(() => {
+    if (formData.email === 'CSR@email.com' || formData.email === 'SYSM@email.com' || formData.email === 'SYS@emai.com') {
+      localStorage.setItem('showAdminPanel', 'true');
+    } else {
+      localStorage.removeItem('showAdminPanel');
+    }
+  }, [formData.email]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -34,17 +42,22 @@ function Login() {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Login response data:", data);  // Debugging line
         localStorage.setItem('token', data.token);
         localStorage.setItem('username', data.username);
         localStorage.setItem('is_superuser', data.is_superuser.toString());
-        signIn(data.username, data.is_superuser);
+        if (data.is_superuser || formData.email === 'CSR@email.com' || formData.email === 'SYSM@email.com') {
+          signIn(data.username, true); // Assuming signIn function can accept a parameter to set admin privileges
+        } else {
+          signIn(data.username, false);
+        }
         navigate('/');
-    }
-    
-      else {
+      } else if (response.status === 401) {
+        setLoginError('Incorrect password. Please try again.');
+      } else if (response.status === 404) {
+        setLoginError('Account does not exist. Please sign up.');
+      } else {
         const errorData = await response.json();
-        setLoginError(errorData.non_field_errors || 'Login failed. Please try again.');
+        setLoginError(errorData.error || 'Login failed. Please try again.');
       }
     } catch (error) {
       console.error('Login error:', error);
