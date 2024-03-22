@@ -28,7 +28,12 @@ const Header = () => {
           <li><Link to="/Car_Listing">Cars</Link></li>
           <li><Link to="/Contact">Contact</Link></li>
           <li><Link to="/Reservation">Reserve</Link></li>
-          <li><Link to="/History">History</Link></li>
+        {currentUser && (
+
+                <li><Link to="/History">History</Link></li>
+
+        )}
+
          {/* New link for adding car */}
           {/* Only show this link to superusers */}
           {currentUser?.is_superuser && (

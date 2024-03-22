@@ -148,7 +148,7 @@ const ReservationPage = () => {
     {!showConfirmationModal && (
           <div className="modal-content">
             <p>{confirmationMessage}</p>
-            <button onClick={handleOKClick}>OK</button> 
+            <button onClick={handleOKClick}>HOME</button>
           </div>
         )}
     {showConfirmationModal && (

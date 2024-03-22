@@ -18,6 +18,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from cars.views import *
+from branch.views import *
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -26,6 +27,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('reservations/', include('reservations.urls')),
     path('cars/', CarView.as_view(), name="anything"),
+    path('branches/',BranchDetailView.as_view(),name="branch"),
 ]
 
 
