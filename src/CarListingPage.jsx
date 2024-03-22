@@ -7,6 +7,7 @@ import './CarListingCss.css';
 
 const CarListingPage = () => {
     const [cars, setCars] = useState([]);
+    const [branches, setBranches] = useState([]);
     const [filteredCars, setFilteredCars] = useState([]);
     const [filterType, setFilterType] = useState('');
     const [postalCode, setPostalCode] = useState('');
@@ -28,7 +29,22 @@ const CarListingPage = () => {
                 console.error(error);
             }
         };
+
+        const fetchBranches = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/branches/');
+                const branchesWithCoords = await Promise.all(response.data.map(async (branch) => {
+                    const coords = await getAddressCoordinates(branch.location);
+                    return { ...branch, coords: coords };
+                }));
+                setBranches(branchesWithCoords);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
         fetchCars();
+        fetchBranches();
     }, []);
 
     useEffect(() => {
@@ -147,17 +163,18 @@ const CarListingPage = () => {
             <div className="map-container">
                 <MapContainer center={[45.508888, -73.561668]} zoom={13} style={{ height: '100%', width: '100%' }}>
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                    {filteredCars.map((car, index) => (
-                        car.coords &&
-                        <Marker key={index} position={car.coords}>
-                            <Popup>
-                                <div>
-                                    <h3>{car.maker} {car.model}</h3>
-                                    <p>{car.address}</p>
-                                    <button onClick={() => reserveCar(car.model)}>Reserve</button>
-                                </div>
-                            </Popup>
-                        </Marker>
+                    {branches.map((branch, index) => (
+                        branch.coords &&
+                      <Marker key={index} position={branch.coords}>
+                          <Popup>
+                              <div>
+                                  <h3>{branch.name}</h3>
+                                  <p>{branch.location}</p>
+
+                              </div>
+                          </Popup>
+                      </Marker>
+
                     ))}
                 </MapContainer>
             </div>

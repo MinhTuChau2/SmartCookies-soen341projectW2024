@@ -12,31 +12,21 @@ const HomePage = () => {
     <div className="home-page">
       <main>
         <section className="booking-section">
-          <h2>When will you cruise?</h2>
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="pickupDate">Pickup Date:</label>
-            <input type="date" id="pickupDate" name="pickupDate" required />
-            <br />
-
-            <label htmlFor="returnDate">Return Date:</label>
-            <input type="date" id="returnDate" name="returnDate" required />
-            <br />
-
-            <label htmlFor="location">Location:</label>
-            <select id="location" name="location" required>
-              <option value="">Select Location</option>
-              <option value="Montreal">Montreal</option>
-              <option value="New York">New York</option>
-              <option value="Los Angeles">Los Angeles</option>
-              <option value="Chicago">Chicago</option>
-              <option value="Miami">Miami</option>
-
-            </select>
-            <br />
-
-            <button type="submit">Submit</button>
-          </form>
-        </section>
+                  <h2>Where will you cruise?</h2>
+                  <form onSubmit={handleSubmit}>
+                    <label htmlFor="location">Location:</label>
+                    <select id="location" name="location" required value={location} onChange={(e) => setLocation(e.target.value)}>
+                      <option value="">Select Location</option>
+                      <option value="Montreal">Montreal</option>
+                      <option value="Toronto">Toronto</option>
+                      <option value="Los Angeles">Los Angeles</option>
+                      <option value="Chicago">Chicago</option>
+                      <option value="Miami">Miami</option>
+                    </select>
+                    <br />
+                    <button type="submit">Submit</button>
+                  </form>
+                </section>
 
         <section className="intro-section">
           <h1 className="slogan">Embark on a Sweet Journey with Cookie Cruisers-Your Smart Pick for the Perfect Ride!</h1>
