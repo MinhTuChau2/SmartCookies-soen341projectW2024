@@ -11,6 +11,8 @@ const CarListingPage = () => {
     const [filteredCars, setFilteredCars] = useState([]);
     const [filterType, setFilterType] = useState('');
     const [postalCode, setPostalCode] = useState('');
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -105,6 +107,50 @@ const CarListingPage = () => {
         }
     };
 
+      const handleDateChange = (event, type) => {
+            const date = event.target.value;
+            if (type === 'start') {
+                setStartDate(date);
+            } else if (type === 'end') {
+                setEndDate(date);
+            }
+        };
+
+        const reserveCarWithDates = async (carModel) => {
+            if (!startDate || !endDate) {
+                alert('Please select both start and end dates.');
+                return;
+            }
+
+            // Fetch reservations for the selected period
+            try {
+                const response = await axios.get(`http://localhost:8000/reservations?start=${startDate}&end=${endDate}`);
+                const overlappingReservations = response.data;
+
+                // Filter out cars with overlapping reservations
+                const availableCars = cars.filter(car => {
+                    // Check if the car has any overlapping reservations
+                    const overlapping = overlappingReservations.some(reservation => {
+                        return reservation.carModel === car.model;
+                    });
+                    return !overlapping;
+                });
+
+                // If no available cars found, display an alert
+                if (availableCars.length === 0) {
+                    alert('There are no available cars for the selected period. Please choose different dates.');
+                    return;
+                }
+
+                // Navigate to the reservation page with the selected car model and dates
+                navigate(`/reservation/${carModel}?start=${startDate}&end=${endDate}`);
+            } catch (error) {
+                console.error('Error fetching reservations:', error);
+                alert('An error occurred while fetching reservations. Please try again later.');
+            }
+        };
+
+
     const getDistance = (coords1, coords2) => {
         const [lat1, lon1] = coords1;
         const [lat2, lon2] = coords2;
@@ -126,6 +172,15 @@ const CarListingPage = () => {
 
     return (
         <div className="content-wrapper">
+         <div className="date-selection">
+                     <label>Start Date:</label>
+                     <input type="date" value={startDate} onChange={(e) => handleDateChange(e, 'start')} />
+
+                     <label>End Date:</label>
+                     <input type="date" value={endDate} onChange={(e) => handleDateChange(e, 'end')} />
+
+                     <button onClick={() => reserveCarWithDates()}>Reserve with Dates</button>
+                 </div>
             <h1>Car Listings</h1>
             <div className="filter-section">
                 <label>Filter by Car Type:</label>

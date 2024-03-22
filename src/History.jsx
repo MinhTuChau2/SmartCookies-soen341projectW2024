@@ -1,39 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useAuth } from './AuthContext'; // Assuming you have an AuthContext for managing user authentication
 
 const ReservationList = () => {
-    const { currentUser } = useAuth(); // Assuming useAuth provides the current user information
     const [reservations, setReservations] = useState([]);
     const [loading, setLoading] = useState(true);
 
-useEffect(() => {
-    const fetchReservations = async () => {
-        try {
-            if (!currentUser || !currentUser.email) {
-                throw new Error('User information missing');
+    useEffect(() => {
+        const fetchReservations = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/reservations/reserve');
+                setReservations(response.data);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching reservations:', error);
+                setLoading(false);
             }
+        };
 
-            const response = await axios.get('http://localhost:8000/reservations/');
-            const filteredReservations = response.data.filter(reservation => reservation.email === currentUser.email);
-            setReservations(filteredReservations);
-            setLoading(false);
-        } catch (error) {
-            console.error('Error fetching reservations:', error);
-            setLoading(false);
-        }
-    };
-
-    console.log('currentUser:', currentUser);
-
-    if (currentUser === null) {
-        // User information is being fetched
-        setLoading(true);
-    } else if (currentUser && currentUser.email) {
-        // User information is available, fetch reservations
         fetchReservations();
-    }
-}, [currentUser]);
+    }, []);
 
     return (
         <div>
