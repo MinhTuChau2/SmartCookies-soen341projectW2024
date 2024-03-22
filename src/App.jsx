@@ -6,6 +6,7 @@ import ContactPage from './ContactPage';
 import Login from './Login';
 import ReservationPage from './ReservationPage';
 import './App.css';
+import CarsforAdmin from './CarsForAdmin';
 import Logo from './Logo.jpeg';
 import SignUp from './SignUp';
 import CarForm from './CarForm';
@@ -25,30 +26,23 @@ const Header = () => {
       <nav>
         <ul>
           <li><Link to="/">Home</Link></li>
-          <li><Link to="/Car_Listing">Cars</Link></li>
+
           <li><Link to="/Contact">Contact</Link></li>
           <li><Link to="/Reservation">Reserve</Link></li>
-        {currentUser && (
 
-                <li><Link to="/History">History</Link></li>
+        {!currentUser.is_superuser && (
+                <>
+                        <li><Link to="/Car_Listing">Cars</Link></li>
+                        <li><Link to="/History">History</Link></li>
+                </>
+                )}
 
-        )}
-        {currentUser && (
-          <>
-            {currentUser.email === 'CSR@email.com' && (
-              <li><a href="http://127.0.0.1:8000/admin/" target="_blank" rel="noopener noreferrer">Admin Panel</a></li>
-            )}
-
-            {currentUser.is_superuser && (
-              <>
-                <li><a href="http://127.0.0.1:8000/admin/" target="_blank" rel="noopener noreferrer">Admin Panel</a></li>
-                <li><Link to="/Add_Car">Add Car</Link></li>
-              </>
-            )}
-          </>
-        )}
-
-
+                    {currentUser.is_superuser && (
+                      <>
+                        <li><a href="http://127.0.0.1:8000/admin/" target="_blank" rel="noopener noreferrer">Admin Panel</a></li>
+                        <li><Link to="/Add_Car">Add Car</Link></li>
+                      </>
+                    )}
 
         </ul>
       </nav>
