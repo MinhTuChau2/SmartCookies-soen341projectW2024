@@ -116,40 +116,50 @@ const CarListingPage = () => {
             }
         };
 
-        const reserveCarWithDates = async (carModel) => {
-            if (!startDate || !endDate) {
-                alert('Please select both start and end dates.');
-                return;
-            }
+       const reserveCarWithDates = async () => {
+           if (!startDate || !endDate) {
+               alert('Please select both start and end dates.');
+               return;
+           }
 
-            // Fetch reservations for the selected period
-            try {
-                const response = await axios.get(`http://localhost:8000/reservations?start=${startDate}&end=${endDate}`);
-                const overlappingReservations = response.data;
+           // Fetch reservations for the selected period
+           try {
+               const response = await axios.get(`http://localhost:8000/reservations/reserve`);
+               const overlappingReservations = response.data;
 
-                // Filter out cars with overlapping reservations
-                const availableCars = cars.filter(car => {
-                    // Check if the car has any overlapping reservations
-                    const overlapping = overlappingReservations.some(reservation => {
-                        return reservation.carModel === car.model;
-                    });
-                    return !overlapping;
-                });
+               // Filter out cars with overlapping reservations
+               const availableCars = cars.filter(car => {
+                   // Check if the car has any overlapping reservations during the selected period
+                   const overlapping = overlappingReservations.some(reservation => {
+                       const reservationStartDate = new Date(reservation.startDate);
+                       const reservationEndDate = new Date(reservation.endDate);
+                       const selectedStartDate = new Date(startDate);
+                       const selectedEndDate = new Date(endDate);
 
-                // If no available cars found, display an alert
-                if (availableCars.length === 0) {
-                    alert('There are no available cars for the selected period. Please choose different dates.');
-                    return;
-                }
+                       // Check if the reservation overlaps with the selected period
+                       const overlapsWithSelectedPeriod =
+                           (reservationStartDate.getTime() === selectedStartDate.getTime() && reservationEndDate.getTime() === selectedEndDate.getTime()) &&
+                           reservation.carModel === car.model;
 
-                // Navigate to the reservation page with the selected car model and dates
-                navigate(`/reservation/${carModel}?start=${startDate}&end=${endDate}`);
-            } catch (error) {
-                console.error('Error fetching reservations:', error);
-                alert('An error occurred while fetching reservations. Please try again later.');
-            }
-        };
+                       return overlapsWithSelectedPeriod;
+                   });
+                   return !overlapping;
+               });
 
+               // If no available cars found, display an alert
+               if (availableCars.length === 0) {
+                   alert('There are no available cars for the selected period. Please choose different dates.');
+                   return;
+               }
+
+               // Proceed with reservation logic
+               // This section can be customized based on your application requirements
+               // For example, you may navigate to a reservation page with available cars
+           } catch (error) {
+               console.error('Error fetching reservations:', error);
+               alert('An error occurred while fetching reservations. Please try again later.');
+           }
+       };
 
     const getDistance = (coords1, coords2) => {
         const [lat1, lon1] = coords1;
@@ -172,6 +182,7 @@ const CarListingPage = () => {
 
     return (
         <div className="content-wrapper">
+        <h1>Car Listings</h1>
          <div className="date-selection">
                      <label>Start Date:</label>
                      <input type="date" value={startDate} onChange={(e) => handleDateChange(e, 'start')} />
@@ -181,7 +192,7 @@ const CarListingPage = () => {
 
                      <button onClick={() => reserveCarWithDates()}>Reserve with Dates</button>
                  </div>
-            <h1>Car Listings</h1>
+
             <div className="filter-section">
                 <label>Filter by Car Type:</label>
                 <select value={filterType} onChange={(e) => setFilterType(e.target.value)}>

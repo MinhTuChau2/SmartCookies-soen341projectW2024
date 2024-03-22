@@ -45,7 +45,7 @@ function Login() {
         localStorage.setItem('token', data.token);
         localStorage.setItem('username', data.username);
         localStorage.setItem('is_superuser', data.is_superuser.toString());
-        if (data.is_superuser || formData.email === 'CSR@email.com' || formData.email === 'SYSM@email.com') {
+        if (data.is_superuser ||formData.email === 'CSR@email.com' ||formData.email === 'SYSM@email.com') {
           signIn(data.username, true); // Assuming signIn function can accept a parameter to set admin privileges
         } else {
           signIn(data.username, false);

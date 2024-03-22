@@ -33,15 +33,22 @@ const Header = () => {
                 <li><Link to="/History">History</Link></li>
 
         )}
+        {currentUser && (
+          <>
+            {currentUser.email === 'CSR@email.com' && (
+              <li><a href="http://127.0.0.1:8000/admin/" target="_blank" rel="noopener noreferrer">Admin Panel</a></li>
+            )}
 
-         {/* New link for adding car */}
-          {/* Only show this link to superusers */}
-          {currentUser?.is_superuser && (
+            {currentUser.is_superuser && (
               <>
                 <li><a href="http://127.0.0.1:8000/admin/" target="_blank" rel="noopener noreferrer">Admin Panel</a></li>
                 <li><Link to="/Add_Car">Add Car</Link></li>
               </>
             )}
+          </>
+        )}
+
+
 
         </ul>
       </nav>
