@@ -74,6 +74,7 @@ const CarsForAdmin = () => {
     };
 
     return (
+    <div className="content-wrapper">
         <div className="car-listings">
             <h1>Car Listings</h1>
 
@@ -91,6 +92,7 @@ const CarsForAdmin = () => {
                     </div>
                 ))}
             </div>
+        </div>
         </div>
     );
 };
