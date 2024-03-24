@@ -8,6 +8,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import authentication_classes
+from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
+from .serializers import ReservationSerializer
 
 
 @api_view(['GET', 'POST'])
@@ -49,3 +52,27 @@ def reserve_car(request):
 
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
+@api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])
+def reservation_detail(request, reservation_id):
+    try:
+        reservation = Reservation.objects.get(id=reservation_id, email=request.user.email)
+    except Reservation.DoesNotExist:
+        return Response({'error': 'Reservation not found'}, status=404)
+
+    if request.method == 'GET':
+        serializer = ReservationSerializer(reservation)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = ReservationSerializer(reservation, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+
+    elif request.method == 'DELETE':
+        reservation.delete()
+        return Response(status=204)
+
+    return Response(status=204)
