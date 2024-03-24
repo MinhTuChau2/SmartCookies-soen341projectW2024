@@ -10,12 +10,17 @@ function Login() {
   const { signIn } = useAuth();
 
   useEffect(() => {
-    if (formData.email === 'CSR@email.com' || formData.email === 'SYSM@email.com' || formData.email === 'SYS@emai.com') {
+    if (formData.email === 'SYSM@email.com') {
+      localStorage.setItem('showAddCar', 'true');
+    } else if (formData.email === 'CSR@email.com') {
       localStorage.setItem('showAdminPanel', 'true');
+      localStorage.removeItem('showAddCar');
     } else {
       localStorage.removeItem('showAdminPanel');
+      localStorage.removeItem('showAddCar');
     }
   }, [formData.email]);
+  
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

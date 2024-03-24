@@ -68,19 +68,30 @@ def reserve_car(request):
 
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
+    
 @api_view(['GET', 'PUT', 'DELETE'])
 @permission_classes([IsAuthenticated])
 def reservation_detail(request, reservation_id):
+    # Try to get the reservation by ID
     try:
-        reservation = Reservation.objects.get(id=reservation_id, email=request.user.email)
+        reservation = Reservation.objects.get(id=reservation_id)
     except Reservation.DoesNotExist:
         return Response({'error': 'Reservation not found'}, status=404)
 
+    # Check if the request user is the owner of the reservation, a superuser, or a special user
+    is_owner = request.user.email == reservation.email
+    is_special_user = request.user.email in ['SYSM@email.com', 'CSR@email.com']
+    can_modify = request.user.is_superuser or is_special_user
+
     if request.method == 'GET':
+        # All authenticated users can view reservation details
         serializer = ReservationSerializer(reservation)
         return Response(serializer.data)
 
     elif request.method == 'PUT':
+        # Only superusers, CSR, and SYSM can modify reservations
+        if not can_modify:
+            return Response({'error': 'Not authorized to update this reservation'}, status=403)
         serializer = ReservationSerializer(reservation, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -88,7 +99,10 @@ def reservation_detail(request, reservation_id):
         return Response(serializer.errors, status=400)
 
     elif request.method == 'DELETE':
+    # Allow superusers, SYSM, and CSR to delete reservations
+        if not (request.user.is_superuser or is_special_user):
+            return Response({'error': 'Not authorized to delete this reservation'}, status=403)
         reservation.delete()
         return Response(status=204)
 
-    return Response(status=204)
+    return Response({'error': 'Invalid request'}, status=400)
