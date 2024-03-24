@@ -13,9 +13,11 @@ import CarForm from './CarForm';
 import History from './History';
 import { AuthProvider, useAuth } from './AuthContext.jsx';
 
-// Header component inside App.jsx
 const Header = () => {
   const { currentUser, signOut } = useAuth();
+  // Adjusted logic for showing Admin Panel and Add Car based on user roles
+  const showAdminPanel = currentUser?.is_superuser || localStorage.getItem('email') === 'CSR@email.com' || localStorage.getItem('email') === 'SYSM@email.com';
+  const showAddCar = currentUser?.is_superuser || localStorage.getItem('email') === 'SYSM@email.com';
 
   return (
     <header className="header">
@@ -29,28 +31,17 @@ const Header = () => {
 
           <li><Link to="/Contact">Contact</Link></li>
           <li><Link to="/Reservation">Reserve</Link></li>
+
           <li><Link to="/Car_Listing">Cars</Link></li>
-        {currentUser && !currentUser.is_superuser && (
-          <>
-            <li><Link to="/History">History</Link></li>
-          </>
-        )}
-
-        {currentUser && currentUser.is_superuser && (
-          <>
-            <li><a href="http://127.0.0.1:8000/admin/" target="_blank" rel="noopener noreferrer">Admin Panel</a></li>
-            <li><Link to="/Add_Car">Add Car</Link></li>
-            <li><Link to="/Cars_Admin">Cars Admin</Link></li>
-          </>
-        )}
-
+        {currentUser && <li><Link to="/History">History</Link></li>}
+                 {showAdminPanel && <li><a href="http://127.0.0.1:8000/admin/" target="_blank" rel="noopener noreferrer">Admin Panel</a></li>}
+                 {showAddCar && <li><Link to="/Add_Car">Add Car</Link></li>}
 
         </ul>
       </nav>
       <div>
         {currentUser ? (
           <div>
-            {/* Display username only if currentUser exists */}
             <span>Hi, {currentUser.username}</span>
             <button onClick={signOut} className="sign-in-btn">Sign Out</button>
           </div>
@@ -64,9 +55,9 @@ const Header = () => {
 
 const App = () => {
   return (
-    <AuthProvider> {/* Wrap your application within AuthProvider */}
+    <AuthProvider>
       <Router>
-        <Header /> {/* Header is now a separate component */}
+        <Header />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/Car_Listing" element={<CarListingPage />} />
@@ -75,9 +66,14 @@ const App = () => {
           <Route path="/SignUp" element={<SignUp />} />
           <Route path="/Reservation/:carModel" element={<ReservationPage />} />
           <Route path="/Reservation" element={<ReservationPage />} />
+<<<<<<< HEAD
           <Route path="/Add_Car" element={<CarForm />} /> {/* Route for adding car */}
            <Route path="/History" element={<History />} />
            <Route path="/Cars_Admin" element={<CarsforAdmin />} />
+=======
+          <Route path="/Add_Car" element={<CarForm />} />
+          <Route path="/History" element={<History />} />
+>>>>>>> 3336b07ecef0d5d726364043ec84408042ef8c0e
         </Routes>
       </Router>
     </AuthProvider>

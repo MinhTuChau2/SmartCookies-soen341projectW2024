@@ -3,10 +3,18 @@ from rest_framework.views import APIView
 from .models import Car
 from .serializer import CarSerializer
 from rest_framework.response import Response
+<<<<<<< HEAD
 from rest_framework import status
 from django.http import Http404
+=======
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
+
+>>>>>>> 3336b07ecef0d5d726364043ec84408042ef8c0e
 
 class CarView(APIView):
+    permission_classes = [IsAuthenticated]
+   
     def get(self, request):
         cars = Car.objects.all()  # Retrieve all instances of the Car model
         serializer = CarSerializer(cars, many=True)  # Serialize the queryset

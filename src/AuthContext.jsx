@@ -1,4 +1,3 @@
-// AuthContext.jsx
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
@@ -13,23 +12,28 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const user = localStorage.getItem('username');
     const isSuperuser = localStorage.getItem('is_superuser') === 'true';
+    const email = localStorage.getItem('email'); // Retrieve email from localStorage
     if (user) {
-        setCurrentUser({ username: user, is_superuser: isSuperuser });
+      setCurrentUser({ username: user, is_superuser: isSuperuser, email });
     }
-}, []);
+  }, []);
 
-
-  function signIn(username, is_superuser) {
-    setCurrentUser({ username, is_superuser });
+  function signIn(username, is_superuser, email) {
+    setCurrentUser({ username, is_superuser, email });
     localStorage.setItem('username', username);
     localStorage.setItem('is_superuser', is_superuser.toString());
+    localStorage.setItem('email', email); // Save email to localStorage
   }
 
   function signOut() {
     setCurrentUser(null);
     localStorage.removeItem('username');
     localStorage.removeItem('is_superuser');
+
     window.location.href = '/';
+
+    localStorage.removeItem('email'); // Ensure email is also removed
+
   }
 
   const value = {

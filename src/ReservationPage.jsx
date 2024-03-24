@@ -83,7 +83,11 @@ const ReservationPage = () => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:8000/reservations/reserve/', formData);
+      const response = await axios.post('http://localhost:8000/reservations/reserve/', formData, {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}` // Include the token here
+        }
+      });
       setConfirmationMessage('Reservation successfully made.');
       setShowConfirmationModal(true);
       setError('');
@@ -145,17 +149,11 @@ const ReservationPage = () => {
     </div>
     </div>
 
-    {!showConfirmationModal && (
-          <div className="modal-content">
-            <p>{confirmationMessage}</p>
-            <button onClick={handleOKClick}>HOME</button>
-          </div>
-        )}
     {showConfirmationModal && (
         <div className="modal">
           <div className="modal-content" >
             <p>{confirmationMessage}</p>
-            <button onClick={handleOKClick}>HOME</button> {/* OK button to close modal and navigate */}
+            <button onClick={handleOKClick}> HOME </button>
           </div>
         </div>
   )}
