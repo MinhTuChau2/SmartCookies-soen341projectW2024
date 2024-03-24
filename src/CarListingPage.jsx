@@ -18,7 +18,11 @@ const CarListingPage = () => {
     useEffect(() => {
         const fetchCars = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/cars/');
+                const response = await axios.get('http://localhost:8000/cars/', {
+                    headers: {
+                        'Authorization': `Token ${localStorage.getItem('token')}` // Authorization token included
+                    }
+                });
                 setCars(response.data);
                 setFilteredCars(response.data);
                 const carsWithCoords = await Promise.all(response.data.map(async (car) => {
@@ -34,11 +38,11 @@ const CarListingPage = () => {
 
         const fetchBranches = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/branches/');
-                const branchesWithCoords = await Promise.all(response.data.map(async (branch) => {
-                    const coords = await getAddressCoordinates(branch.location);
-                    return { ...branch, coords: coords };
-                }));
+                const response = await axios.get('http://localhost:8000/branches/', {
+                    headers: {
+                        'Authorization': `Token ${localStorage.getItem('token')}` // Authorization token included
+                    }
+                });
                 setBranches(branchesWithCoords);
             } catch (error) {
                 console.error(error);

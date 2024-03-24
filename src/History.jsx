@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useAuth } from './AuthContext.jsx'; // Import useAuth
 
 const ReservationList = () => {
     const [reservations, setReservations] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { currentUser } = useAuth(); // Use the current user from AuthContext
 
     useEffect(() => {
         const fetchReservations = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/reservations/reserve');
+                const response = await axios.get('http://localhost:8000/reservations/reserve', {
+                    headers: {
+                        Authorization: `Token ${localStorage.getItem('token')}`
+ // Use the token for authorization
+                    }
+                });
                 setReservations(response.data);
                 setLoading(false);
             } catch (error) {
@@ -17,8 +24,10 @@ const ReservationList = () => {
             }
         };
 
-        fetchReservations();
-    }, []);
+        if (currentUser) { // Fetch reservations only if there's a logged-in user
+            fetchReservations();
+        }
+    }, [currentUser]);
 
     return (
         <div>
