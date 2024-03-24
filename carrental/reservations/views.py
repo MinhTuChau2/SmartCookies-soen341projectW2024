@@ -18,7 +18,23 @@ from .serializers import ReservationSerializer
 @authentication_classes([TokenAuthentication])
 
 def reserve_car(request):
-    permission_classes([IsAuthenticated])
+    if request.method == 'GET':
+        if request.user.is_superuser or request.user.email in ['SYSM@email.com', 'CSR@email.com']:
+            reservations = Reservation.objects.all()  # Fetch all reservations
+        else:
+            reservations = Reservation.objects.filter(email=request.user.email)  # Filter by user's email
+
+        reservation_data = [{
+            'id': reservation.id,
+            'carModel': reservation.car_model,
+            'name': reservation.name,
+            'email': reservation.email,
+            'pickupDate': reservation.pickup_date,
+            'returnDate': reservation.return_date
+        } for reservation in reservations]
+
+        return JsonResponse(reservation_data, safe=False)
+
     if request.method == 'POST':
         data = json.loads(request.body)
 

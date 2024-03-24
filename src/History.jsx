@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useAuth } from './AuthContext.jsx'; // Import useAuth
+import { useAuth } from './AuthContext.jsx';
 
 const ReservationList = () => {
     const [reservations, setReservations] = useState([]);
     const [loading, setLoading] = useState(true);
-    const { currentUser } = useAuth(); // Use the current user from AuthContext
-    const [editingId, setEditingId] = useState(null); // ID of the reservation being edited
+    const { currentUser } = useAuth();
+    const [editingId, setEditingId] = useState(null);
     const [editFormData, setEditFormData] = useState({ carModel: '', pickupDate: '', returnDate: '' });
 
     useEffect(() => {
@@ -20,7 +20,7 @@ const ReservationList = () => {
             try {
                 const response = await axios.get('http://localhost:8000/reservations/reserve/', {
                     headers: {
-                        Authorization: `Token ${localStorage.getItem('token')}` // Use the token for authorization
+                        Authorization: `Token ${localStorage.getItem('token')}`
                     }
                 });
                 setReservations(response.data);
@@ -46,11 +46,11 @@ const ReservationList = () => {
 
     const submitUpdate = async (reservationId) => {
         const formattedData = {
-            car_model: editFormData.carModel, // Adjusted to match backend expectations
+            car_model: editFormData.carModel,
             pickup_date: editFormData.pickupDate,
             return_date: editFormData.returnDate
         };
-        
+
         try {
             await axios.put(`http://localhost:8000/reservations/reservations/reservation/${reservationId}/`, formattedData, {
                 headers: {
@@ -65,7 +65,7 @@ const ReservationList = () => {
                 return reservation;
             });
             setReservations(updatedReservations);
-            setEditingId(null); // Stop editing
+            setEditingId(null);
         } catch (error) {
             console.error('Error updating reservation:', error);
         }
@@ -84,6 +84,18 @@ const ReservationList = () => {
             console.error('Error deleting reservation:', error);
         }
     };
+
+    const canEditOrDelete = (reservation) => {
+        // Check if currentUser exists before trying to access its properties
+        if (!currentUser) {
+            return false; // If there is no currentUser, they cannot edit or delete
+        }
+    
+        return currentUser.is_superuser || 
+               ['SYSM@email.com', 'CSR@email.com'].includes(currentUser.email) || 
+               reservation.email === currentUser.email;
+    };
+    
 
     return (
         <div>
@@ -107,8 +119,12 @@ const ReservationList = () => {
                                     <p>Car Model: {reservation.carModel}</p>
                                     <p>Pickup Date: {reservation.pickupDate}</p>
                                     <p>Return Date: {reservation.returnDate}</p>
-                                    <button onClick={() => startEditing(reservation)}>Edit</button>
-                                    <button onClick={() => deleteReservation(reservation.id)}>Delete</button>
+                                    {canEditOrDelete(reservation) && (
+                                        <>
+                                            <button onClick={() => startEditing(reservation)}>Edit</button>
+                                            <button onClick={() => deleteReservation(reservation.id)}>Delete</button>
+                                        </>
+                                    )}
                                 </div>
                             )}
                         </li>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from './AuthContext.jsx'; // Ensure this is implemented as described
+import { useAuth } from './AuthContext.jsx';
 import './LoginCSS.css';
 
 function Login() {
@@ -45,11 +45,9 @@ function Login() {
         localStorage.setItem('token', data.token);
         localStorage.setItem('username', data.username);
         localStorage.setItem('is_superuser', data.is_superuser.toString());
-        if (data.is_superuser || formData.email === 'CSR@email.com' || formData.email === 'SYSM@email.com') {
-          signIn(data.username, true); // Assuming signIn function can accept a parameter to set admin privileges
-        } else {
-          signIn(data.username, false);
-        }
+        localStorage.setItem('email', formData.email); // Save email to localStorage
+
+        signIn(data.username, data.is_superuser, formData.email); // Pass email to signIn
         navigate('/');
       } else if (response.status === 401) {
         setLoginError('Incorrect password. Please try again.');
