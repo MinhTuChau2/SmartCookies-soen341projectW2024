@@ -11,6 +11,12 @@ const ReservationList = () => {
 
     useEffect(() => {
         const fetchReservations = async () => {
+            if (!currentUser) {
+                setReservations([]);
+                setLoading(false);
+                return;
+            }
+
             try {
                 const response = await axios.get('http://localhost:8000/reservations/reserve/', {
                     headers: {
@@ -25,9 +31,7 @@ const ReservationList = () => {
             }
         };
 
-        if (currentUser) { // Fetch reservations only if there's a logged-in user
-            fetchReservations();
-        }
+        fetchReservations();
     }, [currentUser]);
 
     const startEditing = (reservation) => {
@@ -41,13 +45,18 @@ const ReservationList = () => {
     };
 
     const submitUpdate = async (reservationId) => {
+        const formattedData = {
+            car_model: editFormData.carModel, // Adjusted to match backend expectations
+            pickup_date: editFormData.pickupDate,
+            return_date: editFormData.returnDate
+        };
+        
         try {
-            await axios.put(`http://localhost:8000/reservations/reservations/reservation/${reservationId}/`, editFormData, {
-                
+            await axios.put(`http://localhost:8000/reservations/reservations/reservation/${reservationId}/`, formattedData, {
                 headers: {
                     Authorization: `Token ${localStorage.getItem('token')}`
-    }
-});
+                }
+            });
 
             const updatedReservations = reservations.map(reservation => {
                 if (reservation.id === reservationId) {
@@ -67,8 +76,8 @@ const ReservationList = () => {
             await axios.delete(`http://localhost:8000/reservations/reservations/reservation/${reservationId}/`, {
                 headers: {
                     Authorization: `Token ${localStorage.getItem('token')}`
-    }
-});
+                }
+            });
 
             setReservations(reservations.filter(reservation => reservation.id !== reservationId));
         } catch (error) {

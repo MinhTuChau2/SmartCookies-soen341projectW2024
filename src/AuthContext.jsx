@@ -29,7 +29,8 @@ export function AuthProvider({ children }) {
     setCurrentUser(null);
     localStorage.removeItem('username');
     localStorage.removeItem('is_superuser');
-  }
+    localStorage.removeItem('token'); // Make sure to clear the token
+}
 
   const value = {
     currentUser,
