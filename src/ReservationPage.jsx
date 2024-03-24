@@ -83,7 +83,11 @@ const ReservationPage = () => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:8000/reservations/reserve/', formData);
+      const response = await axios.post('http://localhost:8000/reservations/reserve/', formData, {
+        headers: {
+          'Authorization': `Token ${localStorage.getItem('token')}` // Include the token here
+        }
+      });
       setConfirmationMessage('Reservation successfully made.');
       setShowConfirmationModal(true);
       setError('');

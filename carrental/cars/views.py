@@ -3,8 +3,13 @@ from rest_framework.views import APIView
 from .models import Car
 from .serializer import CarSerializer
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
+
 
 class CarView(APIView):
+    permission_classes = [IsAuthenticated]
+   
     def get(self, request):
         cars = Car.objects.all()  # Retrieve all instances of the Car model
         serializer = CarSerializer(cars, many=True)  # Serialize the queryset

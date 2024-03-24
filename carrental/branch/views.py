@@ -3,8 +3,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Branch
 from .serializers import BranchSerializer
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
 
 class BranchDetailView(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         branches = Branch.objects.all()
         serializer = BranchSerializer(branches, many=True)
