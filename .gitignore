@@ -23,4 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 *.pyc
-carrental/db.sqlite3
+__pycache__/
+local_settings.py
+
+.env
+db.sqlite3
