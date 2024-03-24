@@ -29,6 +29,7 @@ export function AuthProvider({ children }) {
     setCurrentUser(null);
     localStorage.removeItem('username');
     localStorage.removeItem('is_superuser');
+    window.location.href = '/';
   }
 
   const value = {

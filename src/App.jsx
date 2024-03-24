@@ -29,20 +29,21 @@ const Header = () => {
 
           <li><Link to="/Contact">Contact</Link></li>
           <li><Link to="/Reservation">Reserve</Link></li>
+          <li><Link to="/Car_Listing">Cars</Link></li>
+        {currentUser && !currentUser.is_superuser && (
+          <>
+            <li><Link to="/History">History</Link></li>
+          </>
+        )}
 
-        {!currentUser.is_superuser && (
-                <>
-                        <li><Link to="/Car_Listing">Cars</Link></li>
-                        <li><Link to="/History">History</Link></li>
-                </>
-                )}
+        {currentUser && currentUser.is_superuser && (
+          <>
+            <li><a href="http://127.0.0.1:8000/admin/" target="_blank" rel="noopener noreferrer">Admin Panel</a></li>
+            <li><Link to="/Add_Car">Add Car</Link></li>
+            <li><Link to="/Cars_Admin">Cars Admin</Link></li>
+          </>
+        )}
 
-                    {currentUser.is_superuser && (
-                      <>
-                        <li><a href="http://127.0.0.1:8000/admin/" target="_blank" rel="noopener noreferrer">Admin Panel</a></li>
-                        <li><Link to="/Add_Car">Add Car</Link></li>
-                      </>
-                    )}
 
         </ul>
       </nav>
@@ -76,6 +77,7 @@ const App = () => {
           <Route path="/Reservation" element={<ReservationPage />} />
           <Route path="/Add_Car" element={<CarForm />} /> {/* Route for adding car */}
            <Route path="/History" element={<History />} />
+           <Route path="/Cars_Admin" element={<CarsforAdmin />} />
         </Routes>
       </Router>
     </AuthProvider>

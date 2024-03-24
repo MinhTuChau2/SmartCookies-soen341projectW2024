@@ -27,6 +27,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('reservations/', include('reservations.urls')),
     path('cars/', CarView.as_view(), name="anything"),
+    path('cars/<str:model>/',CarView.as_view(), name='car-detail'),
     path('branches/',BranchDetailView.as_view(),name="branch"),
 ]
 

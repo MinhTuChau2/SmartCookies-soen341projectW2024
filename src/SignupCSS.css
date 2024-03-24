@@ -1,0 +1,42 @@
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top:50px;
+}
+
+.signup-form form {
+  width: 500px;
+}
+
+.signup-form input {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.signup-form button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f09ce9;
+  color: #fff;
+  cursor: pointer;
+}
+
+.signup-form button:hover {
+  background-color: #edbbe9;
+}
+
+.signup-form .error {
+  color: red;
+  margin-top: 10px;
+}
+
+.signup-form .success {
+  color: green;
+  margin-top: 10px;
+}
