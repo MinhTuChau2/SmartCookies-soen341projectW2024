@@ -19,8 +19,8 @@ const CarListingPage = () => {
         const fetchCars = async () => {
             try {
                 const response = await axios.get('http://localhost:8000/cars/', {
-                    headers: {
-                        'Authorization': `Token ${localStorage.getItem('token')}` // Authorization token included
+                    ers: {
+                   head     'Authorization': `Token ${localStorage.getItem('token')}` // Authorization token included
                     }
                 });
                 setCars(response.data);
@@ -36,22 +36,24 @@ const CarListingPage = () => {
             }
         };
 
-        const fetchBranches = async () => {
-            try {
-                const response = await axios.get('http://localhost:8000/branches/', {
-                    headers: {
-                        'Authorization': `Token ${localStorage.getItem('token')}` // Authorization token included
-                    }
-                });
-                 const branchesWithCoords = await Promise.all(response.data.map(async (car) => {
-                                    const coords = await getAddressCoordinates(car.location);
-                                    return { ...car, coords: coords };
-                                }));
-                setBranches(branchesWithCoords);
-            } catch (error) {
-                console.error(error);
-            }
-        };
+
+       const fetchBranches = async () => {
+           try {
+               const response = await axios.get('http://localhost:8000/branches/', {
+                   headers: {
+                       'Authorization': `Token ${localStorage.getItem('token')}` // Authorization token included
+                   }
+               });
+               const branchesWithCoords = await Promise.all(response.data.map(async (branch) => {
+                   const coords = await getAddressCoordinates(branch.location);
+                   return { ...branch, coords: coords };
+               }));
+               setBranches(branchesWithCoords);
+           } catch (error) {
+               console.error(error);
+           }
+       };
+
 
         fetchCars();
         fetchBranches();

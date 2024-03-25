@@ -29,10 +29,8 @@ export function AuthProvider({ children }) {
     setCurrentUser(null);
     localStorage.removeItem('username');
     localStorage.removeItem('is_superuser');
-
-    window.location.href = '/';
-
     localStorage.removeItem('email'); // Ensure email is also removed
+    window.location.href = '/';
 
   }
 

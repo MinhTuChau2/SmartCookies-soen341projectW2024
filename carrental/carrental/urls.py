@@ -29,6 +29,9 @@ urlpatterns = [
     path('cars/', CarView.as_view(), name="anything"),
     path('cars/<str:model>/',CarView.as_view(), name='car-detail'),
     path('branches/',BranchDetailView.as_view(),name="branch"),
+    path('transactions/', include('transactions.urls')),
+    path('rental_agreements/', include('rental_agreements.urls')),
+
 ]
 
 

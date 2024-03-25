@@ -13,6 +13,7 @@ import CarForm from './CarForm';
 import History from './History';
 import { AuthProvider, useAuth } from './AuthContext.jsx';
 
+
 const Header = () => {
   const { currentUser, signOut } = useAuth();
   // Adjusted logic for showing Admin Panel and Add Car based on user roles
@@ -70,6 +71,7 @@ const App = () => {
           <Route path="/Add_Car" element={<CarForm />} /> {/* Route for adding car */}
            <Route path="/History" element={<History />} />
            <Route path="/Cars_Admin" element={<CarsforAdmin />} />
+
         </Routes>
       </Router>
     </AuthProvider>

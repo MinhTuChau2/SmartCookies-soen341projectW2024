@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'reservations',
     'cars',
     'branch',
+    'transactions',
+    'rental_agreements',
 
 
 ]
