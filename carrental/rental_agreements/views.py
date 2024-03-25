@@ -4,7 +4,10 @@ from reportlab.pdfgen import canvas
 from uuid import uuid4
 from django.http import HttpResponse
 from django.utils import timezone
-from .models import Reservation, Car, Branch
+from reservations.models import Reservation
+from cars.models import Car
+from branch.models import Branch
+
 from django.core.mail import EmailMessage
 
 
