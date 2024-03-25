@@ -19,8 +19,8 @@ const CarListingPage = () => {
         const fetchCars = async () => {
             try {
                 const response = await axios.get('http://localhost:8000/cars/', {
-                    ers: {
-                   head     'Authorization': `Token ${localStorage.getItem('token')}` // Authorization token included
+                    headers: {
+                        'Authorization': `Token ${localStorage.getItem('token')}` // Authorization token included
                     }
                 });
                 setCars(response.data);
@@ -35,7 +35,6 @@ const CarListingPage = () => {
                 console.error(error);
             }
         };
-
 
        const fetchBranches = async () => {
            try {
@@ -53,7 +52,6 @@ const CarListingPage = () => {
                console.error(error);
            }
        };
-
 
         fetchCars();
         fetchBranches();
