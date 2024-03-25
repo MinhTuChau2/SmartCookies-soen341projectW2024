@@ -30,6 +30,7 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('username');
     localStorage.removeItem('is_superuser');
     localStorage.removeItem('email'); // Ensure email is also removed
+    window.location.href = '/';
   }
 
   const value = {
