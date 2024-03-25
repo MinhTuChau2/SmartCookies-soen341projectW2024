@@ -13,17 +13,20 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate, get_user_model
 User = get_user_model()
 
+from rest_framework import generics
+from .serializers import UserRegistrationSerializer
+from rest_framework.permissions import AllowAny  # Import AllowAny
+
 class UserRegistrationView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserRegistrationSerializer
+    permission_classes = [AllowAny]  # Override the global permission class here
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         
-        # Check if the data is valid
         if serializer.is_valid():
             try:
-                # Attempt to create a new user
                 user = serializer.save()
                 return Response({
                     "user_id": user.pk,
@@ -31,12 +34,9 @@ class UserRegistrationView(generics.CreateAPIView):
                     "username": user.username
                 }, status=status.HTTP_201_CREATED)
             except IntegrityError as e:
-                # Handle cases where the email might already be taken
                 return Response({"error": "A user with this email already exists."}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            # Return validation errors (e.g., password too short)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 
 class CustomObtainAuthToken(ObtainAuthToken):

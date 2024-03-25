@@ -28,6 +28,8 @@ urlpatterns = [
     path('reservations/', include('reservations.urls')),
     path('cars/', CarView.as_view(), name="anything"),
     path('branches/',BranchDetailView.as_view(),name="branch"),
+    path('transactions/', include('transactions.urls')),
+    
 ]
 
 
