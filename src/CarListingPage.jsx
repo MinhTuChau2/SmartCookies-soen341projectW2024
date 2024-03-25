@@ -63,15 +63,18 @@ const CarListingPage = () => {
     }, [filterType, cars]);
 
     const reserveCar = (carModel) => {
+        let carPrice = 0;
         const updatedCars = cars.map(car => {
             if (car.model === carModel) {
+                carType = car.car_type;
                 return { ...car, available: false };
             }
             return car;
         });
         setCars(updatedCars);
-        navigate(`/reservation/${carModel}`);
+        navigate(`/reservation/${carModel}`, { state: { carModel, carPrice} });
     };
+
 
     const getAddressCoordinates = async (address) => {
         try {
@@ -111,48 +114,48 @@ const CarListingPage = () => {
         }
     };
 
-      const handleDateChange = (event, type) => {
-            const date = event.target.value;
-            if (type === 'start') {
-                setStartDate(date);
-            } else if (type === 'end') {
-                setEndDate(date);
-            }
-        };
+    const handleDateChange = (event, type) => {
+        const date = event.target.value;
+        if (type === 'start') {
+            setStartDate(date);
+        } else if (type === 'end') {
+            setEndDate(date);
+        }
+    };
 
-        const reserveCarWithDates = async (carModel) => {
-            if (!startDate || !endDate) {
-                alert('Please select both start and end dates.');
+    const reserveCarWithDates = async (carModel) => {
+        if (!startDate || !endDate) {
+            alert('Please select both start and end dates.');
+            return;
+        }
+
+        // Fetch reservations for the selected period
+        try {
+            const response = await axios.get(`http://localhost:8000/reservations?start=${startDate}&end=${endDate}`);
+            const overlappingReservations = response.data;
+
+            // Filter out cars with overlapping reservations
+            const availableCars = cars.filter(car => {
+                // Check if the car has any overlapping reservations
+                const overlapping = overlappingReservations.some(reservation => {
+                    return reservation.carModel === car.model;
+                });
+                return !overlapping;
+            });
+
+            // If no available cars found, display an alert
+            if (availableCars.length === 0) {
+                alert('There are no available cars for the selected period. Please choose different dates.');
                 return;
             }
 
-            // Fetch reservations for the selected period
-            try {
-                const response = await axios.get(`http://localhost:8000/reservations?start=${startDate}&end=${endDate}`);
-                const overlappingReservations = response.data;
-
-                // Filter out cars with overlapping reservations
-                const availableCars = cars.filter(car => {
-                    // Check if the car has any overlapping reservations
-                    const overlapping = overlappingReservations.some(reservation => {
-                        return reservation.carModel === car.model;
-                    });
-                    return !overlapping;
-                });
-
-                // If no available cars found, display an alert
-                if (availableCars.length === 0) {
-                    alert('There are no available cars for the selected period. Please choose different dates.');
-                    return;
-                }
-
-                // Navigate to the reservation page with the selected car model and dates
-                navigate(`/reservation/${carModel}?start=${startDate}&end=${endDate}`);
-            } catch (error) {
-                console.error('Error fetching reservations:', error);
-                alert('An error occurred while fetching reservations. Please try again later.');
-            }
-        };
+            // Navigate to the reservation page with the selected car model and dates
+            navigate(`/reservation/${carModel}?start=${startDate}&end=${endDate}`);
+        } catch (error) {
+            console.error('Error fetching reservations:', error);
+            alert('An error occurred while fetching reservations. Please try again later.');
+        }
+    };
 
 
     const getDistance = (coords1, coords2) => {
@@ -176,15 +179,15 @@ const CarListingPage = () => {
 
     return (
         <div className="content-wrapper">
-         <div className="date-selection">
-                     <label>Start Date:</label>
-                     <input type="date" value={startDate} onChange={(e) => handleDateChange(e, 'start')} />
+            <div className="date-selection">
+                <label>Start Date:</label>
+                <input type="date" value={startDate} onChange={(e) => handleDateChange(e, 'start')} />
 
-                     <label>End Date:</label>
-                     <input type="date" value={endDate} onChange={(e) => handleDateChange(e, 'end')} />
+                <label>End Date:</label>
+                <input type="date" value={endDate} onChange={(e) => handleDateChange(e, 'end')} />
 
-                     <button onClick={() => reserveCarWithDates()}>Reserve with Dates</button>
-                 </div>
+                <button onClick={() => reserveCarWithDates()}>Reserve with Dates</button>
+            </div>
             <h1>Car Listings</h1>
             <div className="filter-section">
                 <label>Filter by Car Type:</label>
@@ -224,15 +227,15 @@ const CarListingPage = () => {
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                     {branches.map((branch, index) => (
                         branch.coords &&
-                      <Marker key={index} position={branch.coords}>
-                          <Popup>
-                              <div>
-                                  <h3>{branch.name}</h3>
-                                  <p>{branch.location}</p>
+                        <Marker key={index} position={branch.coords}>
+                            <Popup>
+                                <div>
+                                    <h3>{branch.name}</h3>
+                                    <p>{branch.location}</p>
 
-                              </div>
-                          </Popup>
-                      </Marker>
+                                </div>
+                            </Popup>
+                        </Marker>
 
                     ))}
                 </MapContainer>
