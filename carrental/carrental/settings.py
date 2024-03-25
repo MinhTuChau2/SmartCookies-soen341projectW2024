@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -157,6 +158,8 @@ AUTHENTICATION_BACKENDS = [
     # Django ModelBackend for admin and other standard uses
     'django.contrib.auth.backends.ModelBackend',
 ]
+
+
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'cars')
 MEDIA_URL = '/media/'
