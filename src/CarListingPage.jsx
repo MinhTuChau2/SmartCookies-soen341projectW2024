@@ -66,7 +66,7 @@ const CarListingPage = () => {
         let carPrice = 0;
         const updatedCars = cars.map(car => {
             if (car.model === carModel) {
-                carType = car.car_type;
+                carPrice = car.price;
                 return { ...car, available: false };
             }
             return car;
