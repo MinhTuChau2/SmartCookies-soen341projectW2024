@@ -66,14 +66,9 @@ const App = () => {
           <Route path="/SignUp" element={<SignUp />} />
           <Route path="/Reservation/:carModel" element={<ReservationPage />} />
           <Route path="/Reservation" element={<ReservationPage />} />
-<<<<<<< HEAD
           <Route path="/Add_Car" element={<CarForm />} /> {/* Route for adding car */}
            <Route path="/History" element={<History />} />
            <Route path="/Cars_Admin" element={<CarsforAdmin />} />
-=======
-          <Route path="/Add_Car" element={<CarForm />} />
-          <Route path="/History" element={<History />} />
->>>>>>> 3336b07ecef0d5d726364043ec84408042ef8c0e
         </Routes>
       </Router>
     </AuthProvider>
