@@ -1,0 +1,138 @@
+
+.intro-section{
+  padding: 50px;
+  text-align: center;
+}
+.benefits-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around; /* Distributes space around items */
+  padding: 40px 0; /* Added padding for spacing */
+}
+
+.benefit-item {
+  background-color: #f0f0f0; /* Light grey background */
+  padding: 40px; /* Increased padding */
+  margin: 10px; /* Adds space between cards */
+  width: calc(25% - 20px); /* Adjust width based on your preference */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow */
+  border-radius: 5px; /* Rounded corners */
+}
+
+
+
+.faq-section {
+  padding: 80px 10%; /* Increased padding and centered content */
+}
+
+.faq-content {
+  background-color: #f0f0f0; /* Light grey background */
+  padding: 40px;
+  margin: auto;
+  width: 80%;
+}
+
+.faq-item:not(:last-child) {
+  border-bottom: 1px solid #E0E0E0; /* Separator line */
+  padding-bottom: 20px; /* Space above the line */
+  margin-bottom: 20px; /* Space below the line */
+}
+
+
+footer {
+  background-color: #f0f0f0; /* Light grey background */
+  color: #000;
+  text-align: center;
+  padding: 20px 0;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  position: fixed;
+}
+
+
+.booking-section {
+  flex: 1;
+  padding: 20px;
+  background-color: #CBA984;
+}
+
+.booking-section form {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.booking-section label,
+.booking-section select,
+.booking-section input[type="date"],
+.booking-section button {
+  margin: 5px;
+}
+
+.intro-section,
+.benefits-section,
+.explore-section,
+.faq-section {
+  flex: 1;
+  padding: 20px;
+}
+
+.intro-section h1 {
+  font-size: 24px;
+}
+
+.benefit-item {
+  margin-bottom: 20px;
+}
+
+
+.explore-section {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.explore-btn {
+  background-color: #C87513;
+  color: #fff; /* White text */
+  padding: 10px 30px; /* Increased button size */
+  border-radius: 5px;
+  text-decoration: none; /* Removes underline from link */
+  padding: 10px 30px; /* Increased button size */
+  border-radius: 5px;
+  text-decoration: none; /* Removes underline from link */
+}
+
+.explore-btn:hover {
+  background-color: #edbbe9;
+}
+
+.faq-section h2 {
+  font-size: 20px;
+}
+
+.faq-item {
+  margin-bottom: 20px;
+}
+
+footer {
+  margin-top: 20px;
+  text-align: center;
+  background-color: #333;
+  color: #fff;
+  padding: 10px 0;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .horizontal-bar {
+    flex-direction: column;
+  }
+
+  .booking-section,
+  .intro-section,
+  .benefits-section,
+  .explore-section,
+  .faq-section {
+    width: 100%;
+  }
+}

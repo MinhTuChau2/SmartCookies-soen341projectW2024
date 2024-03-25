@@ -1,0 +1,73 @@
+
+body, h1, p, ul, li, a {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    color: inherit;
+    box-sizing: border-box;
+}
+
+body {
+    padding-top: 80px;
+}
+
+
+.header {
+    background-color: #FFFFFF; /* White background */
+    color: #000; /* Black text */
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Align items to the start */
+    position: fixed; /* Makes the header fixed */
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-bottom: 2px solid #E0E0E0; /* Light grey line */
+    z-index: 1000; /* Ensures the header is above other content */
+}
+
+.logo {
+    width: 50px; /* Adjust logo size as needed */
+    margin-right: 10px; /* Reduced space between logo and company name */
+}
+
+.company-name {
+    font-size: 30px; /* Larger and thicker font for company name */
+    font-weight: bold; /* Makes the font thicker */
+    margin-right: auto; /* Pushes everything after this to the right */
+}
+
+nav ul {
+    display: flex;
+    list-style-type: none;
+    justify-content: center; /* Center the navigation items */
+}
+
+nav li {
+    margin: 0 20px; /* Increased spacing */
+}
+
+nav a {
+    color: #000; /* Black color for links */
+    transition: color 0.3s ease;
+}
+
+nav a:hover {
+    color: #555; /* Darker shade on hover */
+}
+
+.sign-in-btn {
+    background-color: #C87513; /* Very light pink background */
+    color: #fff; /* White text */
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-right: 50px;
+    margin-left: auto; /* Ensures it stays to the right */
+    transition: color 0.3s ease, background-color 0.3s ease; /* Smooth transition for color and background-color */
+}
+
+.sign-in-btn:hover {
+    background-color: #edbbe9;
+}
+

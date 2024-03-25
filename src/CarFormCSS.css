@@ -1,0 +1,54 @@
+/* CarFormCSS.css */
+
+.car-form-container {
+  width: 80%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  margin-top:25px;
+}
+
+.car-form-container label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.car-form-container input[type="text"],
+.car-form-container input[type="number"],
+.car-form-container input[type="checkbox"],
+.car-form-container input[type="file"],
+.car-form-container button[type="submit"] {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.car-form-container input[type="text"]:focus,
+.car-form-container input[type="number"]:focus,
+.car-form-container input[type="file"]:focus {
+  border-color: #4CAF50;
+}
+
+.car-form-container input[type="checkbox"] {
+  width: auto;
+  margin-top: 3px;
+}
+
+.car-form-container button[type="submit"] {
+  background-color: #C87513;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.car-form-container button[type="submit"]:hover {
+  background-color: #edbbe9;
+}
