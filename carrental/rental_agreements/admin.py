@@ -4,7 +4,10 @@ from django.urls import reverse
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .models import RentalAgreement
-from .forms import RejectionReasonForm  # Assume you have a form for rejection reason
+from .forms import RejectionReasonForm  
+from django.urls import path
+
+
 
 @admin.register(RentalAgreement)
 class RentalAgreementAdmin(admin.ModelAdmin):
