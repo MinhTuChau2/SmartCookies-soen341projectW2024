@@ -22,14 +22,18 @@ const CarsForAdmin = () => {
         fetchCars();
     }, []);
 
-    const fetchCars = async () => {
-        try {
-            const response = await axios.get('http://localhost:8000/cars/');
-            setCars(response.data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+   const fetchCars = async () => {
+       try {
+           const response = await axios.get('http://localhost:8000/cars/', {
+               headers: {
+                   'Authorization': `Token ${localStorage.getItem('token')}` // Authorization token included
+               }
+           });
+           setCars(response.data);
+       } catch (error) {
+           console.error(error);
+       }
+   };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -65,13 +69,13 @@ const CarsForAdmin = () => {
     };
 
     const handleDelete = async (carModel) => {
-        try {
-            await axios.delete(`http://localhost:8000/cars/${carModel}`);
-            setCars(cars.filter(car => car.model !== carModel));
-        } catch (error) {
-            console.error(error);
-        }
-    };
+           try {
+               await axios.delete(`http://localhost:8000/cars/${carModel}`);
+               setCars(cars.filter(car => car.model !== carModel));
+           } catch (error) {
+               console.error(error);
+           }
+       };
 
     return (
     <div className="content-wrapper">

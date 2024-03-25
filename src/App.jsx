@@ -33,8 +33,9 @@ const Header = () => {
           <li><Link to="/Reservation">Reserve</Link></li>
 
           <li><Link to="/Car_Listing">Cars</Link></li>
-        {currentUser && <li><Link to="/History">History</Link></li>}
+                 {currentUser && <li><Link to="/History">History</Link></li>}
                  {showAdminPanel && <li><a href="http://127.0.0.1:8000/admin/" target="_blank" rel="noopener noreferrer">Admin Panel</a></li>}
+                 {showAdminPanel && <li><a href="/Cars_Admin" target="_blank" rel="noopener noreferrer">Car Admin</a></li>}
                  {showAddCar && <li><Link to="/Add_Car">Add Car</Link></li>}
 
         </ul>
