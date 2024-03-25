@@ -15,52 +15,55 @@ function SignUp() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    // Basic email format validation
-    const emailPattern = /\S+@\S+\.\S+/;
-    const isEmailValid = emailPattern.test(formData.email);
+      e.preventDefault();
+      // Basic email format validation
+      const emailPattern = /\S+@\S+\.\S+/;
+      const isEmailValid = emailPattern.test(formData.email);
 
-    if (!isEmailValid) {
-      setError('Please enter a valid email address.');
-      return;
-    }
-
-    if (!formData.username || !formData.password || formData.password !== formData.confirmPassword) {
-      setError('Please check your inputs. Passwords must match.');
-      return;
-    }
-
-    try {
-      const response = await fetch('http://localhost:8000/accounts/signup/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: formData.email,
-          username: formData.username,
-          password: formData.password,
-        }),
-      });
-
-      if (response.ok) {
-        setError(''); // Clear any previous errors
-        setSuccess(true); // Set success state to true
-        setTimeout(() => {
-          navigate('/login'); // Redirect to Login after a short delay to display success message
-        }, 2000); // Adjust delay as needed
-      } else if (response.status === 409) { // Assuming 409 for conflict i.e. account exists
-        setError('Account already exists with this email. Please login instead.');
-      } else {
-          const errorData = await response.json();
-          if (errorData.email && errorData.email.includes("user with this email already exists.")) {
-            setError("An account with this email already exists. Please log in.");
-        } else {
-            setError('Registration failed. Please try again.');
+      if (!isEmailValid) {
+          setError('Please enter a valid email address.');
+          return;
       }
+
+      if (!formData.username || !formData.password || formData.password !== formData.confirmPassword) {
+          setError('Please check your inputs. Passwords must match.');
+          return;
       }
-    } catch (error) {
-      console.error('Signup error:', error);
-      setError('An error occurred. Please try again later.');
-    }
+
+      try {
+          const response = await fetch('http://localhost:8000/accounts/signup/', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Token ${localStorage.getItem('token')}` // Include the token in the request headers
+              },
+              body: JSON.stringify({
+                  email: formData.email,
+                  username: formData.username,
+                  password: formData.password,
+              }),
+          });
+
+          if (response.ok) {
+              setError(''); // Clear any previous errors
+              setSuccess(true); // Set success state to true
+              setTimeout(() => {
+                  navigate('/login'); // Redirect to Login after a short delay to display success message
+              }, 2000); // Adjust delay as needed
+          } else if (response.status === 409) { // Assuming 409 for conflict i.e. account exists
+              setError('Account already exists with this email. Please login instead.');
+          } else {
+              const errorData = await response.json();
+              if (errorData.email && errorData.email.includes("user with this email already exists.")) {
+                  setError("An account with this email already exists. Please log in.");
+              } else {
+                  setError('Registration failed. Please try again.');
+              }
+          }
+      } catch (error) {
+          console.error('Signup error:', error);
+          setError('An error occurred. Please try again later.');
+      }
   };
 
   return (

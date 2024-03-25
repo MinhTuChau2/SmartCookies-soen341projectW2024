@@ -43,6 +43,10 @@ const CarListingPage = () => {
                         'Authorization': `Token ${localStorage.getItem('token')}` // Authorization token included
                     }
                 });
+                 const branchesWithCoords = await Promise.all(response.data.map(async (car) => {
+                                    const coords = await getAddressCoordinates(car.location);
+                                    return { ...car, coords: coords };
+                                }));
                 setBranches(branchesWithCoords);
             } catch (error) {
                 console.error(error);
@@ -110,6 +114,7 @@ const CarListingPage = () => {
             setFilteredCars([]);
         }
     };
+
 
       const handleDateChange = (event, type) => {
             const date = event.target.value;

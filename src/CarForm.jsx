@@ -30,12 +30,19 @@ const CarForm = () => {
             formDataToSend.append(key, formData[key]);
         }
         try {
-            const response = await axios.post('http://localhost:8000/cars/', formDataToSend);
+            const token = localStorage.getItem('token'); // Get the authentication token from local storage
+            const response = await axios.post('http://localhost:8000/cars/', formDataToSend, {
+                headers: {
+                   'Authorization': `Token ${localStorage.getItem('token')}`// Include the token in the request headers
+                }
+            });
             console.log(response.data); // Handle success
+            window.location.href = '/Car_Listing';
         } catch (error) {
             console.error(error); // Handle error
         }
     };
+
 
     return (
         <div className="car-form-container">

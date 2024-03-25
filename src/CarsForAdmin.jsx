@@ -68,14 +68,20 @@ const CarsForAdmin = () => {
         }
     };
 
-    const handleDelete = async (carModel) => {
-           try {
-               await axios.delete(`http://localhost:8000/cars/${carModel}`);
-               setCars(cars.filter(car => car.model !== carModel));
-           } catch (error) {
-               console.error(error);
-           }
-       };
+  const handleDelete = async (carModel) => {
+      try {
+          const token = localStorage.getItem('token'); // Retrieve the authentication token from localStorage
+          await axios.delete(`http://localhost:8000/cars/${carModel}`, {
+              headers: {
+                  'Authorization': `Token ${token}` // Include the token in the request headers
+              }
+          });
+
+          setCars(cars.filter(car => car.model !== carModel));
+      } catch (error) {
+          console.error(error);
+      }
+  };
 
     return (
     <div className="content-wrapper">
