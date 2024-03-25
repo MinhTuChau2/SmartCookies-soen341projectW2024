@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+*.pyc
+pycache/
+local_settings.py
+
+.env
+db.sqlite3
