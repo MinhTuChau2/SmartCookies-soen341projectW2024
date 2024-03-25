@@ -12,6 +12,7 @@ import CarForm from './CarForm';
 import History from './History';
 import { AuthProvider, useAuth } from './AuthContext.jsx';
 
+
 const Header = () => {
   const { currentUser, signOut } = useAuth();
   // Adjusted logic for showing Admin Panel and Add Car based on user roles
@@ -64,6 +65,8 @@ const App = () => {
           <Route path="/Reservation" element={<ReservationPage />} />
           <Route path="/Add_Car" element={<CarForm />} />
           <Route path="/History" element={<History />} />
+          
+
         </Routes>
       </Router>
     </AuthProvider>
