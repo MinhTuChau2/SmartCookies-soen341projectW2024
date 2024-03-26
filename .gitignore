@@ -24,3 +24,8 @@ dist-ssr
 *.sw?
 *.pyc
 db.sqlite3
+
+
+# .gitignore
+__pycache__/
+*.pyc
