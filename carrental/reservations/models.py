@@ -1,5 +1,6 @@
 from django.db import models
 from django.forms import ValidationError
+from cars.models import Car 
 
 # Create your models here.
 

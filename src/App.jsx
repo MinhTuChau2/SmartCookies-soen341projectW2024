@@ -11,6 +11,7 @@ import Logo from './Logo.jpeg';
 import SignUp from './SignUp';
 import CarForm from './CarForm';
 import History from './History';
+import Payment from './Payment';
 import { AuthProvider, useAuth } from './AuthContext.jsx';
 
 
@@ -69,8 +70,10 @@ const App = () => {
           <Route path="/Reservation/:carModel" element={<ReservationPage />} />
           <Route path="/Reservation" element={<ReservationPage />} />
           <Route path="/Add_Car" element={<CarForm />} /> {/* Route for adding car */}
-           <Route path="/History" element={<History />} />
-           <Route path="/Cars_Admin" element={<CarsforAdmin />} />
+          <Route path="/History" element={<History />} />
+          <Route path="/Cars_Admin" element={<CarsforAdmin />} />
+         
+          <Route path="/payment/:reservationId" element={<Payment />} />
 
         </Routes>
       </Router>
