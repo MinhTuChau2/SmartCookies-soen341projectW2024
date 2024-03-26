@@ -165,3 +165,10 @@ AUTHENTICATION_BACKENDS = [
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'cars')
 MEDIA_URL = '/media/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Gmail's SMTP server
+EMAIL_PORT = 587  # Port for secure SMTP
+EMAIL_USE_TLS = True  # Enable TLS encryption
+EMAIL_HOST_USER = 'soencarrental@gmail.com'  # Your Gmail address
+EMAIL_HOST_PASSWORD = 'rqstlmgnispqcmbm' # Your Gmail password

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Reservation
+from reservations.models import Reservation
 import json
 from django.core.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
@@ -10,7 +10,12 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import authentication_classes
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from .serializers import ReservationSerializer
+from reservations.serializers import ReservationSerializer
+from rental_agreements.views import send_rental_agreement
+
+from django.core.files.base import ContentFile
+
+
 
 
 @api_view(['GET', 'POST'])
@@ -30,7 +35,8 @@ def reserve_car(request):
             'name': reservation.name,
             'email': reservation.email,
             'pickupDate': reservation.pickup_date,
-            'returnDate': reservation.return_date
+            'returnDate': reservation.return_date,
+            'status': reservation.status 
         } for reservation in reservations]
 
         return JsonResponse(reservation_data, safe=False)
@@ -44,11 +50,20 @@ def reserve_car(request):
                 name=data['name'],
                 email=data['email'],
                 pickup_date=data['pickupDate'],
-                return_date=data['returnDate']
+                return_date=data['returnDate'],
+                
             )
             reservation.full_clean()  # This will call the clean method and raise ValidationError if any
             reservation.save()
-            return JsonResponse({'message': 'Reservation successful'})
+
+            # Send the rental agreement email after successful reservation
+            send_rental_agreement(request,reservation.id)
+
+            # Update the reservation status to indicate that the agreement has been sent
+            reservation.status = 'agreement_sent'
+            reservation.save()
+
+            return JsonResponse({'message': 'Reservation successful and rental agreement sent'})
 
         except ValidationError as e:
             return JsonResponse({'error': str(e.message_dict)}, status=400)
@@ -106,3 +121,35 @@ def reservation_detail(request, reservation_id):
         return Response(status=204)
 
     return Response({'error': 'Invalid request'}, status=400)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def update_reservation_status(request, reservation_id):
+    # Retrieve the reservation object, or return a 404 response if not found
+    reservation = get_object_or_404(Reservation, id=reservation_id)
+    
+    # Ensure the request user is either the owner of the reservation, a superuser, or a special user
+    is_owner = request.user.email == reservation.email
+    is_special_user = request.user.email in ['SYSM@email.com', 'CSR@email.com']
+    can_modify = request.user.is_superuser or is_special_user or is_owner
+
+    # Proceed with status update only if the user has the right permissions
+    if can_modify:
+        new_status = request.data.get('status')
+        
+        # Check if the provided new status is valid based on the STATUS_CHOICES in the Reservation model
+        if new_status in dict(Reservation.STATUS_CHOICES).keys():
+            reservation.status = new_status  # Update the status
+            reservation.save()  # Save the updated reservation object to the database
+            return JsonResponse({'message': f'Reservation status updated to {new_status}.'}, status=200)
+        else:
+            # Respond with an error if the new status is not valid
+            return JsonResponse({'error': 'Invalid status update. Please provide a valid status.'}, status=400)
+    else:
+        # Respond with an error if the user is not authorized to update the reservation status
+        return JsonResponse({'error': 'You are not authorized to update this reservation status.'}, status=403)
+
+
+
+

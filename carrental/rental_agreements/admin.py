@@ -15,8 +15,11 @@ class RentalAgreementAdmin(admin.ModelAdmin):
     actions = ['accept_agreements']
 
     def download_agreement_link(self, obj):
-        return format_html(f"<a href='{obj.agreement_file.url}' download>Download</a>")
+        if obj.signed_agreement:  # Check if there is an uploaded agreement
+            return format_html(f"<a href='{obj.signed_agreement.url}' download>Download</a>")
+        return "No agreement uploaded"
     download_agreement_link.short_description = 'Agreement'
+
 
     def accept_agreements(self, request, queryset):
         queryset.update(status='accepted')

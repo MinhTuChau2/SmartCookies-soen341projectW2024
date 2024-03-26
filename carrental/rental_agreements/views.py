@@ -4,14 +4,26 @@ from reportlab.pdfgen import canvas
 from uuid import uuid4
 from django.http import HttpResponse
 from django.utils import timezone
+from requests import request
 from reservations.models import Reservation
 from cars.models import Car
 from branch.models import Branch
+from django.views.decorators.csrf import csrf_exempt
+from django.core.files.base import ContentFile
+from .models import RentalAgreement
+from django.http import JsonResponse
+from .models import RentalAgreement
+from reservations.models import Reservation
+from django.core.files.base import ContentFile
 
 from django.core.mail import EmailMessage
+from django.conf import settings
+from carrental.settings import EMAIL_HOST_USER
+
+from django.conf import settings
 
 
-def generate_rental_agreement(request, reservation_id,as_attachment=False):
+def generate_rental_agreement(reservation_id, for_email=False):
     # Fetch the reservation instance
     reservation = Reservation.objects.get(id=reservation_id)
     car = Car.objects.get(model=reservation.car_model)  # Fetch the car based on the car_model field in Reservation
@@ -178,26 +190,72 @@ def generate_rental_agreement(request, reservation_id,as_attachment=False):
     p.save()
 
     # Move to the beginning of the StringIO buffer
-    buffer.seek(0)
-
-    if as_attachment:
-        # Return the buffer for email attachment
+    if for_email:
+        # Return the buffer for use in email attachments
+        buffer.seek(0)  # Rewind to the beginning of the buffer
         return buffer
     else:
-        # Return HttpResponse for direct download
-        response = HttpResponse(buffer, content_type='application/pdf')
-        response['Content-Disposition'] = f'attachment; filename="rental_agreement_{agreement_number}.pdf"'
+        # Prepare and return an HttpResponse for direct download
+        buffer.seek(0)  # Rewind to the beginning of the buffer
+        response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="rental_agreement.pdf"'
         return response
 
 
-def send_rental_agreement(reservation_id):
+def send_rental_agreement(request,reservation_id):
+   
+
     reservation = Reservation.objects.get(id=reservation_id)
-    buffer = generate_rental_agreement(reservation_id)  # Ensure this returns the file buffer
+    buffer = generate_rental_agreement(reservation_id,for_email=True) # Ensure this returns the file buffer
 
     # Prepare and send the email
     subject = "Your Car Rental Agreement"
     body = "Please find attached your car rental agreement. Fill it out and return it to us."
-    email = EmailMessage(subject, body, 'from@example.com', [reservation.user.email])
+    email = EmailMessage(subject, body, settings.EMAIL_HOST_USER, [reservation.email])
+
     buffer.seek(0)  # Move to the beginning of the buffer
     email.attach('rental_agreement.pdf', buffer.getvalue(), 'application/pdf')
     email.send()
+
+
+
+def get_reservation_id_from_email(sender_email):
+    """
+    Retrieves the reservation ID based on the sender's email address.
+    This assumes that each reservation has a unique email address associated with it,
+    and that senders reply with the same email address used in the reservation.
+    """
+    try:
+        # Attempt to retrieve the reservation using the sender's email
+        reservation = Reservation.objects.get(email=sender_email)
+        return reservation.id
+    except Reservation.DoesNotExist:
+        # If no reservation is found for the given email, return None or log an error
+        return None
+    
+@csrf_exempt
+def email_reception(request):
+    if request.method == 'POST':
+        # Extract sender's email from the webhook payload
+        sender_email = request.POST.get('sender_email')  # Adjust based on your email service provider's payload format
+
+        try:
+            # Attempt to retrieve the reservation using the sender's email
+            reservation = Reservation.objects.get(email=sender_email)
+            rental_agreement, created = RentalAgreement.objects.get_or_create(reservation=reservation)
+
+            # Assuming the signed agreement is an attachment
+            attachment = request.FILES.get('attachment')
+            if attachment:
+                # Save the signed agreement document
+                rental_agreement.signed_agreement.save(attachment.name, ContentFile(attachment.read()))
+                rental_agreement.status = 'under_review'
+                rental_agreement.save()
+                return JsonResponse({'status': 'success', 'message': 'Signed agreement received and under review.'})
+            else:
+                return JsonResponse({'status': 'error', 'message': 'No attachment found.'}, status=400)
+
+        except Reservation.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Reservation not found for the provided email.'}, status=404)
+
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method.'}, status=405)

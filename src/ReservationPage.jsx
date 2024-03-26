@@ -153,7 +153,7 @@ const ReservationPage = () => {
         <div className="modal">
           <div className="modal-content" >
             <p>{confirmationMessage}</p>
-            <button onClick={handleOKClick}> HOME </button>
+            <button onClick={handleOKClick}> OK </button>
           </div>
         </div>
   )}
