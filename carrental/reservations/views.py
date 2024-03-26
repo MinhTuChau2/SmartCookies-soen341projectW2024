@@ -96,7 +96,7 @@ def reservation_detail(request, reservation_id):
     # Check if the request user is the owner of the reservation, a superuser, or a special user
     is_owner = request.user.email == reservation.email
     is_special_user = request.user.email in ['SYSM@email.com', 'CSR@email.com']
-    can_modify = request.user.is_superuser or is_special_user
+    can_modify = request.user.is_superuser or is_special_user or is_owner
 
     if request.method == 'GET':
         # All authenticated users can view reservation details
@@ -109,13 +109,15 @@ def reservation_detail(request, reservation_id):
             return Response({'error': 'Not authorized to update this reservation'}, status=403)
         serializer = ReservationSerializer(reservation, data=request.data, partial=True)
         if serializer.is_valid():
+            reservation.status = 'agreement_sent'
             serializer.save()
+            send_rental_agreement(request, reservation.id)  # Resend rental agreement
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
 
     elif request.method == 'DELETE':
     # Allow superusers, SYSM, and CSR to delete reservations
-        if not (request.user.is_superuser or is_special_user):
+        if not (request.user.is_superuser or is_special_user or is_owner):
             return Response({'error': 'Not authorized to delete this reservation'}, status=403)
         reservation.delete()
         return Response(status=204)

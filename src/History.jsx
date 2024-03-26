@@ -20,14 +20,13 @@ const ReservationList = () => {
                 setLoading(false);
                 return;
             }
-        
+
             try {
                 const response = await axios.get('http://localhost:8000/reservations/reserve/', {
                     headers: {
                         Authorization: `Token ${localStorage.getItem('token')}`,
                     },
                 });
-                console.log(response.data);  // Log the response data to inspect it
                 setReservations(response.data);
                 setLoading(false);
             } catch (error) {
@@ -35,7 +34,7 @@ const ReservationList = () => {
                 setLoading(false);
             }
         };
-        
+
         fetchReservations();
     }, [currentUser]);
 
@@ -125,7 +124,7 @@ const ReservationList = () => {
                     {reservations.map((reservation) => (
                         <li key={reservation.id}>
                             {editingId === reservation.id ? (
-                                <>
+                                <div>
                                     <input
                                         type="text"
                                         name="carModel"
@@ -144,25 +143,19 @@ const ReservationList = () => {
                                         value={editFormData.returnDate}
                                         onChange={handleEditFormChange}
                                     />
-                                    <button onClick={() => submitUpdate(reservation.id)}>
-                                        Save
-                                    </button>
+                                    <button onClick={() => submitUpdate(reservation.id)}>Save</button>
                                     <button onClick={() => setEditingId(null)}>Cancel</button>
-                                </>
+                                </div>
                             ) : (
                                 <div>
                                     <p>Car Model: {reservation.carModel}</p>
                                     <p>Pickup Date: {reservation.pickupDate}</p>
                                     <p>Return Date: {reservation.returnDate}</p>
-                                    <p>Status: {reservation.status || 'No status'}</p>
+                                    <p>Status: {reservation.status}</p>
                                     {canEditOrDelete(reservation) && (
                                         <>
-                                            <button onClick={() => startEditing(reservation)}>
-                                                Edit
-                                            </button>
-                                            <button onClick={() => deleteReservation(reservation.id)}>
-                                                Delete
-                                            </button>
+                                            <button onClick={() => startEditing(reservation)}>Edit</button>
+                                            <button onClick={() => deleteReservation(reservation.id)}>Delete</button>
                                         </>
                                     )}
                                 </div>
@@ -171,14 +164,12 @@ const ReservationList = () => {
                     ))}
                 </ul>
             )}
-       
-
-                                
         </div>
     );
 };
 
 export default ReservationList;
+
 // import React, { useState, useEffect } from 'react';
 // import axios from 'axios';
 // import { useAuth } from './AuthContext.jsx';
