@@ -36,6 +36,7 @@ const CarListingPage = () => {
             }
         };
 
+
         const fetchBranches = async () => {
             try {
                 const response = await axios.get('http://localhost:8000/branches/', {
@@ -43,6 +44,10 @@ const CarListingPage = () => {
                         'Authorization': `Token ${localStorage.getItem('token')}` // Authorization token included
                     }
                 });
+                const branchesWithCoords = await Promise.all(response.data.map(async (branch) => {
+                    const coords = await getAddressCoordinates(branch.location);
+                    return { ...branch, coords: coords };
+                }));
                 setBranches(branchesWithCoords);
             } catch (error) {
                 console.error(error);
@@ -52,6 +57,23 @@ const CarListingPage = () => {
         fetchCars();
         fetchBranches();
     }, []);
+
+    //     const fetchBranches = async () => {
+    //         try {
+    //             const response = await axios.get('http://localhost:8000/branches/', {
+    //                 headers: {
+    //                     'Authorization': `Token ${localStorage.getItem('token')}` // Authorization token included
+    //                 }
+    //             });
+    //             setBranches(branchesWithCoords);
+    //         } catch (error) {
+    //             console.error(error);
+    //         }
+    //     };
+
+    //     fetchCars();
+    //     fetchBranches();
+    // }, []);
 
     useEffect(() => {
         if (filterType === '') {
@@ -72,7 +94,7 @@ const CarListingPage = () => {
             return car;
         });
         setCars(updatedCars);
-        navigate(`/reservation/${carModel}`, { state: { carModel, carPrice} });
+        navigate(`/reservation/${carModel}`, { state: { carModel, carPrice } });
     };
 
 

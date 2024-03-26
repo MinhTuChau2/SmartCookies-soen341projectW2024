@@ -30,7 +30,7 @@ const ReservationPage = () => {
   const [returnDate, setReturnDate] = useState('');
   const [insurance, setInsurance] = useState(false);
   const [gps, setGPS] = useState(false);
-  const [carSeat, setCarSeat] = useState(0);
+  //const [carSeat, setCarSeat] = useState(0);
 
   const [totalPrice, setTotalPrice] = useState(0);
 
@@ -45,19 +45,19 @@ const ReservationPage = () => {
     // Calculate number of reservation days
     const startDate = new Date(formData.pickupDate);
     const endDate = new Date(formData.returnDate);
-    const numberOfDays = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24))+1;
+    const numberOfDays = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
 
     // Calculate total price based on number of days and selected services
-    let totalPrice = numberOfDays * carPrice; 
+    let totalPrice = numberOfDays * carPrice;
     if (insurance) {
       totalPrice += insurancePrice;
     }
     if (gps) {
       totalPrice += gpsPrice;
     }
-    
-      totalPrice += formData.carSeat * carSeatPrice;
-    
+
+    totalPrice += formData.carSeat * carSeatPrice;
+
 
     return totalPrice;
   };
@@ -78,21 +78,6 @@ const ReservationPage = () => {
 
 
   useEffect(() => {
-    // Function to fetch reserved dates for the car
-    // const fetchReservedDates = async () => {
-    //   try {
-    //     const response = await axios.get(`/api/reserved-dates/${carModel}`);
-    //     if (Array.isArray(response.data)) {
-    //       setReservedDates(response.data.map(dateStr => new Date(dateStr)));
-    //     } else {
-    //       console.error('Expected an array but got:', response.data);
-    //     }
-        
-        
-    //   } catch (error) {
-    //     console.error('Error fetching reserved dates:', error);
-    //   }
-    // };
 
     const fetchReservedDates = async () => {
       try {
@@ -140,7 +125,7 @@ const ReservationPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setTotalPrice(calculateTotalPrice());
-    
+
     if (!formData.name || !formData.email || !formData.pickupDate || !formData.returnDate) {
       setError('Please complete all fields.');
       return;
@@ -201,40 +186,26 @@ const ReservationPage = () => {
               <label htmlFor="pickupDate">Pickup Date:</label>
 
               <DatePicker
-          selected={formData.pickupDate ? new Date(formData.pickupDate) : null}
-          onChange={date => setFormData({ ...formData, pickupDate: date.toISOString().split('T')[0] })}
-          excludeDates={reservedDates}
-           dateFormat="yyyy-MM-dd"
-            minDate={new Date()}
-        />
-              {/* <DatePicker
-            selected={pickupDate}
-            onChange={date => setPickupDate(date)}
-            excludeDates={reservedDates}
-            dateFormat="yyyy-MM-dd"
-            minDate={new Date()} // Prevent past dates from being selected
-          /> */}
-         
+                selected={formData.pickupDate ? new Date(formData.pickupDate) : null}
+                onChange={date => setFormData({ ...formData, pickupDate: date.toISOString().split('T')[0] })}
+                excludeDates={reservedDates}
+                dateFormat="yyyy-MM-dd"
+                minDate={new Date()}
+              />
+
             </div>
             <div className="form-group">
               <label htmlFor="pickupDate">Pickup Date:</label>
 
               <DatePicker
-          selected={formData.returnDate ? new Date(formData.returnDate) : null}
-          onChange={date => setFormData({ ...formData, returnDate: date.toISOString().split('T')[0] })}
-          excludeDates={reservedDates}
-          dateFormat="yyyy-MM-dd"
-            minDate={pickupDate || new Date()}
-        />
+                selected={formData.returnDate ? new Date(formData.returnDate) : null}
+                onChange={date => setFormData({ ...formData, returnDate: date.toISOString().split('T')[0] })}
+                excludeDates={reservedDates}
+                dateFormat="yyyy-MM-dd"
+                minDate={pickupDate || new Date()}
+              />
 
-               {/* <DatePicker
-            selected={returnDate}
-            onChange={date => setReturnDate(date)}
-            excludeDates={reservedDates}
-            dateFormat="yyyy-MM-dd"
-            minDate={pickupDate || new Date()} // Ensure return date is after pickup date or today
-          /> */}
-         
+
             </div>
             <div className="form-group">
               <label htmlFor="name">Name:</label>
@@ -279,9 +250,9 @@ const ReservationPage = () => {
                       id="carSeat"
                       name="carSeat"
                       value={formData.carSeat}
-                      onChange={e => setFormData({ ...formData, carSeat: parseInt(e.target.value)})}
+                      onChange={e => setFormData({ ...formData, carSeat: parseInt(e.target.value) })}
                       min="0"
-                      
+
                     />
 
                     <>
@@ -293,13 +264,13 @@ const ReservationPage = () => {
                         {(formData.carSeat > 0) && <p>Car Seats: ${(formData.carSeat * carSeatPrice)}</p>}
                         <hr />
                         <p><strong>Total Price: ${calculateTotalPrice()}</strong></p>
-                        <button id = 'reservecarbutton' type="submit" disabled={!isAvailable} onClick={handleSubmit}>Reserve Car</button>
+                        <button id='reservecarbutton' type="submit" disabled={!isAvailable} onClick={handleSubmit}>Reserve Car</button>
                       </div>
                     </>
                   </div>
 
 
-                  
+
 
                 </div>
               )
