@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from './AuthContext.jsx';
+import { useNavigate } from 'react-router-dom'; // Use useNavigate instead of useHistory
 
 const ReservationList = () => {
     const [reservations, setReservations] = useState([]);
@@ -12,6 +13,7 @@ const ReservationList = () => {
         pickupDate: '',
         returnDate: '',
     });
+    const navigate = useNavigate(); // Initialize useNavigate hook for navigation
 
     useEffect(() => {
         const fetchReservations = async () => {
@@ -24,7 +26,7 @@ const ReservationList = () => {
             try {
                 const response = await axios.get('http://localhost:8000/reservations/reserve/', {
                     headers: {
-                        Authorization: `Token ${localStorage.getItem('token')}`,
+                        Authorization: `Token ${localStorage.getItem('token')}`, // Use the correct token retrieval method
                     },
                 });
                 setReservations(response.data);
@@ -37,6 +39,8 @@ const ReservationList = () => {
 
         fetchReservations();
     }, [currentUser]);
+
+
 
     const startEditing = (reservation) => {
         setEditingId(reservation.id);
@@ -157,6 +161,10 @@ const ReservationList = () => {
                                             <button onClick={() => startEditing(reservation)}>Edit</button>
                                             <button onClick={() => deleteReservation(reservation.id)}>Delete</button>
                                         </>
+                                    )}
+                                    {reservation.status === 'accepted' && (
+                                       <button onClick={() => navigate(`/payment/${reservation.id}`)}>Proceed with Payment</button>
+
                                     )}
                                 </div>
                             )}

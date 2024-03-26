@@ -13,6 +13,7 @@ from django.shortcuts import get_object_or_404
 from reservations.serializers import ReservationSerializer
 from rental_agreements.views import send_rental_agreement
 
+
 from django.core.files.base import ContentFile
 
 
@@ -105,6 +106,9 @@ def reservation_detail(request, reservation_id):
 
     elif request.method == 'PUT':
         # Only superusers, CSR, and SYSM can modify reservations
+        if reservation.status not in ['agreement_sent'] and not (request.user.is_superuser or is_special_user):
+            return Response({'error': 'Cannot modify the reservation after the agreement is accepted.'}, status=403)
+
         if not can_modify:
             return Response({'error': 'Not authorized to update this reservation'}, status=403)
         serializer = ReservationSerializer(reservation, data=request.data, partial=True)
@@ -128,8 +132,12 @@ def reservation_detail(request, reservation_id):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def update_reservation_status(request, reservation_id):
+
+    if reservation.status not in ['agreement_sent']:
+        return Response({'error': 'Cannot delete the reservation after the agreement is accepted.'}, status=403)
     # Retrieve the reservation object, or return a 404 response if not found
     reservation = get_object_or_404(Reservation, id=reservation_id)
+
     
     # Ensure the request user is either the owner of the reservation, a superuser, or a special user
     is_owner = request.user.email == reservation.email
