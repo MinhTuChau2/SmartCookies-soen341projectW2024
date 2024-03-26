@@ -67,14 +67,16 @@ const CarListingPage = () => {
     }, [filterType, cars]);
 
     const reserveCar = (carModel) => {
+        let carPrice = 0;
         const updatedCars = cars.map(car => {
             if (car.model === carModel) {
+                carPrice=car.price;
                 return { ...car, available: false };
             }
             return car;
         });
         setCars(updatedCars);
-        navigate(`/reservation/${carModel}`);
+        navigate(`/reservation/${carModel}`, { state: { carModel, carPrice } });
     };
 
     const getAddressCoordinates = async (address) => {
@@ -163,7 +165,7 @@ const CarListingPage = () => {
 
                // Proceed with reservation logic
                // This section can be customized based on your application requirements
-               // For example, you may navigate to a reservation page with available cars
+               navigate(`/reservation/${carModel}?start=${startDate}&end=${endDate}`);  // For example, you may navigate to a reservation page with available cars
            } catch (error) {
                console.error('Error fetching reservations:', error);
                alert('An error occurred while fetching reservations. Please try again later.');
