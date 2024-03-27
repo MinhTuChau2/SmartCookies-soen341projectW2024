@@ -4,12 +4,14 @@ import './ReservationPage.css';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useAuth } from './AuthContext';
 
 const ReservationPage = () => {
   const { carModel } = useParams(); // Get carModel from URL parameter
+  const { currentUser } = useAuth();
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
+    name: currentUser ? currentUser.username : '', 
+    email: currentUser ? currentUser.username : '',
     carModel: carModel, // Set carModel from URL parameter
     pickupDate: '',
     returnDate: ''
