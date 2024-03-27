@@ -14,7 +14,7 @@ const ReservationPage = () => {
   const { currentUser } = useAuth();
   const [formData, setFormData] = useState({
     name: currentUser ? currentUser.username : '', 
-    email: currentUser ? currentUser.username : '',
+    email: currentUser ? currentUser.email : '',
     carModel: carModel, // Set carModel from URL parameter
     pickupDate: '',
     returnDate: '',
