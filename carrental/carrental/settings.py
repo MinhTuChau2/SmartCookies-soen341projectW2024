@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'branch',
     'transactions',
     'rental_agreements',
+    
 
 
 ]

@@ -1,6 +1,10 @@
 from django.urls import path
-from .views import CarView
+from . import views
 
 urlpatterns = [
-    path('cars/', CarView.as_view(), name='cars'),  # Use as_view() for class-based views
+    # URL for listing all cars and creating a new car
+    path('cars/', views.CarView.as_view(), name='car-list'),
+
+    # URL for deleting a specific car
+    path('cars/<str:model>/', views.CarView.as_view(), name='car-detail'),
 ]
