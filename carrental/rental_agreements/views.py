@@ -209,7 +209,7 @@ def generate_rental_agreement(reservation_id, for_email=False):
     y_position -= 15
     p.drawString(75, y_position, "Rental Company:")
     y_position -= 15
-    p.drawString(75, y_position, "Signature:      SmartCookies.ADMIN      Date: ____________________")
+    p.drawString(75, y_position, "Signature:_________________ SmartCookies.ADMIN      Date: ____________________")
     y_position -= 30
     p.drawString(75, y_position, "Renter:")
     y_position -= 15
