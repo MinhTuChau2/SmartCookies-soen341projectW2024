@@ -10,7 +10,7 @@ from django.contrib.auth import get_user_model
 
 INSURANCE_COST = Decimal('30.00')
 GPS_COST = Decimal('15.00')
-CAR_SEAT = Decimal('10.00')
+CAR_SEAT_COST = Decimal('10.00')
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
