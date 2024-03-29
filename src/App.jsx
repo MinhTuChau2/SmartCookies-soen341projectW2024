@@ -12,6 +12,7 @@ import SignUp from './SignUp';
 import CarForm from './CarForm';
 import History from './History';
 import Payment from './Payment';
+import Checkout from './Checkout.jsx';
 import { AuthProvider, useAuth } from './AuthContext.jsx';
 
 
@@ -39,6 +40,7 @@ const Header = () => {
                  {showAdminPanel && <li><a href="http://127.0.0.1:8000/admin/" target="_blank" rel="noopener noreferrer">Admin Panel</a></li>}
                  {showAdminPanel && <li><a href="/Cars_Admin" target="_blank" rel="noopener noreferrer">Car Admin</a></li>}
                  {showAddCar && <li><Link to="/Add_Car">Add Car</Link></li>}
+          
 
         </ul>
       </nav>
@@ -72,6 +74,8 @@ const App = () => {
           <Route path="/Add_Car" element={<CarForm />} /> {/* Route for adding car */}
           <Route path="/History" element={<History />} />
           <Route path="/Cars_Admin" element={<CarsforAdmin />} />
+          <Route path="/checkout/:reservationId" element={<Checkout />} />
+
          
           <Route path="/payment/:reservationId" element={<Payment />} />
 

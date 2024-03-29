@@ -12,7 +12,7 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from reservations.serializers import ReservationSerializer
 from rental_agreements.views import send_rental_agreement
-
+from django.contrib.auth.decorators import user_passes_test
 
 from django.core.files.base import ContentFile
 
@@ -160,6 +160,20 @@ def update_reservation_status(request, reservation_id):
         # Respond with an error if the user is not authorized to update the reservation status
         return JsonResponse({'error': 'You are not authorized to update this reservation status.'}, status=403)
 
-
+@csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
+def update_reservation_status(request, reservation_id):
+    reservation = get_object_or_404(Reservation, id=reservation_id)
+    
+    if request.method == 'PUT':
+        new_status = request.POST.get('status')
+        if new_status in dict(Reservation.STATUS_CHOICES):
+            reservation.status = new_status
+            reservation.save()
+            return JsonResponse({'message': 'Reservation status updated successfully'}, status=200)
+        else:
+            return JsonResponse({'error': 'Invalid status'}, status=400)
+    else:
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
 
 
