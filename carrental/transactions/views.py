@@ -31,13 +31,17 @@ def handle_payment(request, reservation_id):
     num_days = (reservation.return_date - reservation.pickup_date).days
     rental_cost = car.price * Decimal(num_days)
 
-        #Additional costs
-    if reservation.insurance:
+    # Additional costs
+    insurance = request.data.get('insurance', False)  # Check if insurance is included in the request
+    gps = request.data.get('gps', False)  # Assuming GPS is also optional and passed in the request
+    car_seat = int(request.data.get('car_seat', 0))  # Assuming car_seat is optional and passed in the request
+
+    if insurance:
         rental_cost += INSURANCE_COST * Decimal(num_days)
-    if reservation.gps:
+    if gps:
         rental_cost += GPS_COST * Decimal(num_days)
-    if reservation.car_seat > 0:
-        rental_cost += CAR_SEAT_COST * Decimal(num_days) * Decimal(reservation.car_seat)
+    if car_seat > 0:
+        rental_cost += CAR_SEAT_COST * Decimal(num_days) * Decimal(car_seat)
     
     deposit = Decimal(500)
     total_cost = rental_cost + deposit
@@ -59,7 +63,7 @@ def handle_payment(request, reservation_id):
     reservation.save()
 
     return JsonResponse({'message': 'Payment successful, and $500 deposit deducted.'}, status=200)
-    
+
 
 # @api_view(['POST'])
 # @permission_classes([IsAuthenticated])
