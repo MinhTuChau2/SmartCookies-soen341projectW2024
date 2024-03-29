@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from './AuthContext.jsx';
 import { useNavigate } from 'react-router-dom'; // Use useNavigate instead of useHistory
+import Checkout from './Checkout.jsx';
 
 const ReservationList = () => {
     const [reservations, setReservations] = useState([]);
@@ -14,6 +15,58 @@ const ReservationList = () => {
         returnDate: '',
     });
     const navigate = useNavigate(); // Initialize useNavigate hook for navigation
+    const [interval, setInterval] = useState(null);
+
+    const ifToday = (returnDate) => {
+        const currentDate = new Date();
+        currentDate.setDate(currentDate.getDate()-1);
+        const returnDateObj = new Date(returnDate);
+        currentDate.setHours(0, 0, 0, 0);
+        returnDateObj.setHours(0, 0, 0, 0);
+        return (
+            returnDateObj.getFullYear() === currentDate.getFullYear() &&
+            returnDateObj.getMonth() === currentDate.getMonth() &&
+            returnDateObj.getDate() === currentDate.getDate()
+        );
+    };
+
+    const handleCheckoutButton = () => {
+        navigate('/Checkout');
+    };
+
+    const updateReservationStatus = async (reservationId) => {
+        try {
+            // Make API call to update reservation status to 'under_review'
+            await axios.put(`http://localhost:8000/reservations/update-status/${reservationId}/`, {
+                status: 'under_review',
+            });
+
+            // Poll backend to check reservation status
+            const interval = setInterval(async () => {
+                try {
+                    const response = await axios.get(`http://localhost:8000/reservations/reservation/${reservationId}/`);
+                    const { status } = response.data;
+
+                    if (status === 'accepted') {
+                        clearInterval(interval);
+                        // Update reservation status in the reservations list
+                        setReservations(prevReservations => prevReservations.map(reservation => {
+                            if (reservation.id === reservationId) {
+                                return { ...reservation, status: 'accepted' };
+                            }
+                            return reservation;
+                        }));
+                    }
+                } catch (error) {
+                    console.error('Error checking reservation status:', error);
+                }
+            }, 5000); // Poll every 5 seconds
+        } catch (error) {
+            console.error('Error updating reservation status:', error);
+        }
+    };
+
+
 
     useEffect(() => {
         const fetchReservations = async () => {
@@ -36,9 +89,46 @@ const ReservationList = () => {
                 setLoading(false);
             }
         };
-
         fetchReservations();
-    }, [currentUser]);
+        return () => clearInterval(interval);
+    }, [currentUser, interval]);
+
+    //     const updateReservationStatus = async (reservationId) => {
+    //         try {
+    //             // Make API call to update reservation status to 'under_review'
+    //             await axios.put(`http://localhost:8000/reservations/update-status/${reservationId}/`, {
+    //                 status: 'under_review',
+    //             });
+    
+    //             // Poll backend to check reservation status
+    //             const interval = setInterval(async () => {
+    //                 try {
+    //                     const response = await axios.get(`http://localhost:8000/reservations/reservation/${reservationId}/`);
+    //                     const { status } = response.data;
+    
+    //                     if (status === 'accepted') {
+    //                         clearInterval(interval);
+    //                         // Update reservation status in the reservations list
+    //                         setReservations(prevReservations => prevReservations.map(reservation => {
+    //                             if (reservation.id === reservationId) {
+    //                                 return { ...reservation, status: 'accepted' };
+    //                             }
+    //                             return reservation;
+    //                         }));
+    //                     }
+    //                 } catch (error) {
+    //                     console.error('Error checking reservation status:', error);
+    //                 }
+    //             }, 5000); // Poll every 5 seconds
+    //         } catch (error) {
+    //             console.error('Error updating reservation status:', error);
+    //         }
+    //     };
+    
+
+    //     fetchReservations();
+    //     return () => clearInterval(interval);
+    // }, [currentUser]);
 
 
 
@@ -63,6 +153,7 @@ const ReservationList = () => {
             return_date: editFormData.returnDate,
         };
 
+        
         try {
             await axios.put(
                 `http://localhost:8000/reservations/reservations/reservation/${reservationId}/`,
@@ -149,6 +240,7 @@ const ReservationList = () => {
                                     />
                                     <button onClick={() => submitUpdate(reservation.id)}>Save</button>
                                     <button onClick={() => setEditingId(null)}>Cancel</button>
+                                    
                                 </div>
                             ) : (
                                 <div>
@@ -156,6 +248,9 @@ const ReservationList = () => {
                                     <p>Pickup Date: {reservation.pickupDate}</p>
                                     <p>Return Date: {reservation.returnDate}</p>
                                     <p>Status: {reservation.status}</p>
+                                    {ifToday(reservation.returnDate) && (
+                                        <button onClick={()=>{handleCheckoutButton(); updateReservationStatus(reservation.id);}}>Go to Checkout</button>
+                                    )}
                                     {canEditOrDelete(reservation) && (
                                         <>
                                             <button onClick={() => startEditing(reservation)}>Edit</button>
@@ -166,6 +261,11 @@ const ReservationList = () => {
                                        <button onClick={() => navigate(`/payment/${reservation.id}`)}>Proceed with Payment</button>
 
                                     )}
+                                    {reservation.status === 'returned' && (
+                                   <div>
+                                       <p>Processing your return (status under review)</p>
+                                   </div>
+                                )}
                                 </div>
                             )}
                         </li>

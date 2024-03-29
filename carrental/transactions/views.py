@@ -61,10 +61,40 @@ def handle_payment(request, reservation_id):
     return JsonResponse({'message': 'Payment successful, and $500 deposit deducted.'}, status=200)
     
 
+# @api_view(['POST'])
+# @permission_classes([IsAuthenticated])
+# def handle_reimbursement(request, reservation_id):
+#     get_object_or_404(Reservation, id=reservation_id)  # Ensure reservation exists
+#     bank_account = request.user.bank_account
+#     bank_account.reimburse(Decimal(500))  # Refund deposit
+#     return JsonResponse({'message': 'Deposit reimbursed'}, status=200)
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def handle_reimbursement(request, reservation_id):
-    get_object_or_404(Reservation, id=reservation_id)  # Ensure reservation exists
-    bank_account = request.user.bank_account
-    bank_account.reimburse(Decimal(500))  # Refund deposit
-    return JsonResponse({'message': 'Deposit reimbursed'}, status=200)
+    # Ensure reservation exists
+    get_object_or_404(Reservation, id=reservation_id)
+
+    # Identify the rental company's user and bank account
+    User = get_user_model()
+    rental_company_user = User.objects.get(email='rentalcompany@email.com')
+    rental_company_account = BankAccount.objects.get(user=rental_company_user)
+
+    # Identify the current user's bank account for reimbursement
+    user_bank_account = request.user.bank_account
+
+    # Check if the rental company has enough balance for the reimbursement
+    if rental_company_account.balance >= Decimal(500):
+        # Transfer $500 from the rental company's account to the user's account
+        rental_company_account.balance -= Decimal(500)
+        user_bank_account.balance += Decimal(500)
+        
+        # Save the updated account balances
+        rental_company_account.save()
+        user_bank_account.save()
+
+        # Optionally, create transaction records for both accounts here
+
+        return JsonResponse({'message': 'Deposit reimbursed from rental company'}, status=200)
+    else:
+        return JsonResponse({'error': 'Rental company does not have sufficient funds for reimbursement'}, status=400)

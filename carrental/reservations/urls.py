@@ -8,7 +8,7 @@ urlpatterns = [
     #path('reservations/', reserve_car, name='reserve_car'),
     path('reserve/', reserve_car, name='reserve_car'),
     path('reservations/reservation/<int:reservation_id>/', reservation_detail, name='reservation_detail'),
-     path('reservations/update-status/<int:reservation_id>/', update_reservation_status, name='update_reservation_status'),
+    path('reservations/update-status/<int:reservation_id>/', update_reservation_status, name='update_reservation_status'),
 ]
 
 
