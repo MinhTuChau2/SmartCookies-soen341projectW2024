@@ -426,6 +426,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from './AuthContext.jsx';
 import { useNavigate } from 'react-router-dom'; // Use useNavigate instead of useHistory
+import './History.css';
 
 const ReservationList = () => {
     const [reservations, setReservations] = useState([]);
@@ -560,14 +561,14 @@ const ReservationList = () => {
     };
     
     return (
-        <div>
-            <h2>All Reservations</h2>
+        <div className="reservation-container">
+         <h2 className="reservation-heading">All Reservations</h2>
             {loading ? (
                 <p>Loading...</p>
             ) : (
                 <ul>
                     {reservations.map((reservation) => (
-                        <li key={reservation.id}>
+                        <li key={reservation.id} className="reservation-box">
                             {editingId === reservation.id ? (
                                 <div>
                                     <input
@@ -616,6 +617,7 @@ const ReservationList = () => {
                 </ul>
             )}
         </div>
+      
     );
 };
 

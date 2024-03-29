@@ -1,0 +1,60 @@
+/* History.css */
+
+/* Container styles */
+.reservation-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    padding: 20px;
+    height: 100%; /* Set height to full viewport height */
+   
+}  
+
+/* Heading styles */
+.reservation-heading {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #333; /* Dark text color */
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: color 0.3s ease;
+}
+
+.reservation-heading:hover {
+    color: #e4a4de; /* Primary color on hover */
+}
+
+/* Loading message styles */
+.loading-message {
+    font-style: italic;
+    color: #666; /* Medium gray color */
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+/* List styles */
+.reservation-list {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+.reservation-box {
+    background-color: #fafafa;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  
+}
+
+
+ul {
+    list-style: none; /* Remove bullets */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+}
