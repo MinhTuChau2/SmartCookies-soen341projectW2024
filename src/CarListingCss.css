@@ -15,10 +15,76 @@
     max-height: auto; /* Adjust the maximum height of the image */
 }
 
+.car-image:hover {
+    transform: scale(1.2); /* Increase size on hover */
+    transition: 0.3s;
+}
+
 .map-container {
     height: 300px; /* Adjust the height of the map */
     margin-top: 20px; /* Adjust the margin between cars and map */
 }
 .content-wrapper {
     margin-top: 40px; /* Adjust the top margin as needed */
+}
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure the modal appears above other content */
+    opacity: 0; /* Initially hidden */
+    pointer-events: none; /* Initially not clickable */
+    transition: opacity 0.3s ease; /* Smooth transition for opacity */
+}
+
+.modal-overlay.active {
+    opacity: 1; /* Make the modal visible */
+    pointer-events: auto; /* Make it clickable */
+}
+
+/* Modal Container */
+.Modal {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add shadow for depth */
+    max-width: 80%; /* Limit the width of the modal */
+    max-height: 80%; /* Limit the height of the modal */
+    overflow: auto; /* Enable scrolling if content exceeds modal size */
+    transition: transform 0.3s ease; /* Smooth transition for transform */
+    transform: scale(0.7); /* Initially smaller size */
+    z-index: 1100; /* Ensure the modal appears above the overlay */
+}
+
+.Modal.active {
+    transform: scale(1); /* Scale up to full size when active */
+}
+
+/* Close Button */
+.Close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #333;
+}
+
+/* Modal Content */
+.Modal-Content {
+    /* Center the content horizontally and vertically */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 1200; /* Ensure the content appears above the modal */
 }

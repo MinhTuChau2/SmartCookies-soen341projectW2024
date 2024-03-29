@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import './CarListingCss.css';
+import ImageModal from './ImageModal';
 
 const CarListingPage = () => {
     const [cars, setCars] = useState([]);
@@ -13,6 +14,8 @@ const CarListingPage = () => {
     const [postalCode, setPostalCode] = useState('');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -189,6 +192,18 @@ const CarListingPage = () => {
         return deg * (Math.PI / 180);
     };
 
+    const openModal = (image) => {
+        setSelectedImage(image);
+        setIsModalOpen(true);
+        console.log('Modal opened. isModalOpen:', true);
+    };
+    
+    const closeModal = () => {
+        setSelectedImage(null);
+        setIsModalOpen(false);
+        console.log('Modal closed. isModalOpen:', false);
+    };
+
     return (
         <div className="content-wrapper">
         <h1>Car Listings</h1>
@@ -200,6 +215,7 @@ const CarListingPage = () => {
                      <input type="date" value={endDate} onChange={(e) => handleDateChange(e, 'end')} />
 
                      <button onClick={() => reserveCarWithDates()}>Reserve with Dates</button>
+                     
                  </div>
 
             <div className="filter-section">
@@ -223,7 +239,7 @@ const CarListingPage = () => {
             </div>
             <div className="car-container">
                 {filteredCars.map((car, index) => (
-                    <div key={index} className="car-item">
+                    <div key={index} className="car-item" onClick={() => openModal(car.image)}>
                         <h2>{car.maker} {car.model}</h2>
                         <p>Year: {car.year}</p>
                         <p>Price: {car.price}</p>
@@ -253,6 +269,9 @@ const CarListingPage = () => {
                     ))}
                 </MapContainer>
             </div>
+
+            {isModalOpen && <ImageModal image={selectedImage} onClose={closeModal} />}
+
         </div>
     );
 };
