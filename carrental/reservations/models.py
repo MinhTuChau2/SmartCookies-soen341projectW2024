@@ -20,7 +20,8 @@ class Reservation(models.Model):
         ('payment_pending', 'Payment Pending'),
         ('completed', 'Completed'),
         ('cancelled', 'Cancelled'),
-        ('car_received', 'Car received')
+        ('car_received', 'Car received'),
+        ('Finish', 'Finish')
     ]
     
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')

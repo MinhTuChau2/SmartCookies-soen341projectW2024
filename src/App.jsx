@@ -74,7 +74,8 @@ const App = () => {
           <Route path="/Add_Car" element={<CarForm />} /> {/* Route for adding car */}
           <Route path="/History" element={<History />} />
           <Route path="/Cars_Admin" element={<CarsforAdmin />} />
-          <Route path="/Checkout" element={<Checkout />} />
+          <Route path="/checkout/:reservationId" element={<Checkout />} />
+
          
           <Route path="/payment/:reservationId" element={<Payment />} />
 

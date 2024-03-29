@@ -280,84 +280,53 @@
 // };
 
 // export default Checkout;
-
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useAuth } from './AuthContext'; // Make sure the path is correct
 
 const Checkout = () => {
-  const [processingReturn, setProcessingReturn] = useState(false);
-  const [returnMessage, setReturnMessage] = useState('');
-  const [isReturnDate, setIsReturnDate] = useState(false);
-  const { reservationId } = useParams();
+  const { currentUser } = useAuth();
+  const [creditCardNumber, setCreditCardNumber] = useState('');
   const navigate = useNavigate();
+  const { reservationId } = useParams();
 
-  useEffect(() => {
-    // Check if today is the return date
-    const checkReturnDate = async () => {
-      try {
-        const { data } = await axios.get(`/api/reservations/${reservationId}`);
-        const returnDate = new Date(data.return_date);
-        const today = new Date();
-        if (returnDate.setHours(0,0,0,0) === today.setHours(0,0,0,0)) {
-          setIsReturnDate(true);
-        }
-      } catch (error) {
-        console.error('Error fetching reservation:', error);
-      }
-    };
-
-    checkReturnDate();
-  }, [reservationId]);
-
-  const handleReturnCar = async () => {
-    setProcessingReturn(true);
-    setReturnMessage('Processing your return, please wait...');
-    
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
     try {
-      // Make API call to update reservation status and handle potential damages
-      const response = await axios.put(`/api/reservations/${reservationId}/return/`, {
-        // Additional data for damages or other checks can be included here
+      const email = currentUser.email; // Get the current user's email from AuthContext
+      const bankAccountResponse = await axios.get(`http://localhost:8000/transactions/bank-account/?email=${email}`, {
+        headers: { Authorization: `Token ${localStorage.getItem('token')}` }
       });
-
-      // Check the updated status from the response
-      if (response.data.status === 'accepted') {
-        setReturnMessage('Successfully checked out. An email confirmation has been sent.');
-        setProcessingReturn(false);
-        // Redirect to the history page or update the UI as needed
+  
+      if (bankAccountResponse.data.creditCardNumber === creditCardNumber) {
+        // If the credit card number matches, proceed with reimbursement
+        await axios.post(`http://localhost:8000/transactions/reimbursement/${reservationId}/`, {}, {
+          headers: { Authorization: `Token ${localStorage.getItem('token')}` }
+        });
+        alert('Reimbursement successful');
         navigate('/history');
       } else {
-        // Handle other statuses like 'damaged', 'under_review', etc.
-        setReturnMessage(`Return status: ${response.data.status}.`);
+        alert('The entered credit card number does not match our records. Please try again.');
       }
     } catch (error) {
-      console.error('Error updating reservation status:', error);
-      setReturnMessage('Error processing return. Please try again or contact support.');
-      setProcessingReturn(false);
+      console.error('Error during the checkout process:', error);
+      alert('An error occurred during the checkout process. Please try again or contact support.');
     }
   };
-
+  
   return (
     <div>
-      <h1>Checkout</h1>
-      {isReturnDate ? (
-        <>
-          {processingReturn ? (
-            <p>{returnMessage}</p>
-          ) : (
-            <>
-              <p>{returnMessage}</p>
-              <button onClick={handleReturnCar}>Return Car</button>
-            </>
-          )}
-        </>
-      ) : (
-        <p>It is not the return date yet.</p>
-      )}
+      <h2>Checkout</h2>
+      <form onSubmit={handleSubmit}>
+        <input type="text" name="name" value={currentUser.username || ''} readOnly placeholder="Name" required />
+        <input type="email" name="email" value={currentUser.email || ''} readOnly placeholder="Email" required />
+        <input type="text" name="creditCardNumber" value={creditCardNumber} onChange={(e) => setCreditCardNumber(e.target.value)} placeholder="Credit Card Number" required />
+        <button type="submit">Submit for Reimbursement</button>
+      </form>
     </div>
   );
 };
 
 export default Checkout;
-
-

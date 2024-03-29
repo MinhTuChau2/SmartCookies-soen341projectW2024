@@ -7,10 +7,13 @@ from reservations.models import Reservation
 from decimal import Decimal
 from cars.models import Car
 from django.contrib.auth import get_user_model
+from rest_framework.response import Response
+from .models import BankAccount
+
 
 INSURANCE_COST = Decimal('30.00')
 GPS_COST = Decimal('15.00')
-CAR_SEAT_COST = Decimal('10.00')
+CAR_SEAT_COST = Decimal('10.00') 
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -77,7 +80,7 @@ def handle_payment(request, reservation_id):
 @permission_classes([IsAuthenticated])
 def handle_reimbursement(request, reservation_id):
     # Ensure reservation exists
-    get_object_or_404(Reservation, id=reservation_id)
+    reservation=get_object_or_404(Reservation, id=reservation_id)
 
     # Identify the rental company's user and bank account
     User = get_user_model()
@@ -97,8 +100,27 @@ def handle_reimbursement(request, reservation_id):
         rental_company_account.save()
         user_bank_account.save()
 
+        reservation.status = 'Finished'
+        reservation.save()
+
         # Optionally, create transaction records for both accounts here
 
-        return JsonResponse({'message': 'Deposit reimbursed from rental company'}, status=200)
+        return JsonResponse({'message': 'Deposit reimbursed from Cookie Cruisers'}, status=200)
     else:
         return JsonResponse({'error': 'Rental company does not have sufficient funds for reimbursement'}, status=400)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_bank_account_by_email(request):
+    user_email = request.GET.get('email')
+    if not user_email:
+        return Response({'error': 'Email query parameter is required.'}, status=400)
+
+    User = get_user_model()
+    try:
+        user = User.objects.get(email=user_email)
+        bank_account = BankAccount.objects.get(user=user)
+        return Response({'creditCardNumber': bank_account.credit_card_number})
+    except (User.DoesNotExist, BankAccount.DoesNotExist):
+        return Response({'error': 'Bank account not found for the given email.'}, status=404)

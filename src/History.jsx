@@ -542,12 +542,13 @@ const ReservationList = () => {
         if (reservation.status === 'completed') {
             alert('The car is currently being checked. Please wait.');
         } else if (reservation.status === 'car_received') {
-            navigate('/Checkout');
+            navigate(`/checkout/${reservation.id}`);
+
         }
     };
     
     const canEditOrDelete = (reservation) => {
-        if (!currentUser || ['completed', 'accepted', 'car_received'].includes(reservation.status)) {
+        if (!currentUser || ['completed', 'accepted', 'car_received', 'Finished'].includes(reservation.status)) {
             return false;
         }
     
@@ -605,12 +606,9 @@ const ReservationList = () => {
                                     {reservation.status === 'accepted' && (
                                         <button onClick={() => navigate(`/payment/${reservation.id}`)}>Proceed with Payment</button>
                                     )}
-                                    {reservation.status === 'completed' && isReturnDateOrPast(reservation.returnDate) && (
+                                    {(reservation.status === 'completed' && isReturnDateOrPast(reservation.returnDate)) || reservation.status === 'car_received' ? (
                                         <button onClick={() => handleCheckout(reservation)}>Go to Checkout</button>
-                                    )}
-                                    {reservation.status === 'car_received' && (
-                                        <button onClick={() => navigate('/Checkout')}>Go to Checkout</button>
-                                    )}
+                                    ) : null}
                                 </div>
                             )}
                         </li>
@@ -619,8 +617,7 @@ const ReservationList = () => {
             )}
         </div>
     );
-    
-                                    };
+};
 
 export default ReservationList;
 
