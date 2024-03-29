@@ -426,7 +426,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from './AuthContext.jsx';
 import { useNavigate } from 'react-router-dom'; // Use useNavigate instead of useHistory
-import './History.CSS';
+import './History.css';
 
 const ReservationList = () => {
     const [reservations, setReservations] = useState([]);
@@ -568,7 +568,7 @@ const ReservationList = () => {
             ) : (
                 <ul>
                     {reservations.map((reservation) => (
-                        <li key={reservation.id}>
+                        <li key={reservation.id} className="reservation-box">
                             {editingId === reservation.id ? (
                                 <div>
                                     <input
