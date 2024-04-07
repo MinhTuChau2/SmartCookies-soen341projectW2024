@@ -11,7 +11,7 @@
 }
 
 .benefit-item {
-  background-color: #f0f0f0; /* Light grey background */
+  background-color:#e82e6c40; /* Light grey background */
   padding: 40px; /* Increased padding */
   margin: 10px; /* Adds space between cards */
   width: calc(25% - 20px); /* Adjust width based on your preference */
@@ -26,21 +26,21 @@
 }
 
 .faq-content {
-  background-color: #f0f0f0; /* Light grey background */
+  background-color: #e82e6c40; /* Light grey background */
   padding: 40px;
   margin: auto;
   width: 80%;
 }
 
 .faq-item:not(:last-child) {
-  border-bottom: 1px solid #E0E0E0; /* Separator line */
+  border-bottom: 1px solid #e8cfe1; /* Separator line */
   padding-bottom: 20px; /* Space above the line */
   margin-bottom: 20px; /* Space below the line */
 }
 
 
 footer {
-  background-color: #f0f0f0; /* Light grey background */
+  background-color: #e82e6c40; /* Light grey background */
   color: #000;
   text-align: center;
   padding: 20px 0;
@@ -54,7 +54,7 @@ footer {
 .booking-section {
   flex: 1;
   padding: 20px;
-  background-color: #CBA984;
+  background-color: #e82e6c40;
 }
 
 .booking-section form {
@@ -92,7 +92,7 @@ footer {
 }
 
 .explore-btn {
-  background-color: #C87513;
+  background-color: #e82e6c9e;
   color: #fff; /* White text */
   padding: 10px 30px; /* Increased button size */
   border-radius: 5px;
@@ -103,7 +103,7 @@ footer {
 }
 
 .explore-btn:hover {
-  background-color: #edbbe9;
+  background-color: #e82e6c72;
 }
 
 .faq-section h2 {

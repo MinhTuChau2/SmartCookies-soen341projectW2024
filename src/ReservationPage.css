@@ -28,7 +28,7 @@ input[type="email"] {
 button {
   padding: 0.5rem 1rem;
   font-size: 1rem;
-  background-color: #C87513;
+  background-color: #e792d0;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -97,7 +97,7 @@ h3 {
   width: 250px; 
   padding: 15px;
   background-color: #ffffff; 
-  border: 1px solid #C87513; 
+  border: 1px solid #e8cfe1; 
   border-radius: 8px; 
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
   z-index: 10; 
@@ -122,7 +122,7 @@ h3 {
   display: block; 
   margin-top: 10px; 
   font-size: 16px;
-  color: #C87513; 
+  color: #e8cfe1; 
   
 }
 

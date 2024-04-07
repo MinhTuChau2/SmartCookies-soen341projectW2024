@@ -13,6 +13,11 @@
 .car-image {
     width: 50%; /* Set the width to 100% to make the image responsive */
     max-height: auto; /* Adjust the maximum height of the image */
+    transition: transform 0.3s ease; 
+}
+
+.car-image:hover {
+    transform: scale(1.003); /* Increase the scale of the image on hover */
 }
 
 .map-container {
@@ -21,4 +26,61 @@
 }
 .content-wrapper {
     margin-top: 40px; /* Adjust the top margin as needed */
+}
+
+
+/* Styling for date selection */
+.date-selection {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.date-selection label {
+    font-weight: bold;
+}
+
+.date-selection input[type="date"] {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.date-selection button {
+    background-color: #e82e6c9e;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+/* Styling for filter section */
+.filter-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.filter-section label {
+    font-weight: bold;
+}
+
+.filter-section select,
+.filter-section input[type="text"] {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.filter-section button {
+    background-color: #e82e6c9e;
+    margin-bottom:20px;
+    
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
 }

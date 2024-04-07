@@ -5,7 +5,7 @@
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #f9f9f9;
+  background-color: #f9f9f922;
 }
 
 .login-form input[type="email"],
@@ -25,7 +25,7 @@
   margin: 10px 0;
   border: none;
   border-radius: 3px;
-  background-color: #d19915;
+  background-color: #e82e6c9e;
   color: #fff;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -39,4 +39,24 @@
 .login-form .error {
   color: #dc3545;
   margin-top: 10px;
+}
+
+
+/*Animate*/
+
+/* Keyframes for left-to-right animation */
+@keyframes slideInLeft {
+  from {
+    opacity: 0; /* Start with opacity 0 */
+    transform: translateX(-100%); /* Start off-screen to the left */
+  }
+  to {
+    opacity: 1; /* Transition to opacity 1 */
+    transform: translateX(0); /* Slide in to the right */
+  }
+}
+
+/* Apply left-to-right animation to all elements */
+* {
+  animation: slideInLeft 1.2s ease-in-out; /* Apply the slideInLeft animation with a duration of 0.5s */
 }
