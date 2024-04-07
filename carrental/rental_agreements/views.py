@@ -93,7 +93,7 @@ def generate_rental_agreement(reservation_id, for_email=False):
     y_position -= 15
     p.drawString(75, y_position, f"Name: {renter_name}")
     y_position -= 15
-    p.drawString(75, y_position, f"Address: [Renter's Address]")  # Placeholder
+    p.drawString(75, y_position, f"Address: rentalcompany@email.com")  # Placeholder
     y_position -= 15
     p.drawString(75, y_position, f"Contact Number: 514 888 8888")  # Placeholder
     y_position -= 15
