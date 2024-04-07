@@ -31,11 +31,3 @@ __pycache__/
 .myworld
 .migrations
 
-# src/App.css
-# src/CarFormCSS.css
-# src/CarListingCss.css
-# src/ContactCSS.css
-# src/HomePageCSS.css
-# src/LoginCSS.css
-# src/ReservationPage.css
-# src/SignupCSS.css
