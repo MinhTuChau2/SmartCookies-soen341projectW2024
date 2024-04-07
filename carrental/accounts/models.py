@@ -3,7 +3,7 @@ from django.db import models
 
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)  # Ensure email is unique
-
+    points = models.IntegerField(default=0)
     # If you have any other custom fields, they can go here
 
     USERNAME_FIELD = 'email'

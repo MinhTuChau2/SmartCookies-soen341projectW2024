@@ -1,4 +1,5 @@
 from rest_framework import generics
+from django.views.decorators.csrf import csrf_exempt 
 from .serializers import UserRegistrationSerializer
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -9,7 +10,7 @@ from django.db import IntegrityError
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-
+from .models import CustomUser
 from django.contrib.auth import authenticate, get_user_model
 User = get_user_model()
 
@@ -31,7 +32,8 @@ class UserRegistrationView(generics.CreateAPIView):
                 return Response({
                     "user_id": user.pk,
                     "email": user.email,
-                    "username": user.username
+                    "username": user.username,
+                    "points": user.points 
                 }, status=status.HTTP_201_CREATED)
             except IntegrityError as e:
                 return Response({"error": "A user with this email already exists."}, status=status.HTTP_400_BAD_REQUEST)
@@ -86,3 +88,23 @@ class UserDetailView(LoginRequiredMixin, View):
             'username': request.user.username,
             # Include any other user fields you might need
         })
+    
+
+@csrf_exempt
+def update_points(request):
+    if request.method == 'POST':
+        data = request.POST  # Assuming points and email are sent via POST request
+        email = data.get('email')
+        points = data.get('points')
+
+        try:
+            user = User.objects.get(email=email)
+            user.points += int(points)
+            user.save()
+            return JsonResponse({'message': 'Points updated successfully'}, status=200)
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'User not found'}, status=404)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    else:
+        return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)
