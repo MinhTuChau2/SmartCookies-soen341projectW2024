@@ -24,8 +24,18 @@ dist-ssr
 *.sw?
 *.pyc
 db.sqlite3
-
-
 # .gitignore
 __pycache__/
 *.pyc
+.env
+.myworld
+.migrations
+
+# src/App.css
+# src/CarFormCSS.css
+# src/CarListingCss.css
+# src/ContactCSS.css
+# src/HomePageCSS.css
+# src/LoginCSS.css
+# src/ReservationPage.css
+# src/SignupCSS.css

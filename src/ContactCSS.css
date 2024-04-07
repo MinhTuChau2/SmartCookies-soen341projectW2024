@@ -3,14 +3,14 @@
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #f9f9f922;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(235, 233, 233, 0.1);
 }
 
 .contact-form h2 {
   margin-bottom: 20px;
-  color: #333;
+  
 }
 
 .contact-form form {
@@ -24,7 +24,7 @@
 
 .contact-form label {
   font-weight: bold;
-  color: #555;
+ 
 }
 
 .contact-form input[type="text"],
@@ -33,7 +33,7 @@
   width: 100%;
   padding: 10px;
   margin-top: 6px;
-  border: 2px solid #ccc;
+  border: 2px solid #cccccc6c;
   border-radius: 8px;
   transition: border-color 0.3s ease-in-out;
 }
@@ -51,3 +51,7 @@
   resize: vertical;
   min-height: 150px;
 }
+
+
+/*animation*/
+
