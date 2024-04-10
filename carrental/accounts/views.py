@@ -11,6 +11,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from .models import CustomUser
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import authenticate, get_user_model
 User = get_user_model()
 
@@ -91,20 +93,28 @@ class UserDetailView(LoginRequiredMixin, View):
     
 
 @csrf_exempt
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def update_points(request):
     if request.method == 'POST':
-        data = request.POST  # Assuming points and email are sent via POST request
+        data = request.data
         email = data.get('email')
         points = data.get('points')
 
+        # Validate data
+        if not email or not points:
+            return JsonResponse({'error': 'Both email and points are required'}, status=status.HTTP_400_BAD_REQUEST)
+
         try:
-            user = User.objects.get(email=email)
+            user = CustomUser.objects.get(email=email)
             user.points += int(points)
             user.save()
-            return JsonResponse({'message': 'Points updated successfully'}, status=200)
-        except User.DoesNotExist:
-            return JsonResponse({'error': 'User not found'}, status=404)
+            return JsonResponse({'message': 'Points updated successfully'}, status=status.HTTP_200_OK)
+        except CustomUser.DoesNotExist:
+            return JsonResponse({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        except ValueError:
+            return JsonResponse({'error': 'Invalid points value'}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
+            return JsonResponse({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     else:
-        return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)
+        return JsonResponse({'error': 'Only POST requests are allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
