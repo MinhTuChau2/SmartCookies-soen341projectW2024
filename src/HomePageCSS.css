@@ -9,9 +9,21 @@
   justify-content: space-around; /* Distributes space around items */
   padding: 40px 0; /* Added padding for spacing */
 }
+.intro-section,
+.benefits-section,
+.explore-section,
+.faq-section,
+footer,
+.booking-section label,
+.booking-section select,
+.booking-section input[type="date"],
+.booking-section button {
+  font-family: Arial, sans-serif; /* Change the font to Arial or any other preferred sans-serif font */
+}
+
 
 .benefit-item {
-  background-color:#e82e6c40; /* Light grey background */
+  background: linear-gradient(190deg, #e82e6c40, #ffffff40); /* Gradient background */
   padding: 40px; /* Increased padding */
   margin: 10px; /* Adds space between cards */
   width: calc(25% - 20px); /* Adjust width based on your preference */
@@ -26,7 +38,7 @@
 }
 
 .faq-content {
-  background-color: #e82e6c40; /* Light grey background */
+  background: linear-gradient(140deg, #e82e6c40, #ffffff40); /* Light grey background */
   padding: 40px;
   margin: auto;
   width: 80%;
@@ -40,7 +52,7 @@
 
 
 footer {
-  background-color: #e82e6c40; /* Light grey background */
+  background-color: #e82e6c23; /* Light grey background */
   color: #000;
   text-align: center;
   padding: 20px 0;
