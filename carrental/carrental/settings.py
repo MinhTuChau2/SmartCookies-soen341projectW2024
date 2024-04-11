@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
-    'reservations',
+    'reservations.apps.ReservationsConfig',
     'cars',
     'branch',
     'transactions',
@@ -173,3 +173,5 @@ EMAIL_PORT = 587  # Port for secure SMTP
 EMAIL_USE_TLS = True  # Enable TLS encryption
 EMAIL_HOST_USER = 'soencarrental@gmail.com'  # Your Gmail address
 EMAIL_HOST_PASSWORD = 'rqstlmgnispqcmbm' # Your Gmail password
+
+
