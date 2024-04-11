@@ -45,8 +45,20 @@ def handle_payment(request, reservation_id):
         rental_cost += GPS_COST * Decimal(num_days)
     if car_seat > 0:
         rental_cost += CAR_SEAT_COST * Decimal(num_days) * Decimal(car_seat)
-    
-    deposit = Decimal(500)
+
+    # Apply cookies (points) discount
+    cookies_used = int(request.data.get('cookies_used', 0))  # Points to use
+    max_discount = Decimal('0.10') * Decimal(cookies_used) / Decimal('50')  # 10% for every 50 cookies
+    max_discount = min(max_discount, Decimal('1.00'))  # Cap the discount at 100%
+    discount_amount = rental_cost * max_discount
+    rental_cost -= discount_amount
+
+    # Update user's points after using them for a discount
+    user = request.user
+    user.points -= cookies_used
+    user.save()
+
+    deposit = Decimal('500')
     total_cost = rental_cost + deposit
 
     # Process the payment from the customer's account
@@ -65,7 +77,7 @@ def handle_payment(request, reservation_id):
     reservation.status = 'completed'
     reservation.save()
 
-    return JsonResponse({'message': 'Payment successful, and $500 deposit deducted.'}, status=200)
+    return JsonResponse({'message': f'Payment successful, and $500 deposit deducted. Total discount applied: ${discount_amount}.'}, status=200)
 
 
 # @api_view(['POST'])
