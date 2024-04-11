@@ -1,3 +1,5 @@
+from django.shortcuts import get_object_or_404
+from accounts.models import CustomUser
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -9,12 +11,14 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import authentication_classes
 from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
+
 from reservations.serializers import ReservationSerializer
 from rental_agreements.views import send_rental_agreement
 from django.contrib.auth.decorators import user_passes_test
 
+
 from django.core.files.base import ContentFile
+import logging
 
 
 
@@ -129,37 +133,35 @@ def reservation_detail(request, reservation_id):
     return Response({'error': 'Invalid request'}, status=400)
 
 
+logger = logging.getLogger(__name__)
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def update_reservation_status(request, reservation_id):
+    logger.debug("Updating reservation status...")
 
-    if reservation.status not in ['agreement_sent']:
-        return Response({'error': 'Cannot delete the reservation after the agreement is accepted.'}, status=403)
-    # Retrieve the reservation object, or return a 404 response if not found
     reservation = get_object_or_404(Reservation, id=reservation_id)
+    new_status = request.data.get('status')
+    logger.debug(f"New status: {new_status}")
 
-    
-    # Ensure the request user is either the owner of the reservation, a superuser, or a special user
-    is_owner = request.user.email == reservation.email
-    is_special_user = request.user.email in ['SYSM@email.com', 'CSR@email.com']
-    can_modify = request.user.is_superuser or is_special_user or is_owner
+    if new_status not in dict(Reservation.STATUS_CHOICES).keys():
+        return JsonResponse({'error': 'Invalid status update. Please provide a valid status.'}, status=400)
 
-    # Proceed with status update only if the user has the right permissions
-    if can_modify:
-        new_status = request.data.get('status')
-        
-        # Check if the provided new status is valid based on the STATUS_CHOICES in the Reservation model
-        if new_status in dict(Reservation.STATUS_CHOICES).keys():
-            reservation.status = new_status  # Update the status
-            reservation.save()  # Save the updated reservation object to the database
-            return JsonResponse({'message': f'Reservation status updated to {new_status}.'}, status=200)
-        else:
-            # Respond with an error if the new status is not valid
-            return JsonResponse({'error': 'Invalid status update. Please provide a valid status.'}, status=400)
-    else:
-        # Respond with an error if the user is not authorized to update the reservation status
-        return JsonResponse({'error': 'You are not authorized to update this reservation status.'}, status=403)
+    reservation.status = new_status
+    reservation.save()
+    logger.debug(f"Reservation status updated to {new_status}")
 
+    if new_status in ['completed', 'Finish']:
+        try:
+            user = CustomUser.objects.get(email=reservation.email)
+            user.points += 10
+            user.save()
+            logger.debug(f"User points updated. New points: {user.points}")
+        except CustomUser.DoesNotExist:
+            logger.error("User associated with reservation not found.")
+            return JsonResponse({'error': 'User associated with this reservation not found.'}, status=404)
+
+    return JsonResponse({'message': f'Reservation status updated to {new_status}.'}, status=200)
 @csrf_exempt
 @user_passes_test(lambda u: u.is_superuser)
 def update_reservation_status(request, reservation_id):
