@@ -92,29 +92,15 @@ class UserDetailView(LoginRequiredMixin, View):
         })
     
 
-@csrf_exempt
-@api_view(['POST'])
+@api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def update_points(request):
-    if request.method == 'POST':
-        data = request.data
-        email = data.get('email')
-        points = data.get('points')
-
-        # Validate data
-        if not email or not points:
-            return JsonResponse({'error': 'Both email and points are required'}, status=status.HTTP_400_BAD_REQUEST)
-
-        try:
-            user = CustomUser.objects.get(email=email)
-            user.points += int(points)
-            user.save()
-            return JsonResponse({'message': 'Points updated successfully'}, status=status.HTTP_200_OK)
-        except CustomUser.DoesNotExist:
-            return JsonResponse({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
-        except ValueError:
-            return JsonResponse({'error': 'Invalid points value'}, status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            return JsonResponse({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    else:
-        return JsonResponse({'error': 'Only POST requests are allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+def get_user_data(request):
+    user = request.user
+    try:
+        # Retrieve the user object from the database
+        user_obj = CustomUser.objects.get(id=user.id)
+        # Serialize user object using custom serializer
+        serializer = UserRegistrationSerializer(user_obj)
+        return Response(serializer.data)
+    except CustomUser.DoesNotExist:
+        return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
