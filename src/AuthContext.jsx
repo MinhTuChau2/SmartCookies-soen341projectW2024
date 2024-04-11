@@ -1,10 +1,41 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import axios from 'axios';
 
 const AuthContext = createContext();
 
 export function useAuth() {
   return useContext(AuthContext);
 }
+
+async function fetchUserPoints() {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Token not found in localStorage');
+    }
+
+    const response = await axios.get('http://localhost:8000/accounts/api/get-user-data/', {
+      headers: {
+        'Authorization': `Token ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    console.log("Response:", response);
+    
+    // Assuming the response contains points directly in the top-level object
+    const points = response.data.points;
+
+    console.log("Points:", points);
+
+    return points;
+  } catch (error) {
+    console.error('Error fetching user points:', error);
+    return null;
+  }
+}
+
+
 
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
@@ -13,13 +44,17 @@ export function AuthProvider({ children }) {
     const user = localStorage.getItem('username');
     const isSuperuser = localStorage.getItem('is_superuser') === 'true';
     const email = localStorage.getItem('email');
-    const points = parseInt(localStorage.getItem('points'))||0; // Retrieve points from localStorage
-
-    if (user) {
-      setCurrentUser({ username: user, is_superuser: isSuperuser, email, points }); // Include points in currentUser object
-    }
+  
+    // Fetch user points
+    fetchUserPoints().then(points => {
+      console.log("Parsed points:", points);
+  
+      if (user) {
+        setCurrentUser({ username: user, is_superuser: isSuperuser, email, points }); // Include points in currentUser object
+      }
+    });
   }, []);
-
+  
   function signIn(username, is_superuser, email, points) {
     setCurrentUser({ username, is_superuser, email, points }); // Include points when user signs in
     localStorage.setItem('username', username);

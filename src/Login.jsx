@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext.jsx';
 import './LoginCSS.css';
@@ -8,6 +8,19 @@ function Login() {
   const [loginError, setLoginError] = useState('');
   const navigate = useNavigate();
   const { signIn } = useAuth();
+
+  useEffect(() => {
+    if (formData.email === 'SYSM@email.com') {
+      localStorage.setItem('showAddCar', 'true');
+    } else if (formData.email === 'CSR@email.com') {
+      localStorage.setItem('showAdminPanel', 'true');
+      localStorage.removeItem('showAddCar');
+    } else {
+      localStorage.removeItem('showAdminPanel');
+      localStorage.removeItem('showAddCar');
+    }
+  }, [formData.email]);
+  
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -34,7 +47,13 @@ function Login() {
 
       if (response.ok) {
         const data = await response.json();
-        signIn(data.username, data.is_superuser, formData.email, data.points);
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('username', data.username);
+        localStorage.setItem('is_superuser', data.is_superuser.toString());
+        localStorage.setItem('email', formData.email); // Save email to localStorage
+        localStorage.setItem('points', data.points);
+        
+        signIn(data.username, data.is_superuser, formData.email,data.points); // Pass email to signIn
         navigate('/');
       } else if (response.status === 401) {
         setLoginError('Incorrect password. Please try again.');
