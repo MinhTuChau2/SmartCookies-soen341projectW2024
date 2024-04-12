@@ -4,6 +4,7 @@ from django.urls import reverse
 from carrental.transactions.models import BankAccount, Transaction
 from cars.models import Car
 from cars.models import DamageReport
+from django.contrib.auth import get_user_model
 
 #8 - check-in customer
 
