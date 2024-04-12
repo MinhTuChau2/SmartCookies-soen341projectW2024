@@ -1,6 +1,7 @@
 
 from django.test import TestCase
 from django.urls import reverse
+from carrental.transactions.models import BankAccount, Transaction
 from cars.models import Car
 from cars.models import DamageReport
 
@@ -80,3 +81,43 @@ class CheckoutTestCase(TestCase):
         # Check if the car's status is updated to "returned"
         self.car.refresh_from_db()
         self.assertEqual(self.car.status, 'returned')
+
+#10 - Cookie Points
+
+class IssueTrackingAcceptanceTestCase(TestCase):
+    def setUp(self):
+        # Create a user
+        self.User = get_user_model()
+        self.user = self.User.objects.create_user(username='test_user', email='test@example.com', password='password123')
+
+        # Create a bank account for the user
+        self.bank_account = BankAccount.objects.create(user=self.user, balance=1500)
+
+    def test_issue_tracking_payment_passes(self):
+        # Simulate a successful payment
+        payment_amount = 200
+        initial_balance = self.bank_account.balance
+        Transaction.objects.create(user=self.user, amount=payment_amount, transaction_type='payment')
+
+        # Retrieve the user's bank account after the transaction
+        updated_bank_account = BankAccount.objects.get(user=self.user)
+
+        # Assert that the user's bank account balance is updated correctly after the payment
+        self.assertEqual(updated_bank_account.balance, initial_balance - payment_amount)
+
+    def test_issue_tracking_cookie_points_deposited(self):
+        # Simulate a certain amount of cookie points deposited into the user's account
+        initial_balance = self.bank_account.balance
+        cookie_points_deposited = 100
+        Transaction.objects.create(user=self.user, amount=cookie_points_deposited, transaction_type='reimbursement')
+
+        # Retrieve the user's bank account after the transaction
+        updated_bank_account = BankAccount.objects.get(user=self.user)
+
+        # Assert that the user's bank account balance is updated correctly after the cookie points deposit
+        self.assertEqual(updated_bank_account.balance, initial_balance + cookie_points_deposited)
+
+    def tearDown(self):
+        # Clean up the test data
+        self.bank_account.delete()
+        self.user.delete()
