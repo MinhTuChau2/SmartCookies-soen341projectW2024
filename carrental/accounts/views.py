@@ -15,10 +15,34 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import authenticate, get_user_model
 User = get_user_model()
-
+from rest_framework.generics import get_object_or_404
 from rest_framework import generics
 from .serializers import UserRegistrationSerializer
 from rest_framework.permissions import AllowAny  # Import AllowAny
+from rest_framework.views import APIView
+
+
+
+class UserListView(generics.ListCreateAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = UserRegistrationSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, *args, **kwargs):
+        email = kwargs.get('email')
+        try:
+            user = CustomUser.objects.get(email=email)
+            user.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except CustomUser.DoesNotExist:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
 
 class UserRegistrationView(generics.CreateAPIView):
     queryset = User.objects.all()

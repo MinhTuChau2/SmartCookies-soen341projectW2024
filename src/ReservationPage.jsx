@@ -159,9 +159,9 @@ const ReservationPage = () => {
     }
     const totalPriceCalculated = calculateTotalPrice();
     const discountAmount = calculateDiscountAmount();
+
     const pointsUsed = formData.pointsUsed; 
-    
-  
+
     if (!formData.name || !formData.email || !formData.pickupDate || !formData.returnDate) {
       setError('Please complete all fields.');
       return;
@@ -179,7 +179,10 @@ const ReservationPage = () => {
       carSeat: formData.carSeat, // Assuming this is an integer
       totalPrice: totalPriceCalculated,
       discountAmount,
+<<<<<<< HEAD
       pointsUsed,
+=======
+>>>>>>> 36b4099d8a9b2279a0c383421324ca285da56f8b
     };
   
    
