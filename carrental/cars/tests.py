@@ -9,8 +9,8 @@ from reservations.models import Reservation
 class CarListingPageTestCase(TestCase):
     def setUp(self):
         # Create some sample cars
-        Car.objects.create(make='Toyota', model='Camry', year=2020)
-        Car.objects.create(make='Honda', model='Accord', year=2019)
+        Car.objects.create(maker='Toyota', model='Camry', year=2020, price =250.00)
+        Car.objects.create(maker='Honda', model='Accord', year=2019, price = 250.00)
 
     def test_view_car_listing_page(self):
         # Access the car listing page
@@ -24,7 +24,7 @@ class CarListingPageTestCase(TestCase):
 
     def test_filter_cars(self):
         # Filter cars by make, model, and year
-        filter_criteria = {'make': 'Toyota', 'model': 'Camry', 'year': 2020}
+        filter_criteria = {'maker': 'Toyota', 'model': 'Camry', 'year': 2020}
         response = self.client.post(reverse('car-listing'), filter_criteria)
 
         # Check if the response is successful
@@ -78,7 +78,7 @@ class CarStatusTestCase(TestCase):
         self.superuser = User.objects.create_superuser(username='admin', email='admin@example.com', password='adminpassword')
         
         # Create a test car
-        self.car = Car.objects.create(make='Toyota', model='Camry', year=2020, status='available')
+        self.car = Car.objects.create(maker='Toyota', model='Camry', year=2020, status='available')
         
         # Create a test reservation
         self.reservation = Reservation.objects.create(user=self.superuser, car=self.car, reservation_date='2023-01-01')
