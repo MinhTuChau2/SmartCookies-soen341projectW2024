@@ -104,3 +104,15 @@ def get_user_data(request):
         return Response(serializer.data)
     except CustomUser.DoesNotExist:
         return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+    
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def update_user_points(request):
+    user = request.user
+    new_points = request.data.get('points')
+    
+    if new_points is not None and isinstance(new_points, int):
+        user.points = new_points
+        user.save()
+        return Response({'points': user.points})
+    return Response({'error': 'Invalid points data'}, status=400)

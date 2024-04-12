@@ -1,5 +1,6 @@
 
 
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from './AuthContext.jsx';
@@ -127,7 +128,7 @@ const ReservationList = () => {
     };
     
     const canEditOrDelete = (reservation) => {
-        if (!currentUser || ['completed', 'accepted', 'car_received', 'Finish'].includes(reservation.status)) {
+        if (!currentUser || ['completed', 'accepted', 'car_received', 'Finished'].includes(reservation.status)) {
             return false;
         }
     
@@ -136,6 +137,28 @@ const ReservationList = () => {
             ['SYSM@email.com', 'CSR@email.com'].includes(currentUser.email) ||
             reservation.email === currentUser.email
         );
+    };
+    const updateReservationStatus = async (reservationId, newStatus) => {
+        try {
+            const response = await axios.put(
+                `http://localhost:8000/reservations/reservations/${reservationId}/admin_update_status/`,
+                { status: newStatus },
+                {
+                    headers: {
+                        Authorization: `Token ${localStorage.getItem('token')}`,
+                    },
+                }
+            );
+            const updatedReservations = reservations.map((reservation) => {
+                if (reservation.id === reservationId) {
+                    return { ...reservation, status: newStatus };
+                }
+                return reservation;
+            });
+            setReservations(updatedReservations);
+        } catch (error) {
+            console.error('Error updating reservation status:', error);
+        }
     };
     
     
@@ -177,12 +200,34 @@ const ReservationList = () => {
                                     <p>Pickup Date: {reservation.pickupDate}</p>
                                     <p>Return Date: {reservation.returnDate}</p>
                                     <p>Status: {reservation.status}</p>
-                                    {canEditOrDelete(reservation) && (
-                                        <>
-                                            <button onClick={() => startEditing(reservation)}>Edit</button>
-                                            <button onClick={() => deleteReservation(reservation.id)}>Delete</button>
-                                        </>
-                                    )}
+                                    {
+                                        canEditOrDelete(reservation) && (
+                                            <>
+                                                <button onClick={() => startEditing(reservation)}>Edit</button>
+                                                <button onClick={() => deleteReservation(reservation.id)}>Delete</button>
+                                                {
+                                                    (currentUser.is_superuser || currentUser.email === 'SYSM@email.com') && (
+                                                        <select
+                                                            value={reservation.status}
+                                                            onChange={(event) => updateReservationStatus(reservation.id, event.target.value)}
+                                                         >
+                                                            <option value="pending">Pending</option>
+                                                            <option value="agreement_sent">Agreement Sent</option>
+                                                            <option value="agreement_signed">Agreement Signed</option>
+                                                            <option value="under_review">Under Review</option>
+                                                            <option value="accepted">Accepted</option>
+                                                            <option value="payment_pending">Payment Pending</option>
+                                                            <option value="completed">Completed</option>
+                                                            <option value="cancelled">Cancelled</option>
+                                                            <option value="car_received">Car Received</option>
+                                                            <option value="Finish">Finish</option>
+                                                        </select>
+                                                    )
+                                                }
+                                            </>
+                                        )
+                                    }
+
                                     {reservation.status === 'accepted' && (
                                         <button onClick={() => navigate(`/payment/${reservation.id}`)}>Proceed with Payment</button>
                                     )}
