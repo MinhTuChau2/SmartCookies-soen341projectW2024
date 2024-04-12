@@ -10,6 +10,7 @@ class Reservation(models.Model):
     email = models.EmailField()
     pickup_date = models.DateField()
     return_date = models.DateField()
+    discountAmount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     
     STATUS_CHOICES = [
         ('pending', 'Pending'),

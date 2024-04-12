@@ -33,11 +33,15 @@ class BankAccount(models.Model):
         Transaction.objects.create(user=self.user, amount=amount, transaction_type='reimbursement', transaction_date=timezone.now())
 
 
+from django.db import models
+from django.conf import settings
+
 class Transaction(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     transaction_type = models.CharField(max_length=20, choices=(('payment', 'Payment'), ('reimbursement', 'Reimbursement')))
     transaction_date = models.DateTimeField()
+    description = models.TextField(null=True, blank=True)  # Optional description field
 
     def __str__(self):
         return f"Transaction {self.transaction_type} of {self.amount} on {self.transaction_date.strftime('%Y-%m-%d %H:%M')} by {self.user.username}"

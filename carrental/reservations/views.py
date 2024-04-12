@@ -56,6 +56,7 @@ def reserve_car(request):
                 email=data['email'],
                 pickup_date=data['pickupDate'],
                 return_date=data['returnDate'],
+                discountAmount=data.get('discountAmount', 0.00) 
                 
             )
             reservation.full_clean()  # This will call the clean method and raise ValidationError if any

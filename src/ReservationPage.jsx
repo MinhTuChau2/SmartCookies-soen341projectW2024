@@ -71,6 +71,23 @@ const ReservationPage = () => {
   
     return totalPrice;
   };
+  const calculateDiscountAmount = () => {
+    const numberOfDays = Math.round((new Date(formData.returnDate) - new Date(formData.pickupDate)) / (1000 * 60 * 60 * 24)) + 1;
+    let basePrice = numberOfDays * carPrice;
+
+    if (insurance) {
+        basePrice += insurancePrice * numberOfDays;
+    }
+    if (gps) {
+        basePrice += gpsPrice * numberOfDays;
+    }
+    basePrice += formData.carSeat * carSeatPrice * numberOfDays;
+
+    const discountFactor = Math.floor(formData.pointsUsed / 50) * 0.1; // 10% for every 50 points
+    return basePrice * Math.min(discountFactor, 0.5); // Maximum 50% discount
+};
+
+ 
   
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -131,7 +148,7 @@ const ReservationPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (formData.pointsUsed > currentUser.points) {
       setError('You cannot use more points than you have.');
       return;
@@ -140,21 +157,27 @@ const ReservationPage = () => {
       setError('Points can only be used in increments of 50.');
       return;
     }
-    setTotalPrice(calculateTotalPrice());
-
+    const totalPriceCalculated = calculateTotalPrice();
+    const discountAmount = calculateDiscountAmount();
+    
+  
     if (!formData.name || !formData.email || !formData.pickupDate || !formData.returnDate) {
       setError('Please complete all fields.');
       return;
     }
-
+  
     if (!isAvailable) {
       setError('Selected dates are not available for this car model.');
       return;
     }
-
+  
     const dataToSend = {
-      ...formData, totalPrice
+      ...formData,
+      totalPrice: totalPriceCalculated,
+      discountAmount
     };
+  
+   
 
     try {
       const response = await axios.post('http://localhost:8000/reservations/reserve/', dataToSend, {
