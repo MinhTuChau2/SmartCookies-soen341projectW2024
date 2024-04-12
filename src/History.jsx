@@ -78,6 +78,7 @@ const ReservationList = () => {
                 }
             );
 
+            
             const updatedReservations = reservations.map((reservation) => {
                 if (reservation.id === reservationId) {
                     return { ...reservation, ...editFormData };
