@@ -10,8 +10,24 @@ class Reservation(models.Model):
     email = models.EmailField()
     pickup_date = models.DateField()
     return_date = models.DateField()
+    insurance = models.BooleanField(default=False)
+    gps = models.BooleanField(default=False)
+    car_seat_count = models.IntegerField(default=0)
     discountAmount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     
+    def calculate_additional_costs(self):
+        INSURANCE_COST = 30.00
+        GPS_COST = 15.00
+        CAR_SEAT_COST = 10.00
+
+        cost = 0.00
+        if self.insurance:
+            cost += INSURANCE_COST
+        if self.gps:
+            cost += GPS_COST
+        cost += self.car_seat_count * CAR_SEAT_COST
+
+        return cost
     STATUS_CHOICES = [
         ('pending', 'Pending'),
         ('agreement_sent', 'Agreement Sent'),

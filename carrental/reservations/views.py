@@ -56,6 +56,9 @@ def reserve_car(request):
                 email=data['email'],
                 pickup_date=data['pickupDate'],
                 return_date=data['returnDate'],
+                insurance=data.get('insurance', False),
+                gps=data.get('gps', False),
+                car_seat_count=int(data.get('carSeat', 0)),
                 discountAmount=data.get('discountAmount', 0.00) 
                 
             )
