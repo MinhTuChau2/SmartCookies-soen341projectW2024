@@ -18,7 +18,7 @@ from django.contrib.auth.decorators import user_passes_test
 
 
 from django.core.files.base import ContentFile
-import logging
+
 
 
 
@@ -133,35 +133,36 @@ def reservation_detail(request, reservation_id):
     return Response({'error': 'Invalid request'}, status=400)
 
 
-logger = logging.getLogger(__name__)
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def update_reservation_status(request, reservation_id):
-    logger.debug("Updating reservation status...")
+    
 
     reservation = get_object_or_404(Reservation, id=reservation_id)
     new_status = request.data.get('status')
-    logger.debug(f"New status: {new_status}")
+    
 
     if new_status not in dict(Reservation.STATUS_CHOICES).keys():
         return JsonResponse({'error': 'Invalid status update. Please provide a valid status.'}, status=400)
 
     reservation.status = new_status
     reservation.save()
-    logger.debug(f"Reservation status updated to {new_status}")
+   
 
     if new_status in ['completed', 'Finish']:
         try:
             user = CustomUser.objects.get(email=reservation.email)
             user.points += 10
             user.save()
-            logger.debug(f"User points updated. New points: {user.points}")
+            
         except CustomUser.DoesNotExist:
-            logger.error("User associated with reservation not found.")
+            
             return JsonResponse({'error': 'User associated with this reservation not found.'}, status=404)
 
     return JsonResponse({'message': f'Reservation status updated to {new_status}.'}, status=200)
+
 @csrf_exempt
 @user_passes_test(lambda u: u.is_superuser)
 def update_reservation_status(request, reservation_id):
@@ -177,5 +178,24 @@ def update_reservation_status(request, reservation_id):
             return JsonResponse({'error': 'Invalid status'}, status=400)
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
+def update_reservation_status_by_admin(request, reservation_id):
+    reservation = get_object_or_404(Reservation, id=reservation_id)
+
+    # Check if the user is a superuser or has a specific email
+    if not (request.user.is_superuser or request.user.email == 'SYSM@email.com'):
+        return Response({'error': 'You do not have permission to update the status.'}, status=403)
+
+    new_status = request.data.get('status')
+    if new_status not in dict(Reservation.STATUS_CHOICES).keys():
+        return Response({'error': 'Invalid status update. Please provide a valid status.'}, status=400)
+
+    reservation.status = new_status
+    reservation.save()
+
+    return Response({'message': f'Reservation status updated to {new_status}.'})
 
 
