@@ -13,9 +13,6 @@ import datetime
 
 
 
-INSURANCE_COST = Decimal('30.00')
-GPS_COST = Decimal('15.00')
-CAR_SEAT_COST = Decimal('10.00') 
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -33,18 +30,11 @@ def handle_payment(request, reservation_id):
     num_days = (reservation.return_date - reservation.pickup_date).days + 1
     rental_cost = car.price * Decimal(num_days)
 
-    insurance = request.data.get('insurance', False)
-    gps = request.data.get('gps', False)
-    car_seat = int(request.data.get('car_seat', 0))
-
-    if insurance:
-        rental_cost += INSURANCE_COST * Decimal(num_days)
-    if gps:
-        rental_cost += GPS_COST * Decimal(num_days)
-    if car_seat > 0:
-        rental_cost += CAR_SEAT_COST * Decimal(num_days) * Decimal(car_seat)
+    additional_costs = reservation.calculate_additional_costs()
+    additional_costs = Decimal(str(additional_costs)) if isinstance(additional_costs, float) else additional_costs
 
     # Adjusting the rental cost with the discount amount directly
+    rental_cost += additional_costs
     rental_cost -= reservation.discountAmount
 
     deposit = Decimal('500')

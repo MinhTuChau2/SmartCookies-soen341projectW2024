@@ -173,8 +173,11 @@ const ReservationPage = () => {
   
     const dataToSend = {
       ...formData,
+      insurance, // Assuming this is a boolean
+      gps, // Assuming this is a boolean
+      carSeat: formData.carSeat, // Assuming this is an integer
       totalPrice: totalPriceCalculated,
-      discountAmount
+      discountAmount,
     };
   
    
