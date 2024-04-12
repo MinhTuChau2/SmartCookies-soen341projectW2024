@@ -11,14 +11,15 @@ const ReservationPage = () => {
   const location = useLocation();
   const [carPrice, setCarPrice] = useState(location.state ? location.state.carPrice : 0);
 
-  const { currentUser } = useAuth();
+  const { currentUser,usePoints } = useAuth();
   const [formData, setFormData] = useState({
     name: currentUser ? currentUser.username : '', 
     email: currentUser ? currentUser.email : '',
     carModel: carModel, // Set carModel from URL parameter
     pickupDate: '',
     returnDate: '',
-    carSeat: 0
+    carSeat: 0,
+    pointsUsed: 0,
   });
 
   const [isAvailable, setIsAvailable] = useState(true);
@@ -36,6 +37,7 @@ const ReservationPage = () => {
   //const [carSeat, setCarSeat] = useState(0);
 
   const [totalPrice, setTotalPrice] = useState(0);
+  
 
   
 
@@ -61,11 +63,12 @@ const ReservationPage = () => {
   
     totalPrice += formData.carSeat * carSeatPrice;
   
-    // Apply discount conditionally
-    if (applyDiscount &&  currentUser.points > 50) {
-      const discountAmount = totalPrice * 0.1; // Calculate discount amount
-      totalPrice -= discountAmount; // Subtract discount amount from total price
+    if (formData.pointsUsed > 0) {
+      const discountFactor = Math.floor(formData.pointsUsed / 50) * 0.1; // 10% for every 50 points
+      const discountAmount = totalPrice * Math.min(discountFactor, 0.5); // Maximum 50% discount
+      totalPrice -= discountAmount;
     }
+  
     return totalPrice;
   };
   
@@ -75,6 +78,8 @@ const ReservationPage = () => {
       ...formData,
       [name]: value
     });
+    
+  
 
     if (name === 'pickupDate' || name === 'returnDate') {
       checkReservationAvailability(name === 'pickupDate' ? value : formData.pickupDate, name === 'returnDate' ? value : formData.returnDate);
@@ -126,6 +131,15 @@ const ReservationPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (formData.pointsUsed > currentUser.points) {
+      setError('You cannot use more points than you have.');
+      return;
+    }
+    if (formData.pointsUsed % 50 !== 0) {
+      setError('Points can only be used in increments of 50.');
+      return;
+    }
     setTotalPrice(calculateTotalPrice());
 
     if (!formData.name || !formData.email || !formData.pickupDate || !formData.returnDate) {
@@ -148,6 +162,7 @@ const ReservationPage = () => {
           'Authorization': `Token ${localStorage.getItem('token')}`
         }
       });
+      usePoints(formData.pointsUsed);
       setConfirmationMessage('Reservation successfully made.');
       setShowConfirmationModal(true);
       setError('');
@@ -251,15 +266,19 @@ const ReservationPage = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={applyDiscount}
-                      onChange={handleDiscountToggle}
-                    />
-                    Apply discount
-                  </label>
+                  <label htmlFor="pointsUsed">Use Points (50 per block, up to your maximum):</label>
+                  <input
+                    type="number"
+                    id="pointsUsed"
+                    name="pointsUsed"
+                    value={formData.pointsUsed}
+                    onChange={handleChange}
+                    step="50"
+                    min="0"
+                    max={Math.floor(currentUser.points / 50) * 50} // Ensures they can only select up to their maximum in increments of 50
+                  />
                 </div>
+
                 <div className="total-price-section">
                   <h3>Reservation Summary</h3>
                   <p>Car Model: {formData.carModel}</p>
