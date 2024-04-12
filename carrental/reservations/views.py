@@ -59,7 +59,9 @@ def reserve_car(request):
                 insurance=data.get('insurance', False),
                 gps=data.get('gps', False),
                 car_seat_count=int(data.get('carSeat', 0)),
-                discountAmount=data.get('discountAmount', 0.00) 
+                discountAmount=data.get('discountAmount', 0.00),
+                points_used=data.get('pointsUsed', 0)
+
                 
             )
             reservation.full_clean()  # This will call the clean method and raise ValidationError if any
@@ -113,24 +115,36 @@ def reservation_detail(request, reservation_id):
         return Response(serializer.data)
 
     elif request.method == 'PUT':
-        # Only superusers, CSR, and SYSM can modify reservations
-        if reservation.status not in ['agreement_sent'] and not (request.user.is_superuser or is_special_user):
-            return Response({'error': 'Cannot modify the reservation after the agreement is accepted.'}, status=403)
-
         if not can_modify:
             return Response({'error': 'Not authorized to update this reservation'}, status=403)
+        if reservation.status in ['completed', 'cancelled', 'car_received', 'Finish']:
+            return Response({'error': 'Cannot modify a completed or processed reservation.'}, status=403)
+
+        old_discount = reservation.discountAmount
         serializer = ReservationSerializer(reservation, data=request.data, partial=True)
         if serializer.is_valid():
-            reservation.status = 'agreement_sent'
             serializer.save()
-            send_rental_agreement(request, reservation.id)  # Resend rental agreement
+            # Recalculate and update discount only if the dates were changed
+            if 'pickup_date' in request.data or 'return_date' in request.data:
+                new_discount = reservation.calculate_discount()
+                if new_discount != old_discount:
+                    reservation.discountAmount = new_discount
+                    reservation.save()
+            send_rental_agreement(request, reservation.id)  # Optionally resend rental agreement if needed
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
 
     elif request.method == 'DELETE':
-    # Allow superusers, SYSM, and CSR to delete reservations
-        if not (request.user.is_superuser or is_special_user or is_owner):
-            return Response({'error': 'Not authorized to delete this reservation'}, status=403)
+        # Allow deletion only if reservation is not processed
+        if reservation.status in ['completed', 'car_received', 'Finish']:
+            return Response({'error': 'Cannot delete a processed reservation.'}, status=403)
+        
+        # Refund points if any were used
+        if reservation.points_used > 0:
+            user = CustomUser.objects.get(email=reservation.email)
+            user.points += reservation.points_used  # Assumed mechanism to add points
+            user.save()
+        
         reservation.delete()
         return Response(status=204)
 
@@ -201,5 +215,4 @@ def update_reservation_status_by_admin(request, reservation_id):
     reservation.save()
 
     return Response({'message': f'Reservation status updated to {new_status}.'})
-
 
