@@ -49,8 +49,8 @@ jobs:
         with:
           args: >
             -Dsonar.projectKey=YourProjectKey
-            -Dsonar.host.url=http://localhost:9000
+            -Dsonar.host.url=http://localhost:9000/
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: http://localhost:9000
+          SONAR_HOST_URL: http://localhost:9000/
