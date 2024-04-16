@@ -59,11 +59,12 @@ const HomePage = () => {
             </div>
             <div className="faq-item">
               <h3>What is the cancellation policy?</h3>
-              <p>You can cancel your reservation up to 24 hours before your rental period begins for a full refund.</p>
+              <p>You can cancel your reservation anytime unless the contract has been signed and agreed upon by both parties.</p>
             </div>
             <div className="faq-item">
               <h3>Are there any additional fees?</h3>
               <p>We do not charge additional fees for reservations made on our website. The price you see is the price you pay.</p>
+              <small>Unless you add extra features such as insurance, car seat and GPS.</small>
             </div>
           </div>
         </section>
