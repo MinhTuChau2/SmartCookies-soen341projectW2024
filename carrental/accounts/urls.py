@@ -12,4 +12,3 @@ urlpatterns = [
     path('api/update-points/', update_user_points, name='update_user_points')
 
 ]
-
