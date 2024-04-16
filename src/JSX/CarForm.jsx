@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './CarFormCSS.css';
+import '../CSS/CarFormCSS.css';
 
 const CarForm = () => {
     const [formData, setFormData] = useState({

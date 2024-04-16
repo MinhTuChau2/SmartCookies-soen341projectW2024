@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from './AuthContext.jsx';
 import { useNavigate } from 'react-router-dom'; // Use useNavigate instead of useHistory
-import './History.css';
+import '../CSS/History.css';
 
 const ReservationList = () => {
     const [reservations, setReservations] = useState([]);

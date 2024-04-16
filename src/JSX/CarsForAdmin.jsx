@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './CarAdmin.css';
-import './CarListingCss.css'
+import '../CSS/CarAdmin.css';
+import '../CSS/CarListingCss.css'
 
 const CarsForAdmin = () => {
     const [cars, setCars] = useState([]);

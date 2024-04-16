@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import './CarListingCss.css';
+import '../CSS/CarListingCss.css';
 import ImageModal from './ImageModal';
 
 const CarListingPage = () => {

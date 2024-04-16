@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import './ReservationPage.css';
+import '../CSS/ReservationPage.css';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -159,9 +159,9 @@ const ReservationPage = () => {
     }
     const totalPriceCalculated = calculateTotalPrice();
     const discountAmount = calculateDiscountAmount();
+
     const pointsUsed = formData.pointsUsed; 
-    
-  
+
     if (!formData.name || !formData.email || !formData.pickupDate || !formData.returnDate) {
       setError('Please complete all fields.');
       return;
@@ -180,6 +180,7 @@ const ReservationPage = () => {
       totalPrice: totalPriceCalculated,
       discountAmount,
       pointsUsed,
+
     };
   
    
